@@ -196,27 +196,25 @@ Please note that the same package exists for Windows Forms. Its name is <a href=
 1.  If the Contoso Expenses solution is not opened in Visual Studio, double click on `C:\XAMLIslandsLab\Lab\Exercise2\01-Start\ContosoExpenses\ContosoExpenses.sln` (the folder where you have extracted the zipped file).
 2.  Right click on the **ContosoExpenses** project in the Solution Explorer window on the left and choose **Manage NuGet Packages...**.
 
-    ![Manage NuGet Packages menu in Visual Studio](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/ManageNuGetPackages.png)
+    ![Manage NuGet Packages menu in Visual Studio](Images/ManageNuGetPackages.png)
 
-3. Search for `Microsoft.Toolkit.Wpf.UI.Controls`. The NuGet package from Microsoft.Toolkit will be displayed. Make 
+3. Search for `Microsoft.Toolkit.Wpf.UI.Controls`. The NuGet package from Microsoft.Toolkit will be displayed. Make sure to check the **Include prerelease** option. The current stable release (5.x), in fact, supports only the full .NET Framework, while the upcoming 6.x release (now in preview) includes support for .NET Core 3.0 as well.
 
-    ![Microsoft.Toolkit.Wpf.UI.Controls NuGet package](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/Microsoft.Toolkit.Wpf.UI.Controls.png)
+    ![Microsoft.Toolkit.Wpf.UI.Controls NuGet package](Images/Microsoft.Toolkit.Wpf.UI.Controls.png)
 
 4.  Click on the **Install** button on the right.
 
-    ![Install Controls NuGet package](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/InstallControlsNuGetPackage.png)
-
-> **Note:** The .NET Framework version used by the project has to be > 4.6.2 in order to be able to install the NuGet package.
+    ![Install Controls NuGet package](Images/InstallControlsNuGetPackage.png)
 
 ___ 
 
-### Exercise 1 Task 3 - Use the InkCanvas control in the application
+### Exercise 2 Task 3 - Use the InkCanvas control in the application
 One of the features that the development team is looking to integrate inside the application is support to digital signature. Managers wants to be able to easily sign the expenses reports, without having to print them and digitalize them back.
-'XAML Islands' is the perfect candidate for this scenario, since the Universal Windows Platform includes a control called **InkCanvas**, which offers advanced support to digital pens. Additionally, it includes many AI powered features, like the capability to recognize text, shapes, etc.
+'XAML Islands' is the perfect candidate for this scenario, since the Universal Windows Platform includes a control called **InkCanvas**, which offers advanced support to digital ink. Additionally, it includes many AI powered features, like the capability to recognize text, shapes, etc.
 
 Adding it to a WPF application is easy, since it's one of the 1st party controls included in the Windows Community Toolkit we have just installed. Let's do it!
 
-1. Go back to Visual Studio and double click on the **ExpenseDetail.xaml** file in Solution Explorer.
+1. Go back to Visual Studio and double click on the **ExpenseDetail.xaml** file inside the **Views** folder in Solution Explorer.
 2. As first step, we need to add a new XAML namespace, since the control we need is part of a 3rd party library. Locate the **Window** tag at the top of the XAML file.
 3. Copy and paste the following definition as attribute of the **Window** element:
 
@@ -232,7 +230,7 @@ Adding it to a WPF application is easy, since it's one of the 1st party controls
             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
             xmlns:toolkit="clr-namespace:Microsoft.Toolkit.Wpf.UI.Controls;assembly=Microsoft.Toolkit.Wpf.UI.Controls"
-            Loaded="Window_Loaded"
+            DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=ExpensesDetailViewModel}"
             xmlns:local="clr-namespace:ContosoExpenses"
             mc:Ignorable="d"
             Title="Expense Detail" Height="500" Width="800"
@@ -250,13 +248,48 @@ Adding it to a WPF application is easy, since it's one of the 1st party controls
     
 5. That's it! Now we can test the application. Press F5 to launch the debugging experience.
 6. Choose an employee from the list, then one of the available expenses.
-7. Notice that, in the expense detail page, there's a new space for the **InkCanvas** control. 
+7. Ops, this wasn't expected. The application will crash with the following exception:
+
+    ```text
+    WindowsXamlManager and DesktopWindowXamlSource are supported for apps targeting Windows version 10.0.18226.0 and later.  Please check either the application manifest or package manifest and ensure the MaxTestedVersion property is updated.
+    ```
+
+    XAML Islands with .NET Core 3.0 is supported only starting from Windows 10 1903, so we need to declare this requirement. We can do it using an application manifest.
+8. Right click on the project in Solution Explorer and choose **Add -> New item**.
+9. Look for the template called **Application Manifest File**. Name it **app.manifest** and press **Add**.
+10. The file will be automatically opened inside Visual Studio. Look for the **compatibility** section and identify the commented one prefixed by **Windows 10**:
+
+    ```xml
+    <!-- Windows 10 -->
+    <!--<supportedOS Id="{8e0f7a12-bfb3-4fe8-b9a5-48fd50a15a9a}" />-->
+    ```
+11. Add the following entry below this item:
+
+    ```xml
+    <maxversiontested Id="10.0.18362.0"/>
+    ```
+    
+12. Uncomment the **supportedOS** entry for Windows 10. This is how the section should look like:
+
+    ```xml
+    <!-- Windows 10 -->
+    <supportedOS Id="{8e0f7a12-bfb3-4fe8-b9a5-48fd50a15a9a}" />
+    <maxversiontested Id="10.0.18362.0"/>
+    ```
+
+13. Now right click on the **ContosoExpenses** project and choose **Properties**.
+14. Make sure that, in the **Resources** section, the **Manifest** dropdown is set to **app.manifest**:
+
+    ![](Images/NetCoreAppManifest.png)
+    
+15. Now press F5 and try again to click on an employee, then one of the expenses. Now the exception should be gone.
+16. Notice that, in the expense detail page, there's a new space for the **InkCanvas** control. 
 
     ![](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/InkCanvasPenOnly.png)
 
     If you have a device which supports a digital pen, like a Surface, and you're running this lab on a physical machine, go on and try to use it. You will see the digital ink appearing on the screen. However, if you don't have a pen capable device and you try to sign with your mouse, nothing will happen. This is happening because, by default, the **InkCanvas** control is enabled only for digital pens. However, we can change this behavior.
-8. Stop the debugger and double click on the **ExpenseDetail.xaml.cs** file in Visual Studio.
-9. Add the following namespace declaration at the top of the class:
+17. Stop the debugger and double click on the **ExpenseDetail.xaml.cs** file inside the **Views** folder in Solution Explorer.
+18. Add the following namespace declaration at the top of the class:
 
     ```csharp
     using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
@@ -276,53 +309,6 @@ Adding it to a WPF application is easy, since it's one of the 1st party controls
 
     ![](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/Signature.png)
     
-However, if you try to play a bit with the application you will notice that not everything is working as expected. Close the expense detail and try to open another expense from the list. You will notice that the application will crash with the following exception:
-
-![](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/XamlIslandException.png)
-
-The reason is that every UWP control included in a WPF app through XAML Islands must be properly disposed before being instantiated again. As such, we need to take care of this operation when the expense detail page is closed.
-
-1. Go back to Visual Studio and double click the **ExpenseDetail.xaml** file in Solution Explorer.
-2. Locate the **Window** tag and add the following attribute:
-    
-    ```xml
-    Closed="Window_Closed"
-    ```
-    We are handling the **Closed** event, which is triggered when the window is closed. This is how the full definition of the **Window** control should look like:
-    
-    ```xml
-    <Window x:Class="ContosoExpenses.ExpenseDetail"
-            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-            xmlns:toolkit="clr-namespace:Microsoft.Toolkit.Wpf.UI.Controls;assembly=Microsoft.Toolkit.Wpf.UI.Controls"
-            Loaded="Window_Loaded"
-            Closed="Window_Closed"
-            xmlns:local="clr-namespace:ContosoExpenses"
-            mc:Ignorable="d"
-            Title="Expense Detail" Height="500" Width="800"
-            Background="{StaticResource HorizontalBackground}">
-    ```
-
-3. Now double click on the **ExpenseDetail.xaml.cs** file in Solution Explorer.
-4. Copy and paste the following code at the end of the class:
-
-    ```csharp
-    private void Window_Closed(object sender, EventArgs e)
-    {
-        Signature.Dispose();
-    }
-    ```
-
-    We're invoking the **Dispose()** method exposed by the **InkCanvas** control when the window is closed.
-    
-5. Now let's test the code. Press F5 to activate the debugger.
-6. Choose any employee from the list, then choose one of the available expenses. The expense detail page will be opened.
-7. Now close it and choose another expense of the list. This time the updated expense detail page will be opened without any issue.
-
-We have completed our task. Now we have a fully working signature pad in the expense detail page of our application.
-
 ___ 
 
 ## Exercise 2 - Integrate the Universal Windows Platform
