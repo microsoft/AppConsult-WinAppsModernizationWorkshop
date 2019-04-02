@@ -1,21 +1,22 @@
-﻿# Bring Fluent Design and modern user interaction to your WPF application
+﻿# Modernize your .NET Framework application with .NET Core, XAML Islands, UWP and MSIX
 
 ## Introduction
-Windows 10 enables you to create modern applications thanks to the Universal Windows Platform (UWP). To benefit from the UWP Platform and its ecosystem, classic desktop applications have to be migrated. The migration paths are not trivials and may require a tremendous work; most of the times, it imposes a full rewriting.
+Windows has introduced many great features to build modern applications: the Universal Windows Platform, which allows to leverage all the latest and greatest features like Windows Hello, Timeline, notifications, etc.; Fluent Design, which allows to create rich and beautiful user interfaces, with a special focus on accessibility and new interaction paradigms, like touch, inking or gaze; app packaging, which greatly simplifies the deployment of applications, allowing developers to focus on writing great code and leaving Windows to take care of all the rest: installation, update, uninstallation, etc.
 
-Now, with XAML Islands, we can use UWP controls in non-UWP desktop applications so that we can enhance the look, feel, and functionalities of your our LOB desktop applications with the latest Windows 10 UI features that are only available via UWP controls. This means that you can use UWP features such as Windows Ink and controls that support the Fluent Design System in your existing WPF, Windows Forms, and C++ Win32 applications.
+In this lab we'll explore many of the technologies that will allow you to leverage all these enhancements in your existing WPF and Windows Forms application. You'll be able to enhance your .NET application with lot of new features without rewriting it from scratch, thanks to .NET Core 3.0, XAML Islands and MSIX.
 
-With this lab, we will experiment XAML Islands and modernize an existing WPF application.
 
 ### Estimated time
 90 minutes
 
 ### Objectives
+- Learn why .NET Core 3.0 is important also for Windows desktop developers and how you can migrate your applications
 - Learn how to modernize the user experience and the features of a desktop WPF application
 - Learn how to leverage the Universal Windows Platform without having to rewrite the app from scratch
 - Use a built-in XAML Islands control in an existing WPF application
 - Be able to 'integrate' any custom UWP XAML component in the WPF application
-- Understand how XAML Islands can help to start a progressive modernization journey to the Universal Windows Platform and .NET Core 3.
+- Understand how MSIX can improve your developer experience, by simplifying and enhancing the developer experience
+- 
 
 ### Prerequisites
 
@@ -25,20 +26,21 @@ With this lab, we will experiment XAML Islands and modernize an existing WPF app
 
 ### Overview of the lab
 We're going to start from an existing LOB application and we're going to enhance it by supporting modern features with the help of XAML Islands. We'll learn how to integrate Fluent controls from the Universal Windows Platform in the existing codebase.
+
 The lab consists of five exercises:
-1. In the first one you're going to start modernizing the application by adding a UWP control which enables to digitally sign a document.
-2. In the second exercise you will continue the modernization journey, by adding a touch-enabled map control to display a location.
-3. In the third exercise you're going to learn how you can add any native UWP control and interact with it.
-4. In the fourth exercise you will make easier to interact with a UWP control, by creating a control wrapper.
-5. In the last exercise you're going to migrate the WPF application to .NET Core 3.0, which will open up new and important scenarios in the future.
+1. In the first exercise you're going to migrate the WPF application to .NET Core 3.0, which will open up new and important scenarios in the future.
+2. In the second exercise you're going to start modernizing the application by adding a UWP control which enables to digitally sign a document.
+4. In the third exercise you're going to learn how you can add any native UWP control and interact with it.
+5. In the fourth exercise you're going to leverage some APIs from the Universal Windows Platform in your application.
+5. In the last exercise you're going to package your application with MSIX and to setup a CI/CD pipeline on Azure DevOps so that you can automatically deliver new versions of your app to your testers and users as soon as they comes out.
 
 ### Computers in this lab
 This lab uses a single Virtual Machine to provide you with the development environment.
 
-The virtual machine is based on Windows 10 19H1 and it includes:
+The virtual machine is based on Windows 10 1903 and it includes:
 
 - Visual Studio 2019
-- Windows 10 SDK version 10.0.xxxxx **(TO-DO: replace with the final SDK build number)**
+- Windows 10 SDK version 10.0.18362
 - .NET Core 3 Preview SDK
 
 If you already have these tools on your computer, feel free to directly use it for the lab instead of the virtual machine. Be aware that the following Visual Studio workloads have to be installed: 
@@ -50,12 +52,13 @@ If you already have these tools on your computer, feel free to directly use it f
 Contoso Expenses is an internal application used by managers of Contoso Corporation to keep track of the expenses submitted by their reports. Modernizing this application is necessary in order to enhance employee efficiency when creating expenses reports. Many of the requested features could be easily implemented with the Universal Windows Platform. However, the application is complex and it's the outcome of many years of development by different teams. As such, rewriting it from scratch with a new technology isn't an option on the table. The team is looking for the best approach to add these features but, at the same time, reusing the existing codebase.
 
 ### The project
-Contoso Expenses is a desktop application, built with WPF and the .NET Framework. Being an application built for demo purposes, it contains some simplifications compared to a real WPF project, like:
+Contoso Expenses is a desktop application, built with WPF and .NET Framework 4.7.2. It's leveraging the following 3rd party libraries:
 
-- It doesn't use any development pattern, like MVVM, but the standard code-behind approach. 
-- It uses a local database solution called [**LiteDb**](http://www.litedb.org/), which is an embedded NoSQL solution. In a real world scenario, such an application would connect to a centralized database, either on-premise or in the cloud, like SQL Server, MySQL, Cosmos DB, etc.
+- MVVM Light, as a basic implementation for the MVVM pattern
+- Unity, as a dependency injection container
+- LiteDb, which is an embedded NoSQL solution to store the data
+- Bogus, which is a tool to generate fake data
 
-The goal of this project, in fact, is to help you focusing on understanding and implementing XAML Islands inside an existing WPF application. It isn't made to teach you the best practices for WPF development.
 
 ___ 
 
@@ -159,14 +162,14 @@ As such, XAML Island is supported also on the .NET Framework, but all the long-t
 
 ___ 
 
-## Exercise 1 - Use a 1st party UWP control with XAML Islands
+## Exercise 2 - Use a 1st party UWP control with XAML Islands
 
 We start with the simpliest modernization path possible: We would like to use a rich UWP control that is "*available for use in WPF*". Crazy idea? No! Indeed, the most requested controls are already wrapped for you! The current XAML Islands iteration brings you the InkCanvas, the InkToolbar, the MapControl and the MediaPlayerElement.
 So in our Contoso Expenses application we will bring a modern touch by using InkCanvas and MapControl. This is possible thanks to the Microsoft.Toolkit.Wpf.UI.Controls NuGet package.
 
 ___ 
 
-### Exercise 1 Task 1 - Setup the Contoso Expenses solution
+### Exercise 2 Task 1 - Setup the Contoso Expenses solution
 Let's first be sure we can run and debug the Contoso Expenses solution locally.
 
 1.  The source code of the Contoso Expenses solution is in the **Releases** tab of <a href="https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/tree/master/" target="_blank">Windows AppConsult XAMLIslandsLab repository</a>. A direct link for the download is `https://aka.ms/XAMLIslandsLab-Content`. Please use this url to donwload the zip file containing the lab content. 
@@ -185,17 +188,17 @@ Let's first be sure we can run and debug the Contoso Expenses solution locally.
 
 ___ 
 
-### Exercise 1 Task 2 - Reference the "Microsoft.Toolkit.Wpf.UI.Controls" NuGet package
+### Exercise 2 Task 2 - Reference the "Microsoft.Toolkit.Wpf.UI.Controls" NuGet package
 We need this WPF package because it takes care for us about all the necessary piping for XAML Islands. It provides wrapper classes for 1st party controls, such as the InkCanvas, InkToolbar, MapControl, and MediaPlayerElement, all for WPF.
 
 Please note that the same package exists for Windows Forms. Its name is <a href="https://www.nuget.org/packages/Microsoft.Toolkit.Forms.UI.Controls/" target="_blank">Microsoft.Toolkit.Forms.UI.Controls</a>.
 
-1.  If the Contoso Expenses solution is not opened in Visual Studio, double click on `C:\XAMLIslandsLab\Lab\Exercise1\01-Start\ContosoExpenses\ContosoExpenses.sln` (the folder where you have extracted the zipped file).
+1.  If the Contoso Expenses solution is not opened in Visual Studio, double click on `C:\XAMLIslandsLab\Lab\Exercise2\01-Start\ContosoExpenses\ContosoExpenses.sln` (the folder where you have extracted the zipped file).
 2.  Right click on the **ContosoExpenses** project in the Solution Explorer window on the left and choose **Manage NuGet Packages...**.
 
     ![Manage NuGet Packages menu in Visual Studio](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/ManageNuGetPackages.png)
 
-3. Search for `Microsoft.Toolkit.Wpf.UI.Controls`. The NuGet package from Microsoft.Toolkit will be displayed.
+3. Search for `Microsoft.Toolkit.Wpf.UI.Controls`. The NuGet package from Microsoft.Toolkit will be displayed. Make 
 
     ![Microsoft.Toolkit.Wpf.UI.Controls NuGet package](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/Microsoft.Toolkit.Wpf.UI.Controls.png)
 
