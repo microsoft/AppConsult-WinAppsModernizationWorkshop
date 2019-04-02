@@ -58,7 +58,7 @@
         <TextBox Text="{Binding Path=City, Mode=TwoWay}" FontSize="16" Margin="5, 0, 0, 0" Width="400" Grid.Row="5" Grid.Column="1" />
 
         <TextBlock Text="Date:" FontSize="16" FontWeight="Bold" Grid.Row="6" Grid.Column="0" />
-        <DatePicker Text="{Binding Path=Date, Mode=TwoWay}" Grid.Row="6" Grid.Column="1" Margin="5, 0, 0, 0" Width="400" />
+        <DatePicker SelectedDate="{Binding Path=Date, Mode=TwoWay}" Grid.Row="6" Grid.Column="1" Margin="5, 0, 0, 0" Width="400" />
 
         <Button Content="Save" Grid.Row="7" Grid.Column="0" Command="{Binding Path=SaveExpenseCommand}" Margin="5, 12, 0, 0" HorizontalAlignment="Left" Width="180" />
     </Grid>
