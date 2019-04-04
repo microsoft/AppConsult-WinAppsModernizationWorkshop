@@ -6,6 +6,7 @@
     <UseWPF>true</UseWPF>
     <RuntimeIdentifiers>win-x86;win-x64</RuntimeIdentifiers>
     <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>Images\contoso.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,7 +25,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="DesktopBridge.Helpers" Version="1.2.1" />
     <PackageReference Include="Microsoft.Toolkit.Wpf.UI.Controls" Version="6.0.0-preview3" />
     <PackageReference Include="MvvmLightLibsStd10" Version="5.4.1.1" />
     <PackageReference Include="Unity" Version="5.10.2" />
