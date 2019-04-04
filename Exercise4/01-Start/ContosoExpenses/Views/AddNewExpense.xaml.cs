@@ -16,7 +16,6 @@ using System.Windows;
 using GalaSoft.MvvmLight.Messaging;
 using ContosoExpenses.Messages;
 using Microsoft.Toolkit.Wpf.UI.XamlHost;
-using System.Linq;
 using System;
 
 namespace ContosoExpenses.Views
@@ -51,9 +50,6 @@ namespace ContosoExpenses.Views
                         Messenger.Default.Send<SelectedDateMessage>(new SelectedDateMessage(args.AddedDates[0].DateTime));
                     }
                 };
-
-                calendarView.MinDate = DateTimeOffset.Now.AddYears(-1);
-                calendarView.MaxDate = DateTimeOffset.Now;
             }
         }
     }
