@@ -257,7 +257,7 @@ Adding it to a WPF application is easy, since it's one of the 1st party controls
     XAML Islands with .NET Core 3.0 is supported only starting from Windows 10 1903, so we need to declare this requirement. We can do it using an application manifest.
 8. Right click on the project in Solution Explorer and choose **Add -> New item**.
 9. Look for the template called **Application Manifest File**. Name it **app.manifest** and press **Add**.
-10. The file will be automatically opened inside Visual Studio. Look for the **compatibility** section and identify the commented one prefixed by **Windows 10**:
+10. The file will be automatically opened inside Visual Studio. Look for the **compatibility** section and identify the commented entry prefixed by **Windows 10**:
 
     ```xml
     <!-- Windows 10 -->
@@ -311,7 +311,7 @@ Adding it to a WPF application is easy, since it's one of the 1st party controls
     
 ___ 
 
-## Exercise 2 - Integrate the Universal Windows Platform
+## Exercise 3 - Integrate the Universal Windows Platform
 
 One of the feedbacks that the developer team has received by managers who are using the Contoso Expenses application is to make easier to locate the place where the expense happened. The current detail page of an expense already shows the full address, but they would like something more visual and easier to understand.
 The Universal Windows Platform includes a beautiful and performant control to display maps, which can be leveraged also in a WPF applications thanks to XAML Island. In this exercise we're going to include it.
@@ -622,7 +622,7 @@ ___
 
     ![Microsoft.Toolkit.Wpf.UI.XamlHost NuGet Package](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/XamlHostNuGetPackages.png)
 
-    The package is already installed because the one we have installed for exercises 1 and 2, **Microsoft.Toolkit.Wpf.UI.Controls**, has a dependency on it. As such, when we have installed it in the previous exercises, NuGet automatically downloaded and installed also the **Microsoft.Toolkit.Wpf.UI.XamlHost** package.
+    The package is already installed because the one we have installed for exercises 2 and 3, **Microsoft.Toolkit.Wpf.UI.Controls**, has a dependency on it. As such, when we have installed it in the previous exercises, NuGet automatically downloaded and installed also the **Microsoft.Toolkit.Wpf.UI.XamlHost** package.
 4. Now we can start editing the code to add our control. Locate, in Solution Explorer, the file called **AddNewExpense.xaml** and double click on it. This is the form used to add a new expense to the list. Here is how it looks like in the current version of the application:
 
     ![](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/AddNewExpense.png)
