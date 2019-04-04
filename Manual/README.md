@@ -160,6 +160,337 @@ You may be wonder which role .NET Core plays here. All the long-term investments
 
 As such, XAML Island is supported also on the .NET Framework, but all the long-terms investement in this technology will be focused on .NET Core.
 
+
+
+## Exercise 1 - Migrate to .NET Core 3
+Migrating the application to .NET Core 3 is the best and recomanded path for modernizing a .NET application (WPF or Windows Forms). As previously mentioned, the first really nice improvment is about the startup and execution time! This is only the tip of the iceberg. The best advantage is that, the app will be able to use all the upcoming new features both from .NET Core and UWP! 
+
+___ 
+
+### Exercise 1 Task 1 - Setup for using .NET Core 3
+At the moment of writing .NET Core is still in Preview and it is highly experimental technologies. Nevertheless, it is enough stable to play with it. The minimum required is made of two pieces:
+- The .NET Core 3 runtime - [https://github.com/dotnet/core-setup](https://github.com/dotnet/core-setup)
+- The .NET Core 3 SDK - [https://github.com/dotnet/core-sdk](https://github.com/dotnet/core-sdk)
+
+Do not worry, using the VM provided, all is already setup for you: You do not have to download and install anything. On the other hand, if you are using you own computer, just navigate to the two links above and take the correct installer for your platform.
+
+![Download .NET Core](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/DownloadNETCore.png)
+
+___ 
+
+### Exercise 1 Task 2 - Perform the migration - The csproj
+As mentioned, .NET Core is in the Preview state. We also need a preliminary version of Visual Studio. Again, the VM is setup for you and Visual Studio 2019 Preview is already installed. If you need to install it on your own box, here is the link: [https://visualstudio.microsoft.com/vs/preview/](https://visualstudio.microsoft.com/vs/preview/).
+
+Let's open the solution using Visual Studio 2019 Preview:
+1.  In Windows Explorer, navigate to `C:\XAMLIslandsLab\Lab\Exercise5\01-Start\ContosoExpenses` and double click on the `ContosoExpenses.sln` solution.
+    
+    The project ContosoExpenses is now open in Visual Studio but nothing changed: The appllication still uses the Full .NET 4.7.2. To verify this, just right click on the project in the Solution Explorer Windows and **Properties**.
+    
+    ![Project properties in the Solution Explorer](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/PropertiesContosoExpenses.png)
+
+    The *Target framework* of the project is displayed in the **Application** tab.
+    
+    ![.NET Framework version 4.7.2 for the project](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/NETFramework472.png)
+
+2.  Right click on the project in the solution explorer and choose **Unload Project**.
+
+    ![Unload project](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/UnloadProject.png)
+
+3.  Right click again on the project in the solution explorer ; click **Edit ContosoExpenses.csproj**.
+
+    ![Edit ContosoExpenses csproj](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/EditContosoExpensesCSPROJ.png)
+
+4.  The content of the .csproj file looks like
+
+    ![csproj file content](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/CSPROJFile.png)
+
+    Do not be afraid, it is not the time to understand the whole csproj structure. You will see that the migration will be done easily: Just remove all the content of the file by doing **CTRL+A** and than  **SUPPR**!
+    
+    ![Empty csproj file](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/EmptyCSPROJ.png)
+    
+5.  Start writing the new csproj file content by typing `<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop"> </Project>` in the ContosoExpense.csproj. Microsoft.NET.Sdk.WindowsDesktop is the .NET Core 3 SDK for applications on Windows Desktop. It includes WPF and Windows Forms.
+
+    ![Windows Desktop in csproj](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/WindowsDesktopInCSPROJ.png)
+
+7.  Let's specify now a few details. To do this, insert a `<PropertyGroup></PropertyGroup>` element in inside the `<Project></Project>` element. 
+
+    ![PropertyGroup inside Project in csproj](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/PropertyGroup.png)
+
+8.  First, we indicate that the project output is a **executable** and not a dll. This is acheived by adding `<OutputType>WinExe</OutputType>` inside `<PropertyGroup></PropertyGroup>`.
+
+> Note that, if the project output was a dll, this line has to be omitted.
+
+9.  Secondly, we specify that the project is using .NET Core 3: Just below the <OutputType> line, add ` <TargetFramework>netcoreapp3.0</TargetFramework>`
+
+10. Lastly, we point out that this is a WPF application in adding a third line: `<UseWPF>true</UseWPF>`.
+
+> If the application is Windows Forms, we do not need this third line.
+
+#### Summary, verification and last step
+
+- The project using .NET Core 3 and the **Microsoft.NET.Sdk.WindowsDesktop** SDK
+- Output is an **application** so we need the `<OutputType>` element
+- `<UseWPF>` is self-describing
+
+Here is the full content of the new csproj. Please double check that you have everything:
+
+```xml
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+</Project>
+```
+
+By default, with the new project format, all the files in the folder are considered part of the solution. As such, we don't have to specify anymore each single file included in the project, like we had to do the old .csproj file. We need to specify only the ones for which we need to define a custom build action or that we want to exclude. 
+It is now safe to save file by pressing **CTRL+S**.
+
+___ 
+
+### Exercise 5 Task 2 - Perform the migration - NuGet packages of the project
+
+1.  The csproj is saved. Let's reopen the project: Go to the **Solution Explorer**, right click on the project and choose **Reload project**.
+
+    ![Reload project in the Solution Explorer](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/ReloadProject.png)
+    
+2.  Visual Studio just asks for a confirmation ; click **yes**.
+
+    ![Confirmation for closing the csproj](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/CloseCSPROJ.png)
+    
+3.  The project should load correctly. But remember: The NuGet packages used by the project were gone by removing all the content of the csproj! 
+
+4.  You have a confirmation by expending the **Dependencies/NuGet** node in which you have only the .NET Code 3 package.
+
+    ![NuGet packages](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/NuGetPackages.png)
+    
+    Also, if you click on the **Packages.config** in the **Solution Explorer**. You will find the 'old' references of the NuGet packages used the project when it was using the full .NET Framework.
+    
+    ![Dependencies and packages](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/Packages.png)
+    
+    Here is the content of the **Packages.config** file. You notice that all NuGet Packages target the Full .NET Framework 4.7.2:
+    
+    ```xml
+    <?xml version="1.0" encoding="utf-8"?>
+    <packages>
+      <package id="Bogus" version="25.0.3" targetFramework="net472" />
+      <package id="LiteDB" version="4.1.4" targetFramework="net472" />
+      <package id="Microsoft.Toolkit.Wpf.UI.Controls" version="5.0.1" targetFramework="net472" />
+      <package id="Microsoft.Toolkit.Wpf.UI.XamlHost" version="5.0.1" targetFramework="net472" />
+    </packages>
+    ```
+
+5. Delete the file **Packages.config** by right clicking on it and **Delete** in the **Solution Explorer**.
+
+6. Right click on the **Dependencies** node in the **Solution Explorer** and **Manage NuGet Packages...**
+
+  ![Manage NuGet Packages...](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/ManageNugetNETCORE3.png)
+
+7. Click on **Browse** at the top left of the opened window and search for `Bogus`. The package by Brian Chavez should be listed. Install it.
+
+    ![Bogus NuGet package](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/Bogus.png)
+
+8. Do the same for `LiteDB`. This package is provided by Mauricio David.
+
+    ![LiteDB NuGet package](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/LiteDB.png)
+
+> Isn't it strange that we add the same packages as the ones used by the .NET Framework 4.7.2?
+
+NuGet packages supports multi-targeting. You can include, in the same package, different versions of the library, compiled for different architectures. If you give a closer look at the packages' details, you will see that, other than supporting the full .NET Framework, it includes also a .NET Standard 2.0 version, which is perfect for .NET Core 3 (Further details on .NET Framework, .NET Core and .NET Standard at [https://docs.microsoft.com/en-us/dotnet/standard/net-standard](https://docs.microsoft.com/en-us/dotnet/standard/net-standard))
+
+![Dot Net standard](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/DotNetStandard.png)
+
+> Since we don't have anymore a packages.config file, can you guess where the list of NuGet packages gets stored?
+
+With the new project format, the referenced NuGet packages are stored directly in the .csproj file. You can check this by right clicking on the **ContosoExpenses** project in Solution Explorer and choosing **Edit ContosoExpenses.csproj**. You will find the following lines added at the end of the file:
+
+```xml
+  <ItemGroup>
+    <PackageReference Include="Bogus" Version="25.0.4" />
+    <PackageReference Include="LiteDB" Version="4.1.4" />
+  </ItemGroup>
+```
+
+___ 
+
+### Exercise 5 Task 3 - Perform the migration - A Preview NuGet package for Microsoft.Toolkit.Wpf.UI.Controls
+
+1. Let's try to build it in order to 'discover' what we have to do to complete the migration. Use the **Build** menu and **Build solution**.
+
+![](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/BuildErrorsNETCore3.png)
+
+> All these errors are caused by the same issue. What is it?
+
+Again remember that we deleted all the content of the initial csproj file. We just had the **Bogus** and **LiteDB** NuGet Packages but not the **Microsoft.Toolkit.Wpf.UI.Controls**. There is a reason: go back to the **NuGet: ContosoExpenses** tab and search for `Microsoft.Toolkit.Wpf.UI.Controls`. You will see that this package supports the .NET Framework starting at the version 4.6.2. It does not support yet the .NET Core 3 version.
+
+![](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/WPFUICONTROLSNuGetPackage.png)
+
+Because we are working with Preview versions in this lab, let's continue and add a custom source for NuGet Packages. 
+
+2.  In the **NuGet: ContosoExpenses** tab, click on the  **Settings** icon for NuGet.
+
+![](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/SettingsForNuGet.png)
+
+3. Click on the green "PLUS" sign to add a new NuGet Package source.
+
+![](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/AddNewNuGetSource.png)
+
+4.  Name it `Custom` and give the url `https://dotnet.myget.org/F/uwpcommunitytoolkit/api/v3/index.json` ; Click **Ok**.
+
+![](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/CustomNuGetSource.png)
+
+5. Still in the **NuGet: ContosoExpenses** tab, you can now change the Packages source with the dropdown listbox; Select **Custom**.
+
+![](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/ChangeSource.png)
+
+6. Check also the **Include prerelease** checkbox and some NuGet packages will magically be displayed.
+
+![](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/PrereleaseNuGetPackages.png)
+
+7. Select **Microsoft.Toolkit.Wpf.UI.Controls**. Please be sure to choose the version **6.0.0-build.15.ge5444fb4a5** before clicking **Install**. This version supports the .NET Core 3.0 runtime installed on the VM.
+
+> For the users not using the VM, if you have downloaded the recently released Preview 2 of .NET Core 3.0, you can use the latest version of **Microsoft.Toolkit.Wpf.UI.Controls** provided by this custom source.
+
+8.  Build the project (CTRL+SHIFT+B). We get still some errors that we will fix in the next tasks.
+
+![](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/NETCore3BuilldErrors.png)
+
+___ 
+
+### Exercise 5 Task 4 - Perform the migration - Fixing AssemblyInfo.cs
+
+The Preview version of .NET Core 3 and Visual Studio 2019 causes the last 6 errors. It is not interesting to give explanations here: It is only 'piping' we have to resolve by either removing the mentioned lines in the `AssemblyInfo.cs` file or just delete the file. We go for the simpliest. 
+
+1.  In the **Solution Explorer** window / Under the **ContosoExpenses** project, expand the **Properties** node and right click on the **AssemblyInfo.cs** file ; Click on **Delete**.
+    
+    ![AssemblyInfo cs file](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/AssemblyInfoFile.png)
+
+2.  Just rebuild the project (for example using CTRL+SHIFT+B): Only the last three previous errors should remain listed (if nothing is displayed in the **Error List** window, look at the **Output** window).
+
+    ```dos
+    1>------ Build started: Project: ContosoExpenses, Configuration: Debug Any CPU ------
+    ...
+    1>ExpenseDetail.xaml.cs(20,15,20,23): error CS0234: The type or namespace name 'Services' does not exist in the namespace 'Windows' (are you missing an assembly reference?)
+    1>CalendarViewWrapper.cs(26,81,26,93): error CS0234: The type or namespace name 'CalendarView' does not exist in the namespace 'Windows.UI.Xaml.Controls' (are you missing an assembly reference?)
+    1>CalendarViewWrapper.cs(26,127,26,168): error CS0234: The type or namespace name 'CalendarViewSelectedDatesChangedEventArgs' does not exist in the namespace 'Windows.UI.Xaml.Controls' (are you missing an assembly reference?)
+    1>Done building project "ContosoExpenses_y1viyncj_wpftmp.csproj" -- FAILED.
+    =======___ Build: 0 succeeded, 1 failed, 0 up-to-date, 0 skipped ==========
+    ``` 
+
+___ 
+
+### Exercise 5 Task 5 - Perform the migration - Adding a reference to the Universal Windows Platform
+
+This error is our fault because we removed everything in the csproj at the beginning of the exercise. 
+
+> This method for migrating the project to .NET Core 3 is manual because Visual Studio 2019 Preview does not handle yet the migration work for us. The Visual Studio team is working to make the migration path easier and smoother in the future.
+
+So to fix this error, we have to reference again the Universal Windows Platform again. This was done in the Exercise 2 Task 3. Here are the same steps:
+
+In order to be able to use the Universal Windows Platform APIs in a WPF application we need to add a reference to two files:
+
+- **Windows.md**, which contains the metadata that describes all the APIs of the Universal Windows Platform.
+- **System.Runtime.WindowsRuntime** which is a library that contains the infrastructure required to properly support the **IAsyncOperation** type, which is used by the Universal Windows Platform to handle asynchronous operation with the well known async / await pattern. Without this library your options to interact with the Universal Windows Platform would be very limited, since all the APIs which take more than 50 ms to return a result are implemented with this pattern.
+
+1. Go back to Visual Studio and right click on the **ContosoExpenses** project.
+2. Choose **Add reference**.
+3. Press the **Browse** button.
+4. Look for the following folder on the system: `C:\Program Files (x86)\Windows Kits\10\UnionMetadata\10.0.17763.0\`
+5. Change the dropdown to filter the file types from **Component files** to **All files**. This way, the `Windows.md` file will become visible.
+
+    ![](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/WindowsMd.png)
+    
+6. Select it and press **Add**.
+7. Now press again the **Browse** button.
+8. This time look for the following folder on the system: `C:\Windows\Microsoft.NET\Framework\v4.0.30319`
+9. Look for a file called `System.Runtime.WindowsRuntime.dll`, select it and press Ok.
+10. Now expand the **References** section of the **ContosoExpenses** project in Solution Explorer and look for the **Windows** reference.
+
+    ![](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/CopyLocalNETCore3.png)
+   
+11. Select it, right it click on it and choose **Properties**.
+12. Change the value of the **Copy Local** property to **No**.
+13. Rebuild the project (CTRL+SHIFT+B) and... you succeed!
+
+```dos
+=======___ Build: 1 succeeded, 0 failed, 0 up-to-date, 0 skipped ==========
+```
+
+___ 
+
+### Exercise 5 Task 6 - Perform the migration - Debug
+
+We are ok to finally, launch the app.
+
+1.  Use the **Debug** menu / **Start Debugging F5**
+
+> You had an exception. What is it that? Don't we finished the migration? Can you find the root cause of the issue reading the Exception Debug popup displayed by Visual Studio?
+
+![Exception displayed in Visual Studio](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/ExceptionNETCore3.png)
+
+Strange because the images files are in the solution and the path seems correct.
+
+![Images in the Solution Explorer](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/ImagesInTheSolutionExplorer.png)
+
+> Why do we get this file not found exception?
+
+In fact, it is simple. Again, as we hardly deleted all the content of the csproj file at the beginning of the migration, we removed the information about the **Build action** for the images' files. Let fix it.
+
+2.  In the **Solution Explorer**, select all the images files except the contoso.ico ; In the properties windows choose **Build action** = `Content` and **Copy to Output Directory** = `Copy if Newer`
+
+    ![Build Action Content and Copy if newer](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/ContentCopyIfNewer.png)
+
+3.  To assign the Contoso.ico to the app, we have to right click on the project in the **Solution Explorer** / **Properties**. In the opened page, click on the dropdown listbox for Icon and select `Images\contoso.ico`
+
+    ![Contoso ico in the Project's Properties](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/ContosoIco.png)
+
+
+We are done! Test the app in debug with F5 and it should work... Everything running using .NET Core 3!
+
+We are now ready to go further and use all the power of the full UWP ecosystem controls, packages, dlls.
+
+___ 
+
+### Exercise 5 Task 7 - Supporting the Desktop Bridge
+Before wrapping up the exercise, let's make sure that also the Desktop Bridge version of our WPF application based on .NET Core works fine, so that we can leverage all the UWP APIs and the deep Windows 10 integration also with our migrated WPF project.
+
+1. Right click on the **ContosoExpenses.Package** project and choose **Set as StartUp Project**.
+2. Right click on the **ContosoExpenses.Package** project and choose **Rebuild**.
+3. The build operation will fail with the following error:
+
+    ![](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/DesktopBridgeNetCoreError.png)
+    
+    The error is happening because, when a .NET Core application is running packaged with the Desktop Bridge, it's included as self-contained, which means that the whole .NET Core runtime is embedded with the application. Thanks to this configuration, we can deploy the package on any Windows 10 machine and run it, even if it doesn't have the .NET Core runtime installed. However, when we package the application with the Desktop Bridge, we can't use the **Any CPU** compilation architecture, but we need to specify which runtimes we support. As such, we need to add this information in the **.csproj** file of our WPF project.
+4. Right click on the **ContosoExpenses** project in Solution Explorer and choose **Edit ContosoExpenses.csproj**.
+5. Add the following entry inside the **PropertyGroup** section:
+
+    ```xml
+    <RuntimeIdentifiers>win-x86;win-x64</RuntimeIdentifiers>
+    ```
+    
+    This is how the full **PropertyGroup** should look like:
+    
+    ```xml
+    <PropertyGroup>
+      <OutputType>WinExe</OutputType>
+      <TargetFramework>netcoreapp3.0</TargetFramework>
+      <UseWPF>true</UseWPF>
+      <ApplicationIcon />
+      <RuntimeIdentifiers>win-x86;win-x64</RuntimeIdentifiers>
+    </PropertyGroup>
+    ```
+    
+    We are explictly saying that our WPF application can be compiled both for the x86 and x64 architectures for the Windows platform.
+    
+6. Now press CTRL+S, then right click again on the **ContosoExpenses.Package** and choose **Rebuild**.
+7. This time the compilation should complete without errors. If you still see an error related to the **project.assets.json** file, right click on the **ContosoExpenses** project in Solution Explorer and choose **Open Folder in File Explorer**. Delete the **bin** and **obj** folders and rebuild the **ContosoExpenses.Package** project.
+8. Now press F5 to launch the application.
+
+Congratulations! You're running a .NET Core 3.0 WPF application packaged with the Desktop Bridge!
+
 ___ 
 
 ## Exercise 2 - Use a 1st party UWP control with XAML Islands
@@ -311,7 +642,412 @@ Adding it to a WPF application is easy, since it's one of the 1st party controls
     
 ___ 
 
-## Exercise 3 - Integrate the Universal Windows Platform
+## Exercise 3 - Integrate a custom UWP XAML component
+The company has recently gone after a big hardware refresh and now all the managers are equipped with a Microsoft Surface or other touch equipped devices. Many managers would like to use the Contoso Expenses application on the go, without having to attach the keyboard, but the current version of the application isn't really touch friendly. The development team is looking to make the application easier to use with a touch device, without having to rewrite it from scratch with another technology.
+Thanks to XAML Islands, we can start replacing some WPF controls with the UWP counterpart, which are already optimized for multiple input experiences, like touch and pen.
+
+The development team has decide to start modernizing the form to add a new expense, by making easier to choose the expense date with a touch device. The Universal Windows Platform offers a control called **CalendarView**, [which is perfect for our scenario](https://docs.microsoft.com/en-us/windows/uwp/design/controls-and-patterns/calendar-view). It's the same control that it's integrated in Windows 10 when you click on the date and time in the taskbar:
+
+![](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/CalendarViewControl.png)
+
+However, it isn't included as a 1st party control in the Windows Community Toolkit, so we'll have to use the generic XAML Host control.
+
+___ 
+
+### Exercise 3 Task 1 - Add a reference to the Universal Windows Platform
+In Excercise 2, when we have added the **InkCanvas** control, we didn't need to interact in any way with the Universal Windows Platform. The Windows Community Toolkit, in fact, wraps for us all the relevant properties and types. However, when we start to use the generic XAML host control, we can't use this advantage anymore. We can use this control to host any kind of UWP control, either included in the platform or built by a 3rd party vendor, so we need access to the Universal Windows Platform to interact with it.
+
+In order to start using Universal Windows Platform APIs in a WPF application we need to add a reference to two files:
+
+- **Windows.md**, which contains the metadata that describes all the APIs of the Universal Windows Platform.
+- **System.Runtime.WindowsRuntime** which is a library that contains the infrastructure required to properly support the **IAsyncOperation** type, which is used by the Universal Windows Platform to handle asynchronous operation with the well known async / await pattern. Without this library your options to interact with the Universal Windows Platform would be very limited, since all the APIs which take more than 50 ms to return a result are implemented with this pattern.
+
+In the past this process wasn't really straightforward, because it required to manually dig into the file system and look for the folders where these files are deployed by the Windows 10 SDK. However, the team has recently released a NuGet package which makes the overall process really easy. Let's add it!
+
+1. You can use the output of Exercise 2 as a starting point. In case you haven't completed it, you can open the folder `C:\XAMLIslandsLab\Lab\Exercise3\01-Start\ContosoExpenses` in the location where you have unzipped the lab and double click on the **ContosoExpenses.sln** file.
+2. Right click on the **ContosoExpenses** project.
+3. Choose **Manage NuGet Packages**.
+4. Look for a package with the following identity: [Microsoft.Windows.SDK.Contracts](https://www.nuget.org/packages/Microsoft.Windows.SDK.Contracts)
+5. Press Install
+
+You're all set. Now you're ready to start using APIs from the Universal Windows Platform.
+___ 
+
+### Exercise 3 Task 2 - Add the WindowsXamlHost control
+
+2. Regardless of your starting point, the required NuGet package should be already installed. We can verify this by right clicking on the **ContosoExpenses** project in Solution Explorer, choosing **Manage NuGet packages** and moving to the **Installed** tab.
+
+    ![Manage NuGet Packages menu in Visual Studio](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/ManageNuGetPackages.png)
+
+3. We should see a packaged called **Microsoft.Toolkit.Wpf.UI.XamlHost**.
+
+    ![Microsoft.Toolkit.Wpf.UI.XamlHost NuGet Package](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/XamlHostNuGetPackages.png)
+
+    The package is already installed because the one we have installed for exercises 2, **Microsoft.Toolkit.Wpf.UI.Controls**, has a dependency on it. As such, when we have installed it in the previous exercises, NuGet automatically downloaded and installed also the **Microsoft.Toolkit.Wpf.UI.XamlHost** package.
+4. Now we can start editing the code to add our control. Locate, in Solution Explorer, the file called **AddNewExpense.xaml** in the **Views** folder and double click on it. This is the form used to add a new expense to the list. Here is how it looks like in the current version of the application:
+
+    ![](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/AddNewExpense.png)
+    
+    As you can notice, the date picker control included in WPF is meant for traditional computers with mouse and keyboard. Choosing a date with a touch screen isn't really feasible, due to the small size of the control and the limited space between each day in the calendar.
+    
+5. We can see the current date picker implemented using the standard WPF control towards the end of the XAML file:
+
+    ```xml
+    <DatePicker x:Name="txtDate" Grid.Row="6" Grid.Column="1" Margin="5, 0, 0, 0" Width="400" />
+    ```
+
+6. We're going to replace this control with the **WindowsXamlHost** one, which allows hosting any UWP control inside our WPF application. However, first, we need to add a new namespace to the page. Scroll to the top of the page, identify the **Window** tag and add the following attribute:
+
+    ```xml
+    xmlns:xamlhost="clr-namespace:Microsoft.Toolkit.Wpf.UI.XamlHost;assembly=Microsoft.Toolkit.Wpf.UI.XamlHost"
+    ```
+
+    This is how the full definition should look like:
+    
+    ```xml
+    <Window x:Class="ContosoExpenses.AddNewExpense"
+            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+            xmlns:xamlhost="clr-namespace:Microsoft.Toolkit.Wpf.UI.XamlHost;assembly=Microsoft.Toolkit.Wpf.UI.XamlHost"
+            DataContext="{Binding Source={StaticResource ViewModelLocator},Path=AddNewExpenseViewModel}"
+            xmlns:local="clr-namespace:ContosoExpenses"
+            mc:Ignorable="d"
+            Title="Add new expense" Height="450" Width="800"
+            Background="{StaticResource AddNewExpenseBackground}">
+    ```
+    
+7. Since the new control takes more space than the WPF one, let's also increase the height of the window to 800, by changing the **Height** attribute of the **Window** tag from 450 to 800:
+
+    ```xml
+    <Window x:Class="ContosoExpenses.AddNewExpense"
+            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+            xmlns:xamlhost="clr-namespace:Microsoft.Toolkit.Wpf.UI.XamlHost;assembly=Microsoft.Toolkit.Wpf.UI.XamlHost"
+            DataContext="{Binding Source={StaticResource ViewModelLocator},Path=AddNewExpenseViewModel}"
+            xmlns:local="clr-namespace:ContosoExpenses"
+            mc:Ignorable="d"
+            Title="Add new expense" Height="800" Width="800"
+            Background="{StaticResource AddNewExpenseBackground}">
+    ```
+
+8. Now replace the **DatePicker** control you have previously identified in the XAML page with the following one:
+
+    ```xml
+    <xamlhost:WindowsXamlHost InitialTypeName="Windows.UI.Xaml.Controls.CalendarView" Grid.Column="1" Grid.Row="6" Margin="5, 0, 0, 0" x:Name="CalendarUwp"  />
+    ```
+
+    We have added the **WindowsXamlHost** control, by using the **xamlhost** prefix we have just defined. The most important property to setup the control is **InitialTypeName**: you must specify the full name of the UWP control you want to host. In our case, we specify the full signature of the **CalendarView** control, which is **Windows.UI.Xaml.Controls.CalendarView**.
+
+
+Now press F5 to build and run the application. Once it starts, choose any employee from the list, then press the **Add new expense** button at the bottom of the list. You will notice how the WPF DatePicker control has been replaced with a full calendar view, which is more touch friendly. 
+
+![](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/CalendarViewWrapper.png)
+
+However, the work isn't completed yet. We need a way to handle the selected date, so that we can display it on the screen and populate the **Expense** object we're going to save in the database.
+
+___ 
+
+### Exercise 3 Task 2 - Interact with the WindowsXamlHost control
+Let's take a look [at the documentation](https://docs.microsoft.com/en-us/uwp/api/Windows.UI.Xaml.Controls.CalendarView) of the **CalendarView** control. There are two things which are relevant for our scenario:
+
+- The **SelectedDates** property, which contains the date selected by the user.
+- The **SelectedDatesChanged** event, which is raised when the user selects a date.
+    
+Let's go back to the **AddNewExpense.xaml** page and handle them.
+
+> Can you guess which is the challenge here?
+
+The **WindowsXamlHost** control is a generic host control for any kind of UWP control. As such, it doesn't expose any property called **SelectedDates** or any event called **SelectedDatesChanged**, since they are specific of the **CalendarView** control.
+In order to implement our scenario, we need to move to the code behind and cast the **WindowsXamlHost** to the type we expect, in our case the **CalendarView** one. The best place to do is when the **ChildChanged** event is raised, which is triggered when the guest control has been rendered.
+
+1. Double click on the **AddNewExpense.xaml** file under the **Views** folder in Solution Explorer in Visual Studio
+2. Identify the **WindowsXamlHost** control you have previously added and subscribe to the **ChildChanged** event:
+
+    ```xml
+    <xamlhost:WindowsXamlHost InitialTypeName="Windows.UI.Xaml.Controls.CalendarView" Grid.Column="1" Grid.Row="6" Margin="5, 0, 0, 0" x:Name="CalendarUwp"  ChildChanged="CalendarUwp_ChildChanged" />
+    ```
+    
+3. Before moving on to the code behind, we need to add a **TextBlock** control to display the value selected by the user. First add a new **RowDefinition** with **Height** equal to **Auto** at the end of the **Grid.RowDefinitions** collection of the main **Grid**. This is how the final setup should look like:
+
+    ```xml
+    <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+    </Grid.RowDefinitions>
+    ```
+
+4. Copy and paste the following code after the **WindowsXamlHost** control and before the **Button** one at the end of the XAML page:
+
+    ```xml
+    <TextBlock Text="Selected date:" FontSize="16" FontWeight="Bold" Grid.Row="7" Grid.Column="0" />
+    <TextBlock Text="{Binding Path=Date}" FontSize="16" Grid.Row="7" Grid.Column="1" />
+    ```
+
+5. Locate the **Button** control at the end of the XAML page and change the **Grid.Row** property from **7** to **8**:
+
+    ```xml
+    <Button Content="Save" Grid.Row="8" Grid.Column="0" Command="{Binding Path=SaveExpenseCommand}" Margin="5, 12, 0, 0" HorizontalAlignment="Left" Width="180" />
+    ```
+    
+    Since we have added a new row in the **Grid**, we need to shift the button of one row.
+    
+
+6. Now let's start to work on the code. Identify in Solution Explorer the **AddNewExpense.xaml.cs** file inside the **Views** folder and double click on it.
+
+7. First, we need to add some using on the top of the file in order to be able to manipulate the WindowsXamlHost control.
+
+    ```csharp
+    using Microsoft.Toolkit.Wpf.UI.XamlHost;
+    ```
+
+8. Now copy and paste the following event handler inside the class definition:
+
+    ```csharp
+    <code>
+    private void CalendarUwp_ChildChanged(object sender, System.EventArgs e)
+    {
+        WindowsXamlHost windowsXamlHost = (WindowsXamlHost)sender;
+    
+        Windows.UI.Xaml.Controls.CalendarView calendarView =
+            (Windows.UI.Xaml.Controls.CalendarView)windowsXamlHost.Child;
+    
+        if (calendarView != null)
+        {
+            calendarView.SelectedDatesChanged += (obj, args) =>
+            {
+                if (args.AddedDates.Count > 0)
+                {
+                    Messenger.Default.Send<SelectedDateMessage>(new SelectedDateMessage(args.AddedDates[0].DateTime));
+                }
+            };
+        }
+    }
+    ```
+
+    We are handling the **ChildChanged** event we have previously subscribed to. As first step, we retrieve a reference to the **WindowsXamlHost** control which triggered it. The control exposes a property called **Child**, which hosts the UWP control we have assigned with the **InitialTypeName** property. We retrieve this property and we cast it to the type of control we're hosting, which in our case is **Windows.UI.Xaml.Controls.CalendarView**. Now we have access to the full UWP control, so we can subscribe to the **SelectedDatesChanged** event, which is triggered when the user selects a date from the calendar. Inside this handler, thanks to the event arguments, we have access to the **AddedDates** collection, which contains the selected dates. In our case we're using the **CalendarView** control in single selection mode, so the collection will contain only one element. 
+    We need to pass the selected date to the ViewModel, since this is where the new **Expense** object is created and saved into the database. To achieve this goal we use the messaging infrastructure provided by MVVM Light. We're going to send a message called **SelectedDateMessage** to the ViewModel, which will receive it and set the **Date** property with the selected value.
+    
+13. The project won't currently compile, because we don't have a class called **SelectedDateMessage**. Let's create it!
+14. Right click on the **Messages** folder in Solution Explorer and choose **Add -> Class**.
+15. Name it **SelectedDateMessage**.
+16. Add the following namespace at the top of the class:
+
+    ```csharp
+    using GalaSoft.MvvmLight.Messaging;
+    ```
+    
+17. Let it inherit from the **MessageBase** class, then declare a **DateTime** property and initialize it through the public constructor. This should be the final look & feel of the class:
+
+    ```csharp
+    using GalaSoft.MvvmLight.Messaging;
+    using System;
+    
+    namespace ContosoExpenses.Messages
+    {
+        public class SelectedDateMessage: MessageBase
+        {
+            public DateTime SelectedDate { get; set; }
+    
+            public SelectedDateMessage(DateTime selectedDate)
+            {
+                this.SelectedDate = selectedDate;
+            }
+        }
+    }
+    ```
+
+18. Now we need to receive this message in the corresponding ViewModel, so that it can populate the **Date** property. Double click on the **AddNewExpenseViewModel.cs** file inside the **ViewModels** folder in Solution Explorer.
+19. Look for the public constructor of the class at the beginning and, inside it, copy and paste the following code:
+
+    ```csharp
+    Messenger.Default.Register<SelectedDateMessage>(this, message =>
+    {
+        Date = message.SelectedDate;
+    });
+    ```
+    
+    We register to receive the **SelectedDateMessage**. Whenever we receive it, we extract the selected date from it through the **SelectedDate** property and we use it to set the **Date** property exposed by the ViewModel. Since this property is in binding with the **TextBlock** control we have added in 4, we'll be able to see in real time which is the date selected by the user.
+20. We don't need to make any additional change. If we look at the **SaveExpenseCommand** (which takes care of saving the expense inside the database), we can notice how the **Date** property was already used to create the new **Expense** object. Since this property is now being populated by the **CalendarView** control through the message we have just created, we're good to go.
+
+Let's test again the project:
+
+1. Press F5 and launch the application
+2. Choose one of the available employees, then click the **Add new expense** button.
+3. Fill all the information in the form and choose one date from the new **CalendarView** control. Notice how, below the control, the selected date will be displayed as a string.
+4. Press the **Save** button.
+5. The form will be closed and, in the list of expenses, you will find the new one you have just created at the end of the list. Take a look at the first column with the expense date: it should be exactly the one you have selected in the **CalendarView** control.
+
+We have replaced an existing WPF control with a newer mordern version, which fully supports mouse, keyboard, touch and digital pens. Despite the fact that it isn't included as 1st party control in the Windows Community Toolkit, we've been able anyway to include a **CalendarView** control in our application and to interact with it.
+
+___ 
+
+## Exercise 4 - Create a XAML Islands wrapper
+In Excercise 3 we have added a **CalendarView** control to our WPF application using the generic **WindowsXamlHost** control.
+From a technical point of view, the outcome of the exercise worked without issues. However, the code we have written isn't super elegant. In order to interact with the **CalendarView** control we had to subscribe to the **ChildChanged** event exposed by the **WindowsXamlHost** control, peform a cast and subscribe to an event. Since the properties we need weren't directly exposed by the **WindowsXamlHost** control, we had to break the MVVM pattern and implement some logic inside the code-behind instead of the ViewModel.
+
+Woudln't be better if we could use the **CalendarView** control like a native WPF control and create a binding channel between the **Date** property in the ViewModel and the **SelectedDates** property of the control?
+
+We can solve this problem by creating our own wrapper to the UWP control we want to integrate, similar to **InkCanvas** control we have used in Exercise 2. The purpose of this wrapper is to take the properties and events exposed by the UWP control and forward them to the WPF control, so that they could be directly accessed like with a native .NET control. Let's start!
+
+___ 
+
+### Exercise 4 Task 1 - Create a basic wrapper
+
+1. If you have completed Exercise 3, you can start from the outcome of it. Otherwise, open the folder `C:\XAMLIslandsLab\Lab\Exercise5\01-Start\ContosoExpenses` and double click on the **ContosoExpenses.sln** file.
+2. First we need to create the wrapper control. Right click on the **ContosoExpenses** project in Solution Explorer and choose **Add -> Class**. 
+3. Name it `CalendarViewWrapper` and press OK.
+4. Add a reference to the following namespaces at the top of the class:
+
+    ```csharp
+    using Microsoft.Toolkit.Win32.UI.XamlHost;
+    using Microsoft.Toolkit.Wpf.UI.XamlHost;
+    ```
+5. The first step is to make the class public and to inherit from the **WindowsXamlHostBase**. This is how the definition should look like:
+
+    ```csharp
+    public class CalendarViewWrapper: WindowsXamlHostBase
+    {
+    }
+    ```
+
+6. The next step is to initialize the control with the UWP control we want to host, in our case the **CalendarView** one. Copy and paste the following code inside the class:
+
+    ```csharp
+    protected override void OnInitialized(EventArgs e)
+    {
+        base.OnInitialized(e);
+        this.ChildInternal = UWPTypeFactory.CreateXamlContentByType("Windows.UI.Xaml.Controls.CalendarView");
+    
+        SetContent();
+    }
+    ```
+    
+    We're overriding the **OnInitialized** event and, inside it, we're using a class provided by the Windows Community Toolkit called **UWPTypeFactory**. Thanks to the **CreateXamlContentByType()** method we can manually create a new instance of the UWP control we need. This code has the same effect of setting the **InitialTypeName** property on the **WindowsXamlHost** control as we did in Exercise 3. Once we have a reference to the UWP control, we assign it to the **ChildInternal** property, which is the host. In the end, we call the **SetContent()** to finalize the operation.
+
+7. Now that we have a basic wrapper, we can use it to replace the **WindowsXamlHost** control we have previously added. Double click on the **AddNewExpense.xaml** file in Solution Explorer and locate the **WindowsXamlHost** control:
+
+    ```xml
+    <xamlhost:WindowsXamlHost InitialTypeName="Windows.UI.Xaml.Controls.CalendarView" Grid.Column="1" Grid.Row="6" Margin="5, 0, 0, 0" x:Name="CalendarUwp" ChildChanged="CalendarUwp_ChildChanged"/>
+    ```
+8. Delete it and replace it with the following snippet:
+
+    ```xml
+    <local:CalendarViewWrapper Grid.Column="1" Grid.Row="6" Margin="5, 0, 0, 0" />
+    ```
+
+    We are simply referencing the **CalendarViewWrapper** control we have just created, using the **local** prefix which is already included in the **Window** definition and which points to the default namespace of the project:
+    
+    ```xml
+    xmlns:local="clr-namespace:ContosoExpenses"
+    ```
+    
+We're ready to start performing a first test. Press F5 and launch the application, then select one of the available employees and press the **Add new expense** button. You should see the same visual output of the previous exercise:
+
+![](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/CalendarViewWrapper.png)
+
+However, the current iteration isn't really useful. If you click on any date, nothing will happen. We need to customize our wrapper in order to expose the properties we need.
+
+___ 
+
+### Exercise 4 Task 2 - Add properties to the wrapper
+Let's start by adding some properties to our wrapped control. For our scenario, we need to expose as a property the date selected by the user.
+
+1. Double click on the **CalendarViewWrapper.cs** file in Solution Explorer 
+2. We're going to create this property as a dependency property, since we want to leverage binding so that we can use it directly from our ViewModel. Copy and paste the following code inside the **CalendarViewWrapper** class, after the **OnInitialized()** method:
+
+ ```csharp
+    public DateTimeOffset SelectedDate
+    {
+      get { return (DateTimeOffset)GetValue(SelectedDateProperty); }
+      set { SetValue(SelectedDateProperty, value); }
+    }
+    
+    public static readonly DependencyProperty SelectedDateProperty =
+      DependencyProperty.Register("SelectedDate", typeof(DateTimeOffset), typeof(CalendarViewWrapper), new PropertyMetadata(DateTimeOffset.Now));
+    ```
+    
+    We have created a dependency property which type is **DateTimeOffset**, which is the same type used by the **CalendarView** control to handle dates.
+
+3. Now that we have a property where to store the selected date, we need to set its value whenever the user will choose a date from the **CalendarView** control. We can achieve this goal by subscribing to the **SelectedDatesChanged** event, like we did in Exercise 3.
+
+4. Copy and paste the following code inside the **OnInitialized()** event, after the **SetContent()** method:
+
+    ```csharp
+    Windows.UI.Xaml.Controls.CalendarView calendarView = this.ChildInternal as Windows.UI.Xaml.Controls.CalendarView;
+    calendarView.SelectedDatesChanged += CalendarView_SelectedDatesChanged;
+    ```
+    
+    The control which is hosted by the wrapper is exposed through the **ChildInternal** property. As such, we can cast it to the control we're hosting (**CalendarView**) and we can access to its properties and events. In this case, we just subscribe to the **SelectedDatesChanged** event.
+    
+3. Now we can implement an event handler for this event. Copy and paste the following code at the end of the class:
+
+    ```csharp
+    private void CalendarView_SelectedDatesChanged(Windows.UI.Xaml.Controls.CalendarView sender, Windows.UI.Xaml.Controls.CalendarViewSelectedDatesChangedEventArgs args)
+    {
+        SelectedDate = args.AddedDates[0];
+    }
+    ```
+
+    We're simply setting the dependency property we have just defined with the first value of the **AddedDates** collection. Remember that, since we're using the control in single selection mode, the collection will always include only a single element.
+
+4. Now that the selected date is exposed through a dependency property, we don't need any more to handle the date selection in code behind. We can just bind the **SelectedDate** property exposed by our wrapper to the **Date** property of the ViewModel.
+5. Double click on the **AddNewExpense.xaml** file inside the **Views** folder in Solution Explorer.
+6. Locate the wrapper you have previously added towards the end of the file and set the **SelectedDate** property as in the following sample:
+
+```xml
+<local:CalendarViewWrapper Grid.Column="1" Grid.Row="6" Margin="5, 0, 0, 0" SelectedDate="{Binding Path=Date, Mode=TwoWay}" />
+```
+
+Now we can test the code. Press F5 to launch the application, choose an employee from the list and press the **Add new expense** button. Now the control should behave like at the end of Exercise 4:
+
+- By clicking on a date, you will see the selected date displayed under the calendar.
+- If you press **Save** and you look at the **Date** column of newly added expense, you will see the same date selected in the calendar.
+
+![](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/CalendarViewWrapperFinal.png)
+
+That's it! Our wrapper is working and it makes easier to interact with the original UWP control directly from the WPF XAML. Additionally, we were able to use the wrapper through binding, which allowed us to maintain the code cleaner and to continue leveraging the MVVM pattern.
+
+___ 
+
+### Exercise 4 Task 3 - Cleaning the code
+Since now we have a wrapper that can be used directly in our ViewModel thanks to binding, we can cleanup some of the code we have added in Exercise 3:
+
+1. Double click on the **AddNewExpense.xaml** file in the **Views** folder in Solution Explorer.
+2. Locate, in the **Window** element, the namespace we have declared to add the **WindowsXamlHost** control and remove it. We don't need it anymore, since it has been replaced by our wrapper:
+
+    ```xml
+    xmlns:xamlhost="clr-namespace:Microsoft.Toolkit.Wpf.UI.XamlHost;assembly=Microsoft.Toolkit.Wpf.UI.XamlHost"
+    ```
+
+3. Double click on the **AddNewExpense.xaml.cs** file in the **Views** folder in Solution Explorer.
+4. Delete the **CalendarUwp_ChildChanged** event handler. Now the logic to handle the date selection is encapsulated direcly inside the wrapper.
+5. Double click on the **AddNewExpenseViewModel.cs** file in the **ViewModels** folder in Solution Explorer.
+6. In the public constructor delete the messenger registration of the **SelectedDateMessage** object. Since now the selected date is exposed directly with a depededency property by our wrapper, we can set the **Date** property of the ViewModel directly through binding.
+
+    ```csharp
+    Messenger.Default.Register<SelectedDateMessage>(this, message =>
+    {
+        Date = message.SelectedDate;
+    });
+    ```
+7. We can now safely delete also the class we have used as a message to store the selected date. Expand the **Messages** folder in Solution Explorer, right click on the **SelectedDateMessage.cs** file and choose **Delete**.
+
+That's it. Now our project should continue to compile just fine and still retain all the features we have implemented in Task 2.
+    
+___ 
+
+## Exercise 5 - Integrate the Universal Windows Platform
 
 One of the feedbacks that the developer team has received by managers who are using the Contoso Expenses application is to make easier to locate the place where the expense happened. The current detail page of an expense already shows the full address, but they would like something more visual and easier to understand.
 The Universal Windows Platform includes a beautiful and performant control to display maps, which can be leveraged also in a WPF applications thanks to XAML Island. In this exercise we're going to include it.
@@ -599,891 +1335,6 @@ Let's move on and see how we can request a license and integrate it into our app
 Great job! Now you have a WPF application which perfecly integrates two UWP controls, **InkCanvas** and **MapControl**. Additionally, since we have packaged our application as MSIX, we have the chance to leverage a wider range of APIs from the Universal Windows Platform, to make it even more powerful. MSIX packaging up also the opportunity to release our application in many ways, since it supports not only traditional deployment models (like web, SSCM, Intune, etc.) but also new ones like the Microsoft Store / Store for Business / Store for Education.
 
 ___ 
-
-## Exercise 3 - Integrate a custom UWP XAML component
-The company has recently gone after a big hardware refresh and now all the managers are equipped with a Microsoft Surface or other touch equipped devices. Many managers would like to use the Contoso Expenses application on the go, without having to attach the keyboard, but the current version of the application isn't really touch friendly. The development team is looking to make the application easier to use with a touch device, without having to rewrite it from scratch with another technology.
-Thanks to XAML Islands, we can start replacing some WPF controls with the UWP counterpart, which are already optimized for multiple input experiences, like touch and pen.
-
-The development team has decide to start modernizing the form to add a new expense, by making easier to choose the expense date with a touch device. The Universal Windows Platform offers a control called **CalendarView**, [which is perfect for our scenario](https://docs.microsoft.com/en-us/windows/uwp/design/controls-and-patterns/calendar-view). It's the same control that it's integrated in Windows 10 when you click on the date and time in the taskbar:
-
-![](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/CalendarViewControl.png)
-
-However, it isn't included as a 1st party control in the Windows Community Toolkit, so we'll have to use the generic XAML Host control.
-
-___ 
-
-### Exercise 3 Task 1 - Add the WindowsXamlHost control
-1. You can use the output of Exercise 2 as a starting point. In case you haven't completed it, you can open the folder `C:\XAMLIslandsLab\Lab\Exercise3\01-Start\ContosoExpenses` in the location where you have unzipped the lab and double click on the **ContosoExpenses.sln** file.
-2. Regardless of your starting point, the required NuGet package should be already installed. We can verify this by right clicking on the **ContosoExpenses** project in Solution Explorer, choosing **Manage NuGet packages** and moving to the **Installed** tab.
-
-    ![Manage NuGet Packages menu in Visual Studio](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/ManageNuGetPackages.png)
-
-3. We should see a packaged called **Microsoft.Toolkit.Wpf.UI.XamlHost**.
-
-    ![Microsoft.Toolkit.Wpf.UI.XamlHost NuGet Package](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/XamlHostNuGetPackages.png)
-
-    The package is already installed because the one we have installed for exercises 2 and 3, **Microsoft.Toolkit.Wpf.UI.Controls**, has a dependency on it. As such, when we have installed it in the previous exercises, NuGet automatically downloaded and installed also the **Microsoft.Toolkit.Wpf.UI.XamlHost** package.
-4. Now we can start editing the code to add our control. Locate, in Solution Explorer, the file called **AddNewExpense.xaml** and double click on it. This is the form used to add a new expense to the list. Here is how it looks like in the current version of the application:
-
-    ![](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/AddNewExpense.png)
-    
-    As you can notice, the date picker control included in WPF is meant for traditional computers with mouse and keyboard. Choosing a date with a touch screen isn't really feasible, due to the small size of the control and the limited space between each day in the calendar.
-    
-5. We can see the current date picker implemented using the standard WPF control towards the end of the XAML file:
-
-    ```xml
-    <DatePicker x:Name="txtDate" Grid.Row="6" Grid.Column="1" Margin="5, 0, 0, 0" Width="400" />
-    ```
-
-6. We're going to replace this control with the **WindowsXamlHost** one, which allows hosting any UWP control inside our WPF application. However, first, we need to add a new namespace to the page. Scroll to the top of the page, identify the **Window** tag and add the following attribute:
-
-    ```xml
-    xmlns:xamlhost="clr-namespace:Microsoft.Toolkit.Wpf.UI.XamlHost;assembly=Microsoft.Toolkit.Wpf.UI.XamlHost"
-    ```
-
-    This is how the full definition should look like:
-    
-    ```xml
-    <Window x:Class="ContosoExpenses.AddNewExpense"
-            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-            xmlns:xamlhost="clr-namespace:Microsoft.Toolkit.Wpf.UI.XamlHost;assembly=Microsoft.Toolkit.Wpf.UI.XamlHost"
-            xmlns:local="clr-namespace:ContosoExpenses"
-            mc:Ignorable="d"
-            Title="Add new expense" Height="450" Width="800"
-            Background="{StaticResource AddNewExpenseBackground}">
-    ```
-    
-7. Now replace the **DatePicker** control you have previously identified in the XAML page with the following one:
-
-    ```xml
-    <xamlhost:WindowsXamlHost InitialTypeName="Windows.UI.Xaml.Controls.CalendarView" Grid.Column="1" Grid.Row="6" Margin="5, 0, 0, 0" x:Name="CalendarUwp"  />
-    ```
-
-    We have added the **WindowsXamlHost** control, by using the **xamlhost** prefix we have just defined. The most important property to setup the control is **InitialTypeName**: you must specify the full name of the UWP control you want to host. In our case, we specify the full signature of the **CalendarView** control, which is **Windows.UI.Xaml.Controls.CalendarView**.
-    
-8. Let's test the work now. In order to compile our project, we need to make a small change. Locate the `AddNewExpense.xaml.cs` file in Solution Explorer and double click on it.
-9. You will notice that there's a compilation error in the file. The **OnSaveExpenses()** method, in fact, contains the following code snippet:
-
-    ```csharp
-    Expense expense = new Expense
-    {
-        Address = txtLocation.Text,
-        City = txtCity.Text,
-        Cost = Convert.ToDouble(txtAmount.Text),
-        Description = txtDescription.Text,
-        Type = txtType.Text,
-        Date = txtDate.SelectedDate.GetValueOrDefault(),
-        EmployeeId = EmployeeId
-    };
-    ```
-
-    However, we have removed the WPF DatePicker control with name **txtDate** from the XAML page and, as such, the following line will return an error:
-    
-    ```csharp
-    Date = txtDate.SelectedDate.GetValueOrDefault()
-    ```
-    
-    For the moment, let's just comment it:
-    
-    ```csharp
-    //Date = txtDate.SelectedDate.GetValueOrDefault(),
-    ```
-
-Now press F5 to build and run the application. Once it starts, choose any employee from the list, then press the **Add new expense** button at the bottom of the list. You will notice how the WPF DatePicker control has been replaced with a full calendar view, which is more touch friendly. 
-
-![](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/CalendarViewWrapper.png)
-
-However, the work isn't completed yet. We need a way to handle the selected date, so that we can display it on the screen and we can store it in the code-behind ; In other words, we have populate the new **Expense** object that gets saved in the database.
-
-___ 
-
-### Exercise 3 Task 2 - Interact with the WindowsXamlHost control
-Let's take a look [at the documentation](https://docs.microsoft.com/en-us/uwp/api/Windows.UI.Xaml.Controls.CalendarView) of the **CalendarView** control. There are two things which are relevant for our scenario:
-
-- The **SelectedDates** property, which contains the date selected by the user.
-- The **SelectedDatesChanged** event, which is raised when the user selects a date.
-    
-Let's go back to the **AddNewExpense.xaml** page and handle them.
-
-> Can you guess which is the challenge here?
-
-The **WindowsXamlHost** control is a generic host control for any kind of UWP control. As such, it doesn't expose any property called **SelectedDates** or any event called **SelectedDatesChanged**, since they are specific of the **CalendarView** control.
-In order to implement our scenario, we need to move to the code behind and cast the **WindowsXamlHost** to the type we expect, in our case the **CalendarView** one. The best place to do is when the **ChildChanged** event is raised, which is triggered when the guest control has been rendered.
-
-1. Double click on the **AddNewExpense.xaml** file in Solution Explorer in Visual Studio
-2. Identify the **WindowsXamlHost** control you have previously added and subscribe to the **ChildChanged** event:
-
-    ```xml
-    <xamlhost:WindowsXamlHost InitialTypeName="Windows.UI.Xaml.Controls.CalendarView" Grid.Column="1" Grid.Row="6" Margin="5, 0, 0, 0" x:Name="CalendarUwp"  ChildChanged="CalendarUwp_ChildChanged" />
-    ```
-    
-3. Before moving on to the code behind, we need to add a **TextBlock** control to display the value selected by the user. First add a new **RowDefinition** with **Height** equal to **Auto** at the end of the **Grid.RowDefinitions** collection of the main **Grid**. This is how the final setup should look like:
-
-    ```xml
-    <Grid.RowDefinitions>
-        <RowDefinition Height="Auto"/>
-        <RowDefinition Height="Auto"/>
-        <RowDefinition Height="Auto"/>
-        <RowDefinition Height="Auto"/>
-        <RowDefinition Height="Auto"/>
-        <RowDefinition Height="Auto"/>
-        <RowDefinition Height="Auto"/>
-        <RowDefinition Height="Auto"/>
-        <RowDefinition Height="Auto"/>
-    </Grid.RowDefinitions>
-    ```
-
-4. Copy and paste the following code after the **WindowsXamlHost** control and before the **Button** one at the end of the XAML page:
-
-    ```xml
-    <TextBlock Text="Selected date:" FontSize="16" FontWeight="Bold" Grid.Row="7" Grid.Column="0" />
-    <TextBlock x:Name="txtDate" FontSize="16" Grid.Row="7" Grid.Column="1" />
-    ```
-
-5. Locate the **Button** control at the end of the XAML page and change the **Grid.Row** property from **7** to **8**:
-
-    ```xml
-    <Button Content="Save" Grid.Row="8" Grid.Column="0" Click="OnSaveExpense" Margin="5, 12, 0, 0" HorizontalAlignment="Left" Width="180" />
-    ```
-    
-    Since we have added a new row in the **Grid**, we need to shift the button of one row.
-    
-6. There's one last small change we need to make. If you remember when we have tested the application at the end of the previous task, the look and feel of the window wasn't really good. The reason is that the **CalendarView** control takes more space than the previous **DatePicker** and, as such, the current size of the window isn't enough to fit all the content. Let's incrase the height of the window. 
-7. Locate the **Window** tag at the top of the XAML file.
-8. Locate the **Height** property and change the value from **450** to **800**.
-9. Also the **WindowsXamlHost** control must be properly disposed in order to be reused. As such, we need to subscribe to the **Closed** event also in this window, by adding the following attribute:
-
-    ```xml
-    Closed="Window_Closed"
-    ```
-    
-    This is how the final definition of the **Window** element should look like:
-    
-    ```xml
-    <Window x:Class="ContosoExpenses.AddNewExpense"
-            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-            xmlns:xamlhost="clr-namespace:Microsoft.Toolkit.Wpf.UI.XamlHost;assembly=Microsoft.Toolkit.Wpf.UI.XamlHost"
-            xmlns:local="clr-namespace:ContosoExpenses"
-            mc:Ignorable="d"
-            Closed="Window_Closed"
-            Title="Add new expense" Height="800" Width="800"
-            Background="{StaticResource AddNewExpenseBackground}">
-    ```
-
-10. Now let's start to work on the code behind. Identify in Solution Explorer the **AddNewExpense.xaml.cs** file and double click on it.
-
-11. First, we need to add some using on the top of the file in order to be able to manipulate the WindowsXamlHost control.
-
-    ```csharp
-    using Microsoft.Toolkit.Wpf.UI.XamlHost;
-    using System.Linq;
-    ```
-
-12. We also need a property to hold a reference to the selected date. Copy and paste the following definition inside the class:
-
-    ```csharp
-    private DateTime SelectedDate;
-    ```
-
-13. Now copy and paste the following event handler inside the class definition:
-
-    ```csharp
-    <code>
-    private void CalendarUwp_ChildChanged(object sender, EventArgs e)
-    {
-        WindowsXamlHost windowsXamlHost = (WindowsXamlHost)sender;
-    
-        Windows.UI.Xaml.Controls.CalendarView calendarView =
-            (Windows.UI.Xaml.Controls.CalendarView)windowsXamlHost.Child;
-    
-        if (calendarView != null)
-        {
-            calendarView.SelectedDatesChanged += (obj, args) =>
-            {
-                if (args.AddedDates.Count > 0)
-                {
-                    SelectedDate = args.AddedDates.FirstOrDefault().DateTime;
-                    txtDate.Text = SelectedDate.ToShortDateString();
-                }
-            };
-    
-            calendarView.MinDate = DateTimeOffset.Now.AddYears(-1);
-            calendarView.MaxDate = DateTimeOffset.Now;
-        }
-    }
-    </code>
-    ```
-
-    We are handling the **ChildChanged** event we have previously subscribed to. As first step, we retrieve a reference to the **WindowsXamlHost** control which triggered it. The control exposes a property called **Child**, which hosts the UWP control we have assigned with the **InitialTypeName** property. We retrieve this property and we cast it to the type of control we're hosting, which in our case is **Windows.UI.Xaml.Controls.CalendarView**. Now we have access to the full UWP control, so we can:
-    
-    - Subscribe to the **SelectedDatesChanged** event, which is triggered when the user selects a date from the calendar. Inside this handler, thanks to the event arguments, we have access to the **AddedDates** collection, which contains the selected dates. In our case we're using the **CalendarView** control in single selection mode, so the collection will contain only one element. We store it into the **SelectedDate** property we have previously created and we display it in the **txtDate** control.
-    - Customize the behavior of the control. Since, for compliance reasons, an employee can report only expenses occurred in the last year, it would be confusing to display dates older than 1 year or in the future. As such, we set the **MaxDate** property with the current date, while the **MinDate** one with the same date, but 1 year in the past. This means that if, for example, today is 14th February 2019, employees will be able to choose a date between 14th February 2018 and 14th February 2019.
-
-14. As next step, we need to handle the **Closed** event of the window to dispose the **WindowsXamlHost** control. Copy and paste the following event handler before the end of the **AddNewExpense** class:
-
-    ```csharp
-    private void Window_Closed(object sender, EventArgs e)
-    {
-        CalendarUwp.Dispose();
-    }
-    ```
-15. As last step we need to update the **OnSaveExpense** event handler to retrieve the selected date from the new UWP control we have added. If you remember, in the previous task we have commented the following line of code in the creation of the **Expense** object:
-
-    ```csharp
-    Date = txtDate.SelectedDate.GetValueOrDefault(),
-    ```
-
-    Delete it and replace it with the following code:
-    
-    ```csharp
-    Date = SelectedDate,
-    ```
-
-    We're setting the **Date** property of the **Expense** object we're going to store into the database with the value we have previously stored in the **ChildChanged** event. This is how the final definition of the **Expense** object should look like:
-    
-    ```csharp
-    Expense expense = new Expense
-    {
-        Address = txtLocation.Text,
-        City = txtCity.Text,
-        Cost = Convert.ToDouble(txtAmount.Text),
-        Description = txtDescription.Text,
-        Type = txtType.Text,
-        Date = SelectedDate,
-        EmployeeId = EmployeeId
-    };
-    ```
-
-We're done! Let's test again the project:
-
-1. Press F5 and launch the application
-2. Choose one of the available employees, then click the **Add new expense** button.
-3. Fill all the information in the form and choose one date from the new **CalendarView** control.
-4. Press the **Save** button.
-5. The form will be closed and, in the list of expenses, you will find the new one you have just created at the end of the list. Take a look at the first column with the expense date: it should be exactly the one you have selected in the **CalendarView** control.
-
-We have replaced an existing WPF control with a newer mordern version, which fully supports mouse, keyboard, touch and digital pens. Despite the fact that it isn't included as 1st party control in the Windows Community Toolkit, we've been able anyway to include a **CalendarView** control in our application and to interact with it.
-
-___ 
-
-## Exercise 4 - Create a XAML Islands wrapper
-In Excercise 3 we have added a **CalendarView** control to our WPF application using the generic **WindowsXamlHost** control.
-From a technical point of view, the outcome of the exercise worked without issues. However, the code we have written isn't super elegant. In order to interact with the **CalendarView** control we had to subscribe to the **ChildChanged** event exposed by the **WindowsXamlHost** control, peform a cast and manually change some properties. Additionally, if we have a more complex application built with the MVVM pattern, we would have faced a blocker: we can't use binding to handle the **AddedDates** property.
-
-We can solve this problem by creating our own wrapper to the UWP control we want to integrate, exactly like the **MapControl** or the **InkCanvas** controls. The purpose of this wrapper is to take the properties and events exposed by UWP control and forward them to the WPF control, so that they could be directly access like with a native .NET control. Let's start!
-
-___ 
-
-### Exercise 4 Task 1 - Create a basic wrapper
-
-1. If you have completed Exercise 3, you can start from the outcome of it. Otherwise, open the folder `C:\XAMLIslandsLab\Lab\Exercise5\01-Start\ContosoExpenses` and double click on the **ContosoExpenses.sln** file.
-2. First we need to create the wrapper control. Right click on the **ContosoExpenses** project in Solution Explorer and choose **Add -> Class**. 
-3. Name it `CalendarViewWrapper` and press OK.
-4. Add a reference to the following namespaces at the top of the class:
-
-    ```csharp
-    using Microsoft.Toolkit.Win32.UI.XamlHost;
-    using Microsoft.Toolkit.Wpf.UI.XamlHost;
-    ```
-5. The first step is to make the class public and to inherit from the **WindowsXamlHostBase**. This is how the definition should look like:
-
-    ```csharp
-    public class CalendarViewWrapper: WindowsXamlHostBase
-    {
-    }
-    ```
-
-6. The next step is to initialize the control with the UWP control we want to host, in our case the **CalendarView** one. Copy and paste the following code inside the class:
-
-    ```csharp
-    protected override void OnInitialized(EventArgs e)
-    {
-        base.OnInitialized(e);
-        this.ChildInternal = UWPTypeFactory.CreateXamlContentByType("Windows.UI.Xaml.Controls.CalendarView");
-    
-        SetContent();
-    }
-    ```
-    
-    We're overriding the **OnInitialized** event and, inside it, we're using a class provided by the Windows Community Toolkit called **UWPTypeFactory**. Thanks to the **CreateXamlContentByType()** method we can manually create a new instance of the UWP control we need. This code has the same effect of setting the **InitialTypeName** property on the **WindowsXamlHost** control as we did in Exercise 3. Once we have a reference to the UWP control, we assign it to the **ChildInternal** property, which is the host. In the end, we call the **SetContent()** to finalize the operation.
-
-7. Now that we have a basic wrapper, we can use it to replace the **WindowsXamlHost** control we have previously added. Double click on the **AddNewExpense.xaml** file in Solution Explorer and locate the **WindowsXamlHost** control:
-
-    ```xml
-    <xamlhost:WindowsXamlHost InitialTypeName="Windows.UI.Xaml.Controls.CalendarView" Grid.Column="1" Grid.Row="6" Margin="5, 0, 0, 0" x:Name="CalendarUwp" ChildChanged="CalendarUwp_ChildChanged"/>
-    ```
-8. Delete it and replace it with the following snippet:
-
-    ```xml
-    <local:CalendarViewWrapper x:Name="CalendarUwp" Grid.Column="1" Grid.Row="6" Margin="5, 0, 0, 0" />
-    ```
-
-    We are simply referencing the **CalendarViewWrapper** control we have just created, using the **local** prefix which is already included in the **Window** definition and which points to the default namespace of the project:
-    
-    ```xml
-    xmlns:local="clr-namespace:ContosoExpenses"
-    ```
-    
-We're ready to start performing a first test. Press F5 and launch the application, then select one of the available employees and press the **Add new expense** button. You should see the same visual output of the previous exercise:
-
-![](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/CalendarViewWrapper.png)
-
-However, the current iteration isn't really useful. If you click on any date, nothing will happen. And the calendar isn't constrained anymore to show only the dates from the past year. We need to customize our wrapper in order to expose the properties we need.
-
-___ 
-
-### Exercise 4 Task 2 - Add properties to the wrapper
-Let's start by adding some properties to our wrapped control. For our scenario, we need to expose 3 properties of the original UWP control:
-
-- **SelectedDates** to get the date selected by the user
-- **MinDate** and **MaxDate** to set the calendar's range
-
-1. Double click on the **AddNewExpense.xaml.cs** in the Solution Explorer 
-2. Copy and paste the following code snippet inside the class:
-
-    ```csharp
-    public IList<DateTimeOffset> SelectedDates
-    {
-        get
-        {
-            if (this.ChildInternal != null)
-            {
-                Windows.UI.Xaml.Controls.CalendarView calendarView = this.ChildInternal as Windows.UI.Xaml.Controls.CalendarView;
-                return calendarView.SelectedDates;
-            }
-    
-            return null;
-        }
-    }
-    ```
-
-    We are exposing a public property called **SelectedDates**, which type matches the same one of the property exposed by the **CalendarView** control, which is **IList<DateTimeOffset>**. This property is read-only, as such we can implement only the **get**. First we check that the **ChildInternal** property isn't null, to make sure that we are indeed hosting a control inside our wrapper. If that's the case, we can reuse the property to get a reference to the original **CalendarView** control. In the end, we simply return the value of the **SelectedDates** property exposed by the control.
-    
-3. Now we need to expose the **MinDate** and **MaxDate** properties, so that we can customize the behavior of the calendar. Let's start with the first one:
-
-    ```csharp
-    private DateTimeOffset minDate;
-    
-    public DateTimeOffset MinDate
-    {
-        get { return minDate; }
-        set
-        {
-            if (this.ChildInternal != null)
-            {
-                minDate = value;
-                Windows.UI.Xaml.Controls.CalendarView calendarView = this.ChildInternal as Windows.UI.Xaml.Controls.CalendarView;
-                calendarView.MinDate = value;
-            }
-        }
-    }
-    ```
-    
-    The approach is the same we have previously used. However, in this case, we need to expose also the **set**, since we need to change the value of the real property exposed by the **CalendarView** control. However, the implementation is basically the same. We check if the **ChildInternal** control isn't null and, if that's the case, we get a reference to the hosted **CalendarView** control. In this end, we set the **MinDate** property with the assigned value.
-    
-4. Now let's add the **MaxDate** property, which works in the same way:
-
-    ```csharp
-    private DateTimeOffset maxDate;
-    
-    public DateTimeOffset MaxDate
-    {
-        get { return maxDate; }
-        set
-        {
-            if (this.ChildInternal != null)
-            {
-                maxDate = value;
-                Windows.UI.Xaml.Controls.CalendarView calendarView = this.ChildInternal as global::Windows.UI.Xaml.Controls.CalendarView;
-                calendarView.MaxDate = value;
-            }
-        }
-    }
-    ```
-    
-5. Now that the wrapped control is exposing the properties we need, we can start to integrate them in code behind. Double click on the **AddNewExpense.xaml.cs** file.
-6. First locate the **CalendarUwp_ChildChanged** event handler and delete it. We don't need it anymore, since the we have replaced the **WindowsXamlHost** control with the wrapped one.
-7. It's time to initialize the **MinDate** and **MaxDate** properties. We need to do it when the window is loaded, so we need to subscribe to the **Loaded** event exposed by the **Window**. Double click on the **AddNewExpense.xaml** file, locate the **Window** tag at the top of the page and add the following attribute:
-
-    ```xml
-    Loaded="Window_Loaded"
-    ```
-    
-    This is how the full definition of the **Window** control should look like:
-    
-    ```xml
-    <Window x:Class="ContosoExpenses.AddNewExpense"
-            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-            xmlns:xamlhost="clr-namespace:Microsoft.Toolkit.Wpf.UI.XamlHost;assembly=Microsoft.Toolkit.Wpf.UI.XamlHost"
-            xmlns:local="clr-namespace:ContosoExpenses"
-            mc:Ignorable="d"
-            Closed="Window_Closed"
-            Loaded="Window_Loaded"
-            Title="Add new expense" Height="800" Width="800"
-            Background="{StaticResource AddNewExpenseBackground}">
-    ```
-8. Now open again the **AddNewExpense.xaml.cs** file and copy and paste the following event handler inside th class:
-
-    ```csharp
-    private void Window_Loaded(object sender, RoutedEventArgs e)
-    {
-        CalendarUwp.MinDate = DateTimeOffset.Now.AddYears(-1);
-        CalendarUwp.MaxDate = DateTimeOffset.Now;
-    }
-    ```
-
-    As we did in Exercise 3, we are setting the **MinDate** property with the current date, but one year back, and the **MaxDate** property with the current date. The difference is that, since this time we are providing wrapper properties, we can directly set them, instead of having to go through the **ChildChanged** event.
-    
-Let's test our work. Press F5 to launch the application, choose an employee from the list, then press the **Add new expense** button. This time you should see that the calendar will allow you to choose only a date between the current date and one year ago. Now we need to handle the **SelectedDates** property.
-
-> Are we able to implement the same behavior of Exercise 3 with the current wrapper?
-
-The answer is no. We have exposed the **SelectedDates** collection of the **CalendarView** control, but we don't have a way to know when the user has indeed selected a date. In Exercise 3 we have achieved this goal by subscribing to the **SelectedDateChanged** event. As such, we need to wrap also this event in our custom control. This will be the goal of our next task.
-
-___ 
-
-### Exercise 4 Task 3 - Add events to the wrapper
-
-An event is represented by the **EventHandler<T>** class, where **T** is the object which represents the event arguments. It's a special object which is returned to the event handler, where we can store relevant information about the event. [If we take a look at the documentation](https://docs.microsoft.com/en-us/uwp/api/windows.ui.xaml.controls.calendarview.selecteddateschanged) about the **SelectedDatesChanged** event of **CalendarView** control, [we can see](https://docs.microsoft.com/en-us/uwp/api/windows.ui.xaml.controls.calendarviewselecteddateschangedeventargs) that it returns an object of type **CalendarViewSelectedDatesChangedEventArgs**, which contains two collections: **AddedDates** and **RemovedDates**. 
-We're going to recreate a similar class in our project for our custom event handler.
-
-1. Right click on the **ContosoExpenses** project in Visual Studio and choose **Add -> Class**.
-2. Name it `SelectedDatesChangedEventArgs` and press OK.
-3. Replace the existing class definition with the following one:
-
-    ```csharp
-    public class SelectedDatesChangedEventArgs: EventArgs
-    {
-        public IReadOnlyList<DateTimeOffset> SelectedDates { get; set; }
-    
-        public SelectedDatesChangedEventArgs(IReadOnlyList\<DateTimeOffset\> selectedDates)
-        {
-            this.SelectedDates = selectedDates;
-        }
-    }
-    ```
-
-    Every custom event arguments object must inherit from the base **EventArgs** class. Then we can add our custom properties. In our case, we just add a property of type **IReadOnlyList<DateTimeOffset>**, which is the same type of the **AddedDates** collection of the original **CalendarView** control.
-    
-4. Now we can implement our event handler. Double click on the **CalendarViewWrapper.cs** file in Solution Explorer and add the following code inside the class:
-
-    ```csharp
-    public event EventHandler<SelectedDatesChangedEventArgs> SelectedDatesChanged;
-    ```
-    
-    We're exposing a public event thanks to the **EventHandler** class. We specify, as returned parameter, the custom event arguments class we have just created, called **SelectedDatesChangedEventArgs**.
-    
-5. Then we need to expose a method to invoke whenever we want to trigger our event. Copy and paste the following code inside the class:
-
-    ```csharp
-    protected virtual void OnSelectedDatesChanged(SelectedDatesChangedEventArgs e)
-    {
-        SelectedDatesChanged?.Invoke(this, e);
-    }
-    ```
-    
-6. Finally we need to forward the original event exposed by the **CalendarView** control to the custom one we have just created. This way, we'll be able to leverage this event directly from our wrapped control. As first step, we need to subscribe to the original event inside the **OnInitialize()** method we have previously implemented. Copy and paste the following line after the **SetContent()** method:
-
-    ```csharp
-    Windows.UI.Xaml.Controls.CalendarView calendarView = this.ChildInternal as Windows.UI.Xaml.Controls.CalendarView;
-    calendarView.SelectedDatesChanged += CalendarView_SelectedDatesChanged;
-    ```
-    
-    This is how the final method should look like:
-    
-    ```csharp
-    protected override void OnInitialized(EventArgs e)
-    {
-        base.OnInitialized(e);
-        this.ChildInternal = UWPTypeFactory.CreateXamlContentByType("Windows.UI.Xaml.Controls.CalendarView");
-    
-        SetContent();
-    
-        Windows.UI.Xaml.Controls.CalendarView calendarView = this.ChildInternal as Windows.UI.Xaml.Controls.CalendarView;
-        calendarView.SelectedDatesChanged += CalendarView_SelectedDatesChanged;
-    }
-    ```
-    
-    We have simply retrieved a reference to the hosted **CalendarView** control through the **ChildInternal** property and we have subscribed to the **SelectedDatesChanged** event.
-    
-7. As last step, let's implement the event handler:
-
-    ```csharp
-    private void CalendarView_SelectedDatesChanged(Windows.UI.Xaml.Controls.CalendarView sender, Windows.UI.Xaml.Controls.CalendarViewSelectedDatesChangedEventArgs args)
-    {
-        OnSelectedDatesChanged(new SelectedDatesChangedEventArgs(args.AddedDates));
-    }
-    ```
-    
-    We are invoking the method we have previously created, passing as parameter a new instance of our custom event args object. Inside this instance, we include the collection of selected dates retrieved from the **AddedDates** collection.
-    
-8. That's it. Now that our wrapped control exposes an event handler, we can use it to handle the selection of the date. Double click on the **AddNewExpense.xaml** page in Solution Explorer and locate the **CalendarViewWrapper** control we have previously added.
-9. Subscribe to the **SelectedDatesChanged** event. This is how the final definition of the control should look like:
-
-    ```csharp
-    <local:CalendarViewWrapper x:Name="CalendarUwp" Grid.Column="1" Grid.Row="6" Margin="5, 0, 0, 0" SelectedDatesChanged="CalendarUwp_SelectedDatesChanged"/>
-    ```
-    
-10. Now double click on the **AddNewExpense.xaml.cs** file in Solution Explorer and add the following event handler inside the class:
-
-    ```csharp
-    private void CalendarUwp_SelectedDatesChanged(object sender, SelectedDatesChangedEventArgs e)
-    {
-        SelectedDate = e.SelectedDates.FirstOrDefault().Date;
-        txtDate.Text = SelectedDate.ToShortDateString();
-    }
-    ```
-    
-    We're retrieved from the event args object the selected date, which is stored inside the **SelectedDates** collection. Since we're using the control in single selection mode, we just retrieve the first element. Then we store the date inside the **SelectedDate** property, which is the one defined at class level that we use to populate the **Expense** object that will be saved in the database. In the end, we display the selected date in a **TextBlock** control on the page.
-    
-Now we can test the code. Press F5 to launch the application, choose an employee from the list and press the **Add new expense** button. Now the control should behave like at the end of Exercise 4:
-
-- By clicking on a date, you will see the selected date displayed under the calendar.
-- If you press **Save** and you look at the **Date** column of newly added expense, you will see the same date selected in the calendar.
-
-![](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/CalendarViewWrapperFinal.png)
-
-That's it! Our wrapper is working and it makes easier to interact with the original UWP control directly from the WPF XAML. As optional task, you can try to change the properties we have created (**SelectedDates**, **MinDate** and **MaxDate**) to [dependencies properties](https://docs.microsoft.com/en-us/dotnet/framework/wpf/advanced/dependency-properties-overview), so that they can properly support binding.
-    
-___ 
-
-## Exercise 5 - Migrate to .NET Core 3
-Migrating the application to .NET Core 3 is the best and recomanded path for modernizing a .NET application (WPF or Windows Forms). As previously mentioned, the first really nice improvment is about the startup and execution time! This is only the tip of the iceberg. The best advantage is that, the app will be able to use all the upcoming new features both from .NET Core and UWP! 
-
-___ 
-
-### Exercise 5 Task 1 - Setup for using .NET Core 3
-At the moment of writing .NET Core is still in Preview and it is highly experimental technologies. Nevertheless, it is enough stable to play with it. The minimum required is made of two pieces:
-- The .NET Core 3 runtime - [https://github.com/dotnet/core-setup](https://github.com/dotnet/core-setup)
-- The .NET Core 3 SDK - [https://github.com/dotnet/core-sdk](https://github.com/dotnet/core-sdk)
-
-Do not worry, using the VM provided, all is already setup for you: You do not have to download and install anything. On the other hand, if you are using you own computer, just navigate to the two links above and take the correct installer for your platform.
-
-![Download .NET Core](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/DownloadNETCore.png)
-
-___ 
-
-### Exercise 5 Task 2 - Perform the migration - The csproj
-As mentioned, .NET Core is in the Preview state. We also need a preliminary version of Visual Studio. Again, the VM is setup for you and Visual Studio 2019 Preview is already installed. If you need to install it on your own box, here is the link: [https://visualstudio.microsoft.com/vs/preview/](https://visualstudio.microsoft.com/vs/preview/).
-
-Let's open the solution using Visual Studio 2019 Preview:
-1.  In Windows Explorer, navigate to `C:\XAMLIslandsLab\Lab\Exercise5\01-Start\ContosoExpenses` and double click on the `ContosoExpenses.sln` solution.
-    
-    The project ContosoExpenses is now open in Visual Studio but nothing changed: The appllication still uses the Full .NET 4.7.2. To verify this, just right click on the project in the Solution Explorer Windows and **Properties**.
-    
-    ![Project properties in the Solution Explorer](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/PropertiesContosoExpenses.png)
-
-    The *Target framework* of the project is displayed in the **Application** tab.
-    
-    ![.NET Framework version 4.7.2 for the project](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/NETFramework472.png)
-
-2.  Right click on the project in the solution explorer and choose **Unload Project**.
-
-    ![Unload project](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/UnloadProject.png)
-
-3.  Right click again on the project in the solution explorer ; click **Edit ContosoExpenses.csproj**.
-
-    ![Edit ContosoExpenses csproj](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/EditContosoExpensesCSPROJ.png)
-
-4.  The content of the .csproj file looks like
-
-    ![csproj file content](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/CSPROJFile.png)
-
-    Do not be afraid, it is not the time to understand the whole csproj structure. You will see that the migration will be done easily: Just remove all the content of the file by doing **CTRL+A** and than  **SUPPR**!
-    
-    ![Empty csproj file](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/EmptyCSPROJ.png)
-    
-5.  Start writing the new csproj file content by typing `<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop"> </Project>` in the ContosoExpense.csproj. Microsoft.NET.Sdk.WindowsDesktop is the .NET Core 3 SDK for applications on Windows Desktop. It includes WPF and Windows Forms.
-
-    ![Windows Desktop in csproj](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/WindowsDesktopInCSPROJ.png)
-
-7.  Let's specify now a few details. To do this, insert a `<PropertyGroup></PropertyGroup>` element in inside the `<Project></Project>` element. 
-
-    ![PropertyGroup inside Project in csproj](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/PropertyGroup.png)
-
-8.  First, we indicate that the project output is a **executable** and not a dll. This is acheived by adding `<OutputType>WinExe</OutputType>` inside `<PropertyGroup></PropertyGroup>`.
-
-> Note that, if the project output was a dll, this line has to be omitted.
-
-9.  Secondly, we specify that the project is using .NET Core 3: Just below the <OutputType> line, add ` <TargetFramework>netcoreapp3.0</TargetFramework>`
-
-10. Lastly, we point out that this is a WPF application in adding a third line: `<UseWPF>true</UseWPF>`.
-
-> If the application is Windows Forms, we do not need this third line.
-
-#### Summary, verification and last step
-
-- The project using .NET Core 3 and the **Microsoft.NET.Sdk.WindowsDesktop** SDK
-- Output is an **application** so we need the `<OutputType>` element
-- `<UseWPF>` is self-describing
-
-Here is the full content of the new csproj. Please double check that you have everything:
-
-```xml
-<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
-
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>netcoreapp3.0</TargetFramework>
-    <UseWPF>true</UseWPF>
-  </PropertyGroup>
-
-</Project>
-```
-
-By default, with the new project format, all the files in the folder are considered part of the solution. As such, we don't have to specify anymore each single file included in the project, like we had to do the old .csproj file. We need to specify only the ones for which we need to define a custom build action or that we want to exclude. 
-It is now safe to save file by pressing **CTRL+S**.
-
-___ 
-
-### Exercise 5 Task 3 - Perform the migration - NuGet packages of the project
-
-1.  The csproj is saved. Let's reopen the project: Go to the **Solution Explorer**, right click on the project and choose **Reload project**.
-
-    ![Reload project in the Solution Explorer](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/ReloadProject.png)
-    
-2.  Visual Studio just asks for a confirmation ; click **yes**.
-
-    ![Confirmation for closing the csproj](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/CloseCSPROJ.png)
-    
-3.  The project should load correctly. But remember: The NuGet packages used by the project were gone by removing all the content of the csproj! 
-
-4.  You have a confirmation by expending the **Dependencies/NuGet** node in which you have only the .NET Code 3 package.
-
-    ![NuGet packages](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/NuGetPackages.png)
-    
-    Also, if you click on the **Packages.config** in the **Solution Explorer**. You will find the 'old' references of the NuGet packages used the project when it was using the full .NET Framework.
-    
-    ![Dependencies and packages](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/Packages.png)
-    
-    Here is the content of the **Packages.config** file. You notice that all NuGet Packages target the Full .NET Framework 4.7.2:
-    
-    ```xml
-    <?xml version="1.0" encoding="utf-8"?>
-    <packages>
-      <package id="Bogus" version="25.0.3" targetFramework="net472" />
-      <package id="LiteDB" version="4.1.4" targetFramework="net472" />
-      <package id="Microsoft.Toolkit.Wpf.UI.Controls" version="5.0.1" targetFramework="net472" />
-      <package id="Microsoft.Toolkit.Wpf.UI.XamlHost" version="5.0.1" targetFramework="net472" />
-    </packages>
-    ```
-
-5. Delete the file **Packages.config** by right clicking on it and **Delete** in the **Solution Explorer**.
-
-6. Right click on the **Dependencies** node in the **Solution Explorer** and **Manage NuGet Packages...**
-
-  ![Manage NuGet Packages...](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/ManageNugetNETCORE3.png)
-
-7. Click on **Browse** at the top left of the opened window and search for `Bogus`. The package by Brian Chavez should be listed. Install it.
-
-    ![Bogus NuGet package](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/Bogus.png)
-
-8. Do the same for `LiteDB`. This package is provided by Mauricio David.
-
-    ![LiteDB NuGet package](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/LiteDB.png)
-
-> Isn't it strange that we add the same packages as the ones used by the .NET Framework 4.7.2?
-
-NuGet packages supports multi-targeting. You can include, in the same package, different versions of the library, compiled for different architectures. If you give a closer look at the packages' details, you will see that, other than supporting the full .NET Framework, it includes also a .NET Standard 2.0 version, which is perfect for .NET Core 3 (Further details on .NET Framework, .NET Core and .NET Standard at [https://docs.microsoft.com/en-us/dotnet/standard/net-standard](https://docs.microsoft.com/en-us/dotnet/standard/net-standard))
-
-![Dot Net standard](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/DotNetStandard.png)
-
-> Since we don't have anymore a packages.config file, can you guess where the list of NuGet packages gets stored?
-
-With the new project format, the referenced NuGet packages are stored directly in the .csproj file. You can check this by right clicking on the **ContosoExpenses** project in Solution Explorer and choosing **Edit ContosoExpenses.csproj**. You will find the following lines added at the end of the file:
-
-```xml
-  <ItemGroup>
-    <PackageReference Include="Bogus" Version="25.0.4" />
-    <PackageReference Include="LiteDB" Version="4.1.4" />
-  </ItemGroup>
-```
-
-___ 
-
-### Exercise 5 Task 4 - Perform the migration - A Preview NuGet package for Microsoft.Toolkit.Wpf.UI.Controls
-
-1. Let's try to build it in order to 'discover' what we have to do to complete the migration. Use the **Build** menu and **Build solution**.
-
-![](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/BuildErrorsNETCore3.png)
-
-> All these errors are caused by the same issue. What is it?
-
-Again remember that we deleted all the content of the initial csproj file. We just had the **Bogus** and **LiteDB** NuGet Packages but not the **Microsoft.Toolkit.Wpf.UI.Controls**. There is a reason: go back to the **NuGet: ContosoExpenses** tab and search for `Microsoft.Toolkit.Wpf.UI.Controls`. You will see that this package supports the .NET Framework starting at the version 4.6.2. It does not support yet the .NET Core 3 version.
-
-![](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/WPFUICONTROLSNuGetPackage.png)
-
-Because we are working with Preview versions in this lab, let's continue and add a custom source for NuGet Packages. 
-
-2.  In the **NuGet: ContosoExpenses** tab, click on the  **Settings** icon for NuGet.
-
-![](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/SettingsForNuGet.png)
-
-3. Click on the green "PLUS" sign to add a new NuGet Package source.
-
-![](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/AddNewNuGetSource.png)
-
-4.  Name it `Custom` and give the url `https://dotnet.myget.org/F/uwpcommunitytoolkit/api/v3/index.json` ; Click **Ok**.
-
-![](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/CustomNuGetSource.png)
-
-5. Still in the **NuGet: ContosoExpenses** tab, you can now change the Packages source with the dropdown listbox; Select **Custom**.
-
-![](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/ChangeSource.png)
-
-6. Check also the **Include prerelease** checkbox and some NuGet packages will magically be displayed.
-
-![](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/PrereleaseNuGetPackages.png)
-
-7. Select **Microsoft.Toolkit.Wpf.UI.Controls**. Please be sure to choose the version **6.0.0-build.15.ge5444fb4a5** before clicking **Install**. This version supports the .NET Core 3.0 runtime installed on the VM.
-
-> For the users not using the VM, if you have downloaded the recently released Preview 2 of .NET Core 3.0, you can use the latest version of **Microsoft.Toolkit.Wpf.UI.Controls** provided by this custom source.
-
-8.  Build the project (CTRL+SHIFT+B). We get still some errors that we will fix in the next tasks.
-
-![](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/NETCore3BuilldErrors.png)
-
-___ 
-
-### Exercise 5 Task 5 - Perform the migration - Fixing AssemblyInfo.cs
-
-The Preview version of .NET Core 3 and Visual Studio 2019 causes the last 6 errors. It is not interesting to give explanations here: It is only 'piping' we have to resolve by either removing the mentioned lines in the `AssemblyInfo.cs` file or just delete the file. We go for the simpliest. 
-
-1.  In the **Solution Explorer** window / Under the **ContosoExpenses** project, expand the **Properties** node and right click on the **AssemblyInfo.cs** file ; Click on **Delete**.
-    
-    ![AssemblyInfo cs file](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/AssemblyInfoFile.png)
-
-2.  Just rebuild the project (for example using CTRL+SHIFT+B): Only the last three previous errors should remain listed (if nothing is displayed in the **Error List** window, look at the **Output** window).
-
-    ```dos
-    1>------ Build started: Project: ContosoExpenses, Configuration: Debug Any CPU ------
-    ...
-    1>ExpenseDetail.xaml.cs(20,15,20,23): error CS0234: The type or namespace name 'Services' does not exist in the namespace 'Windows' (are you missing an assembly reference?)
-    1>CalendarViewWrapper.cs(26,81,26,93): error CS0234: The type or namespace name 'CalendarView' does not exist in the namespace 'Windows.UI.Xaml.Controls' (are you missing an assembly reference?)
-    1>CalendarViewWrapper.cs(26,127,26,168): error CS0234: The type or namespace name 'CalendarViewSelectedDatesChangedEventArgs' does not exist in the namespace 'Windows.UI.Xaml.Controls' (are you missing an assembly reference?)
-    1>Done building project "ContosoExpenses_y1viyncj_wpftmp.csproj" -- FAILED.
-    =======___ Build: 0 succeeded, 1 failed, 0 up-to-date, 0 skipped ==========
-    ``` 
-
-___ 
-
-### Exercise 5 Task 6 - Perform the migration - Adding a reference to the Universal Windows Platform
-
-This error is our fault because we removed everything in the csproj at the beginning of the exercise. 
-
-> This method for migrating the project to .NET Core 3 is manual because Visual Studio 2019 Preview does not handle yet the migration work for us. The Visual Studio team is working to make the migration path easier and smoother in the future.
-
-So to fix this error, we have to reference again the Universal Windows Platform again. This was done in the Exercise 2 Task 3. Here are the same steps:
-
-In order to be able to use the Universal Windows Platform APIs in a WPF application we need to add a reference to two files:
-
-- **Windows.md**, which contains the metadata that describes all the APIs of the Universal Windows Platform.
-- **System.Runtime.WindowsRuntime** which is a library that contains the infrastructure required to properly support the **IAsyncOperation** type, which is used by the Universal Windows Platform to handle asynchronous operation with the well known async / await pattern. Without this library your options to interact with the Universal Windows Platform would be very limited, since all the APIs which take more than 50 ms to return a result are implemented with this pattern.
-
-1. Go back to Visual Studio and right click on the **ContosoExpenses** project.
-2. Choose **Add reference**.
-3. Press the **Browse** button.
-4. Look for the following folder on the system: `C:\Program Files (x86)\Windows Kits\10\UnionMetadata\10.0.17763.0\`
-5. Change the dropdown to filter the file types from **Component files** to **All files**. This way, the `Windows.md` file will become visible.
-
-    ![](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/WindowsMd.png)
-    
-6. Select it and press **Add**.
-7. Now press again the **Browse** button.
-8. This time look for the following folder on the system: `C:\Windows\Microsoft.NET\Framework\v4.0.30319`
-9. Look for a file called `System.Runtime.WindowsRuntime.dll`, select it and press Ok.
-10. Now expand the **References** section of the **ContosoExpenses** project in Solution Explorer and look for the **Windows** reference.
-
-    ![](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/CopyLocalNETCore3.png)
-   
-11. Select it, right it click on it and choose **Properties**.
-12. Change the value of the **Copy Local** property to **No**.
-13. Rebuild the project (CTRL+SHIFT+B) and... you succeed!
-
-```dos
-=======___ Build: 1 succeeded, 0 failed, 0 up-to-date, 0 skipped ==========
-```
-
-___ 
-
-### Exercise 5 Task 7 - Perform the migration - Debug
-
-We are ok to finally, launch the app.
-
-1.  Use the **Debug** menu / **Start Debugging F5**
-
-> You had an exception. What is it that? Don't we finished the migration? Can you find the root cause of the issue reading the Exception Debug popup displayed by Visual Studio?
-
-![Exception displayed in Visual Studio](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/ExceptionNETCore3.png)
-
-Strange because the images files are in the solution and the path seems correct.
-
-![Images in the Solution Explorer](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/ImagesInTheSolutionExplorer.png)
-
-> Why do we get this file not found exception?
-
-In fact, it is simple. Again, as we hardly deleted all the content of the csproj file at the beginning of the migration, we removed the information about the **Build action** for the images' files. Let fix it.
-
-2.  In the **Solution Explorer**, select all the images files except the contoso.ico ; In the properties windows choose **Build action** = `Content` and **Copy to Output Directory** = `Copy if Newer`
-
-    ![Build Action Content and Copy if newer](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/ContentCopyIfNewer.png)
-
-3.  To assign the Contoso.ico to the app, we have to right click on the project in the **Solution Explorer** / **Properties**. In the opened page, click on the dropdown listbox for Icon and select `Images\contoso.ico`
-
-    ![Contoso ico in the Project's Properties](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/ContosoIco.png)
-
-
-We are done! Test the app in debug with F5 and it should work... Everything running using .NET Core 3!
-
-We are now ready to go further and use all the power of the full UWP ecosystem controls, packages, dlls.
-
-___ 
-
-### Exercise 5 Task 8 - Supporting the Desktop Bridge
-Before wrapping up the exercise, let's make sure that also the Desktop Bridge version of our WPF application based on .NET Core works fine, so that we can leverage all the UWP APIs and the deep Windows 10 integration also with our migrated WPF project.
-
-1. Right click on the **ContosoExpenses.Package** project and choose **Set as StartUp Project**.
-2. Right click on the **ContosoExpenses.Package** project and choose **Rebuild**.
-3. The build operation will fail with the following error:
-
-    ![](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/DesktopBridgeNetCoreError.png)
-    
-    The error is happening because, when a .NET Core application is running packaged with the Desktop Bridge, it's included as self-contained, which means that the whole .NET Core runtime is embedded with the application. Thanks to this configuration, we can deploy the package on any Windows 10 machine and run it, even if it doesn't have the .NET Core runtime installed. However, when we package the application with the Desktop Bridge, we can't use the **Any CPU** compilation architecture, but we need to specify which runtimes we support. As such, we need to add this information in the **.csproj** file of our WPF project.
-4. Right click on the **ContosoExpenses** project in Solution Explorer and choose **Edit ContosoExpenses.csproj**.
-5. Add the following entry inside the **PropertyGroup** section:
-
-    ```xml
-    <RuntimeIdentifiers>win-x86;win-x64</RuntimeIdentifiers>
-    ```
-    
-    This is how the full **PropertyGroup** should look like:
-    
-    ```xml
-    <PropertyGroup>
-      <OutputType>WinExe</OutputType>
-      <TargetFramework>netcoreapp3.0</TargetFramework>
-      <UseWPF>true</UseWPF>
-      <ApplicationIcon />
-      <RuntimeIdentifiers>win-x86;win-x64</RuntimeIdentifiers>
-    </PropertyGroup>
-    ```
-    
-    We are explictly saying that our WPF application can be compiled both for the x86 and x64 architectures for the Windows platform.
-    
-6. Now press CTRL+S, then right click again on the **ContosoExpenses.Package** and choose **Rebuild**.
-7. This time the compilation should complete without errors. If you still see an error related to the **project.assets.json** file, right click on the **ContosoExpenses** project in Solution Explorer and choose **Open Folder in File Explorer**. Delete the **bin** and **obj** folders and rebuild the **ContosoExpenses.Package** project.
-8. Now press F5 to launch the application.
-
-Congratulations! You're running a .NET Core 3.0 WPF application packaged with the Desktop Bridge!
 
 
 
