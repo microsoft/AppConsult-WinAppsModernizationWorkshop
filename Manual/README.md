@@ -16,7 +16,7 @@ In this lab we'll explore many of the technologies that will allow you to levera
 - Use a built-in XAML Islands control in an existing WPF application
 - Be able to 'integrate' any custom UWP XAML component in the WPF application
 - Understand how MSIX can improve your developer experience, by simplifying and enhancing the developer experience
-- 
+ 
 
 ### Prerequisites
 
@@ -675,28 +675,28 @@ ___
 
 ### Exercise 3 Task 2 - Add the WindowsXamlHost control
 
-2. Regardless of your starting point, the required NuGet package should be already installed. We can verify this by right clicking on the **ContosoExpenses** project in Solution Explorer, choosing **Manage NuGet packages** and moving to the **Installed** tab.
+1. Regardless of your starting point, the required NuGet package should be already installed. We can verify this by right clicking on the **ContosoExpenses** project in Solution Explorer, choosing **Manage NuGet packages** and moving to the **Installed** tab.
 
     ![Manage NuGet Packages menu in Visual Studio](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/ManageNuGetPackages.png)
 
-3. We should see a packaged called **Microsoft.Toolkit.Wpf.UI.XamlHost**.
+2. We should see a packaged called **Microsoft.Toolkit.Wpf.UI.XamlHost**.
 
     ![Microsoft.Toolkit.Wpf.UI.XamlHost NuGet Package](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/XamlHostNuGetPackages.png)
 
     The package is already installed because the one we have installed for exercises 2, **Microsoft.Toolkit.Wpf.UI.Controls**, has a dependency on it. As such, when we have installed it in the previous exercises, NuGet automatically downloaded and installed also the **Microsoft.Toolkit.Wpf.UI.XamlHost** package.
-4. Now we can start editing the code to add our control. Locate, in Solution Explorer, the file called **AddNewExpense.xaml** in the **Views** folder and double click on it. This is the form used to add a new expense to the list. Here is how it looks like in the current version of the application:
+3. Now we can start editing the code to add our control. Locate, in Solution Explorer, the file called **AddNewExpense.xaml** in the **Views** folder and double click on it. This is the form used to add a new expense to the list. Here is how it looks like in the current version of the application:
 
     ![](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/AddNewExpense.png)
     
     As you can notice, the date picker control included in WPF is meant for traditional computers with mouse and keyboard. Choosing a date with a touch screen isn't really feasible, due to the small size of the control and the limited space between each day in the calendar.
     
-5. We can see the current date picker implemented using the standard WPF control towards the end of the XAML file:
+4. We can see the current date picker implemented using the standard WPF control towards the end of the XAML file:
 
     ```xml
     <DatePicker x:Name="txtDate" Grid.Row="6" Grid.Column="1" Margin="5, 0, 0, 0" Width="400" />
     ```
 
-6. We're going to replace this control with the **WindowsXamlHost** one, which allows hosting any UWP control inside our WPF application. However, first, we need to add a new namespace to the page. Scroll to the top of the page, identify the **Window** tag and add the following attribute:
+5. We're going to replace this control with the **WindowsXamlHost** one, which allows hosting any UWP control inside our WPF application. However, first, we need to add a new namespace to the page. Scroll to the top of the page, identify the **Window** tag and add the following attribute:
 
     ```xml
     xmlns:xamlhost="clr-namespace:Microsoft.Toolkit.Wpf.UI.XamlHost;assembly=Microsoft.Toolkit.Wpf.UI.XamlHost"
@@ -718,7 +718,7 @@ ___
             Background="{StaticResource AddNewExpenseBackground}">
     ```
     
-7. Since the new control takes more space than the WPF one, let's also increase the height of the window to 800, by changing the **Height** attribute of the **Window** tag from 450 to 800:
+6. Since the new control takes more space than the WPF one, let's also increase the height of the window to 800, by changing the **Height** attribute of the **Window** tag from 450 to 800:
 
     ```xml
     <Window x:Class="ContosoExpenses.AddNewExpense"
@@ -734,7 +734,7 @@ ___
             Background="{StaticResource AddNewExpenseBackground}">
     ```
 
-8. Now replace the **DatePicker** control you have previously identified in the XAML page with the following one:
+7. Now replace the **DatePicker** control you have previously identified in the XAML page with the following one:
 
     ```xml
     <xamlhost:WindowsXamlHost InitialTypeName="Windows.UI.Xaml.Controls.CalendarView" Grid.Column="1" Grid.Row="6" Margin="5, 0, 0, 0" x:Name="CalendarUwp"  />
@@ -966,7 +966,7 @@ Let's start by adding some properties to our wrapped control. For our scenario, 
 1. Double click on the **CalendarViewWrapper.cs** file in Solution Explorer 
 2. We're going to create this property as a dependency property, since we want to leverage binding so that we can use it directly from our ViewModel. Copy and paste the following code inside the **CalendarViewWrapper** class, after the **OnInitialized()** method:
 
- ```csharp
+    ```csharp
     public DateTimeOffset SelectedDate
     {
       get { return (DateTimeOffset)GetValue(SelectedDateProperty); }
