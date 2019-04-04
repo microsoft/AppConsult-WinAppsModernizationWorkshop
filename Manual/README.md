@@ -186,6 +186,10 @@ Let's first be sure we can run and debug the Contoso Expenses solution locally.
 
 ___
 
+<<WORK IN PROGRESS SBOVO>>
+
+TODO: Do not forget to mention to allow .NET CORE Previews in Visual Studio 2019
+
 ## Exercise 1 - Migrate to .NET Core 3
 Migrating the application to .NET Core 3 is the best and recomanded path for modernizing a .NET application (WPF or Windows Forms). As previously mentioned, the first really nice improvment is about the startup and execution time! This is only the tip of the iceberg. The best advantage is that, the app will be able to use all the upcoming new features both from .NET Core and UWP! 
 
@@ -202,11 +206,11 @@ Do not worry, using the VM provided, all is already setup for you: You do not ha
 
 ___ 
 
-### Exercise 1 Task 2 - Perform the migration - The csproj
-As mentioned, .NET Core is in the Preview state. We also need a preliminary version of Visual Studio. Again, the VM is setup for you and Visual Studio 2019 Preview is already installed. If you need to install it on your own box, here is the link: [https://visualstudio.microsoft.com/vs/preview/](https://visualstudio.microsoft.com/vs/preview/).
+### Exercise 1 Task 2 - Perform the migration - The csproj for the WPF App
+As mentioned, .NET Core is in the Preview state. Visual Studio 2019 has been released. If you need to install it on your own box, here is the link: [https://visualstudio.microsoft.com/downloads/](https://visualstudio.microsoft.com/downloads/).
 
-Let's open the solution using Visual Studio 2019 Preview:
-1.  In Windows Explorer, navigate to `C:\XAMLIslandsLab\Lab\Exercise5\01-Start\ContosoExpenses` and double click on the `ContosoExpenses.sln` solution.
+Let's open the solution using Visual Studio 2019:
+1.  In Windows Explorer, navigate to `C:\WinAppsModernizationWorkshop\Lab\Exercise1\01-Start\ContosoExpenses` and double click on the `ContosoExpenses.sln` solution.
     
     The project ContosoExpenses is now open in Visual Studio but nothing changed: The appllication still uses the Full .NET 4.7.2. To verify this, just right click on the project in the Solution Explorer Windows and **Properties**.
     
@@ -275,7 +279,32 @@ It is now safe to save file by pressing **CTRL+S**.
 
 ___ 
 
-### Exercise 1 Task 3 - Perform the migration - NuGet packages of the project
+### Exercise 1 Task 3 - Perform the migration - The csproj for the clas library
+The Contoso Expenses solution is using a class library for some models and interfaces for Services.
+
+Let's apply the same steps for this second project:
+
+1.  Right click on the **ContosoExpenses.Data** project in the solution explorer and choose **Unload Project**.
+
+2.  Right click again on the project in the solution explorer ; click **Edit ContosoExpenses.Data.csproj**.
+
+3. Remove all the content of the file by doing **CTRL+A** and than  **SUPPR**!
+    
+4. Because we explained all part of the new XML tags for the .NET Core 3 project, just use the following content:
+
+```xml
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+  </PropertyGroup>
+
+</Project>
+```
+
+___
+
+### Exercise 1 Task 4 - Perform the migration - NuGet packages of the project
 
 1.  The csproj is saved. Let's reopen the project: Go to the **Solution Explorer**, right click on the project and choose **Reload project**.
 
@@ -513,7 +542,11 @@ Before wrapping up the exercise, let's make sure that also the Desktop Bridge ve
 7. This time the compilation should complete without errors. If you still see an error related to the **project.assets.json** file, right click on the **ContosoExpenses** project in Solution Explorer and choose **Open Folder in File Explorer**. Delete the **bin** and **obj** folders and rebuild the **ContosoExpenses.Package** project.
 8. Now press F5 to launch the application.
 
-Congratulations! You're running a .NET Core 3.0 WPF application packaged with the Desktop Bridge!
+Congratulations! You're running a .NET Core 3.0 WPF application!
+
+___
+
+<<WORK IN PROGRESS>>
 
 
 
