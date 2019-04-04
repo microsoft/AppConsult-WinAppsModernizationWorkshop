@@ -12,13 +12,13 @@ Let's first be sure we can run and debug the Contoso Expenses solution locally.
 
 2.  When ready, click on the downloaded file in your browser to open it.
 
-    ![Downloaded file in Chrome](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/SourceCodeDownloaded.png)
+    ![Downloaded file in Chrome](../Manual/Images/SourceCodeDownloaded.png)
 
 3.  Open the zip file and extract all the content to `C:\`. It will create a folder named `C:\XAMLI
 
 4.  Launch Visual Studio 2019, and double click on the `C:\XAMLIslandsLab\Lab\Exercise1\01-Start\ContosoExpenses\ContosoExpenses.sln` file to open the solution.
 
-    ![ContosoExpenses solution in Windows Explorer](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/ContosoExpensesSolution.png)
+    ![ContosoExpenses solution in Windows Explorer](../Manual/Images/ContosoExpensesSolution.png)
 
 5.  Verify that you can debug the Contoso Expenses WPF project by pressing the **Start** button or CTRL+F5.
 
@@ -32,15 +32,15 @@ Please note that the same package exists for Windows Forms. Its name is <a href=
 1.  If the Contoso Expenses solution is not opened in Visual Studio, double click on `C:\XAMLIslandsLab\Lab\Exercise2\01-Start\ContosoExpenses\ContosoExpenses.sln` (the folder where you have extracted the zipped file).
 2.  Right click on the **ContosoExpenses** project in the Solution Explorer window on the left and choose **Manage NuGet Packages...**.
 
-    ![Manage NuGet Packages menu in Visual Studio](Images/ManageNuGetPackages.png)
+    ![Manage NuGet Packages menu in Visual Studio](../Manual/Images//ManageNuGetPackages.png)
 
 3. Search for `Microsoft.Toolkit.Wpf.UI.Controls`. The NuGet package from Microsoft.Toolkit will be displayed. Make sure to check the **Include prerelease** option. The current stable release (5.x), in fact, supports only the full .NET Framework, while the upcoming 6.x release (now in preview) includes support for .NET Core 3.0 as well.
 
-    ![Microsoft.Toolkit.Wpf.UI.Controls NuGet package](Images/Microsoft.Toolkit.Wpf.UI.Controls.png)
+    ![Microsoft.Toolkit.Wpf.UI.Controls NuGet package](../Manual/Images//Microsoft.Toolkit.Wpf.UI.Controls.png)
 
 4.  Click on the **Install** button on the right.
 
-    ![Install Controls NuGet package](Images/InstallControlsNuGetPackage.png)
+    ![Install Controls NuGet package](../Manual/Images//InstallControlsNuGetPackage.png)
 
 ___ 
 
@@ -116,12 +116,12 @@ Adding it to a WPF application is easy, since it's one of the 1st party controls
 13. Now right click on the **ContosoExpenses** project and choose **Properties**.
 14. Make sure that, in the **Resources** section, the **Manifest** dropdown is set to **app.manifest**:
 
-    ![](Images/NetCoreAppManifest.png)
+    ![](../Manual/Images/NetCoreAppManifest.png)
     
 15. Now press F5 and try again to click on an employee, then one of the expenses. Now the exception should be gone.
 16. Notice that, in the expense detail page, there's a new space for the **InkCanvas** control. 
 
-    ![](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/InkCanvasPenOnly.png)
+    ![](../Manual/Images/InkCanvasPenOnly.png)
 
     If you have a device which supports a digital pen, like a Surface, and you're running this lab on a physical machine, go on and try to use it. You will see the digital ink appearing on the screen. However, if you don't have a pen capable device and you try to sign with your mouse, nothing will happen. This is happening because, by default, the **InkCanvas** control is enabled only for digital pens. However, we can change this behavior.
 17. Stop the debugger and double click on the **ExpenseDetail.xaml.cs** file inside the **Views** folder in Solution Explorer.
@@ -143,6 +143,6 @@ Adding it to a WPF application is easy, since it's one of the 1st party controls
 14. Now let's test the application again. Press F5 to start the debugging, then choose one of the employees followed by one of the expenses.
 15. Try now to draw something in the signature space with the mouse. This time, you'll see the ink appearing on the screen.
 
-    ![](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/Signature.png)
+    ![](../Manual/Images/Signature.png)
     
 Congratulations! You have added your first UWP control to a WPF application thanks to XAML Islands!

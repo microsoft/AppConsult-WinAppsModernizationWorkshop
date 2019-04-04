@@ -4,7 +4,7 @@ Thanks to XAML Islands, we can start replacing some WPF controls with the UWP co
 
 The development team has decide to start modernizing the form to add a new expense, by making easier to choose the expense date with a touch device. The Universal Windows Platform offers a control called **CalendarView**, [which is perfect for our scenario](https://docs.microsoft.com/en-us/windows/uwp/design/controls-and-patterns/calendar-view). It's the same control that it's integrated in Windows 10 when you click on the date and time in the taskbar:
 
-![](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/CalendarViewControl.png)
+![](../Manual/Images/CalendarViewControl.png)
 
 However, it isn't included as a 1st party control in the Windows Community Toolkit, so we'll have to use the generic XAML Host control.
 
@@ -31,16 +31,16 @@ ___
 
 1. Regardless of your starting point, the required NuGet package should be already installed. We can verify this by right clicking on the **ContosoExpenses** project in Solution Explorer, choosing **Manage NuGet packages** and moving to the **Installed** tab.
 
-    ![Manage NuGet Packages menu in Visual Studio](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/ManageNuGetPackages.png)
+    ![Manage NuGet Packages menu in Visual Studio](../Manual/Images/ManageNuGetPackages.png)
 
 2. We should see a packaged called **Microsoft.Toolkit.Wpf.UI.XamlHost**.
 
-    ![Microsoft.Toolkit.Wpf.UI.XamlHost NuGet Package](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/XamlHostNuGetPackages.png)
+    ![Microsoft.Toolkit.Wpf.UI.XamlHost NuGet Package](../Manual/Images/XamlHostNuGetPackages.png)
 
     The package is already installed because the one we have installed for exercises 2, **Microsoft.Toolkit.Wpf.UI.Controls**, has a dependency on it. As such, when we have installed it in the previous exercises, NuGet automatically downloaded and installed also the **Microsoft.Toolkit.Wpf.UI.XamlHost** package.
 3. Now we can start editing the code to add our control. Locate, in Solution Explorer, the file called **AddNewExpense.xaml** in the **Views** folder and double click on it. This is the form used to add a new expense to the list. Here is how it looks like in the current version of the application:
 
-    ![](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/AddNewExpense.png)
+    ![](../Manual/Images/AddNewExpense.png)
     
     As you can notice, the date picker control included in WPF is meant for traditional computers with mouse and keyboard. Choosing a date with a touch screen isn't really feasible, due to the small size of the control and the limited space between each day in the calendar.
     
@@ -99,7 +99,7 @@ ___
 
 Now press F5 to build and run the application. Once it starts, choose any employee from the list, then press the **Add new expense** button at the bottom of the list. You will notice how the WPF DatePicker control has been replaced with a full calendar view, which is more touch friendly. 
 
-![](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/CalendarViewWrapper.png)
+![](../Manual/Images/CalendarViewWrapper.png)
 
 However, the work isn't completed yet. We need a way to handle the selected date, so that we can display it on the screen and populate the **Expense** object we're going to save in the database.
 
@@ -168,7 +168,6 @@ In order to implement our scenario, we need to move to the code behind and cast 
 8. Now copy and paste the following event handler inside the class definition:
 
     ```csharp
-    <code>
     private void CalendarUwp_ChildChanged(object sender, System.EventArgs e)
     {
         WindowsXamlHost windowsXamlHost = (WindowsXamlHost)sender;

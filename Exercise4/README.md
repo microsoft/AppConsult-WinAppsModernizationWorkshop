@@ -60,7 +60,7 @@ ___
     
 We're ready to start performing a first test. Press F5 and launch the application, then select one of the available employees and press the **Add new expense** button. You should see the same visual output of the previous exercise:
 
-![](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/CalendarViewWrapper.png)
+![](../Manual/Images/CalendarViewWrapper.png)
 
 However, the current iteration isn't really useful. If you click on any date, nothing will happen. We need to customize our wrapper in order to expose the properties we need.
 
@@ -120,7 +120,7 @@ Now we can test the code. Press F5 to launch the application, choose an employee
 - By clicking on a date, you will see the selected date displayed under the calendar.
 - If you press **Save** and you look at the **Date** column of newly added expense, you will see the same date selected in the calendar.
 
-![](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/CalendarViewWrapperFinal.png)
+![](../Manual/Images/CalendarViewWrapperFinal.png)
 
 That's it! Our wrapper is working and it makes easier to interact with the original UWP control directly from the WPF XAML. Additionally, we were able to use the wrapper through binding, which allowed us to maintain the code cleaner and to continue leveraging the MVVM pattern.
 
