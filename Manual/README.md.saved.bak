@@ -311,6 +311,8 @@ Adding it to a WPF application is easy, since it's one of the 1st party controls
     
 ___ 
 
+
+
 ## Exercise 3 - Integrate the Universal Windows Platform
 
 One of the feedbacks that the developer team has received by managers who are using the Contoso Expenses application is to make easier to locate the place where the expense happened. The current detail page of an expense already shows the full address, but they would like something more visual and easier to understand.
