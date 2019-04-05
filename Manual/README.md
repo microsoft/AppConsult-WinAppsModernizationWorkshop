@@ -133,7 +133,7 @@ Until today, .NET Core has always been focused on supporting these new requireme
 
 At BUILD 2018 we have announced the next major release of .NET Core, 3.0, which is, without any doubts, the biggest and most ambitious release since the first version. On top of .NET Core 3.0, in fact, you'll be able to build new workloads.
 
-![.NET Core workloads](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/NETCoreWorkloads.png)
+![.NET Core workloads](https://github.com/Microsoft/AppConsult-WinAppsModernizationWorkshop/raw/master/Manual/Images/NETCoreWorkloads.png)
 
 As you can see from the image, for the first time .NET Core will support not just web and back-end applications, but also desktop ones which, until today, have always been part only of the full traditional .NET Framework.
 
