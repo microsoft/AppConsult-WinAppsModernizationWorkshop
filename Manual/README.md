@@ -133,7 +133,7 @@ Until today, .NET Core has always been focused on supporting these new requireme
 
 At BUILD 2018 we have announced the next major release of .NET Core, 3.0, which is, without any doubts, the biggest and most ambitious release since the first version. On top of .NET Core 3.0, in fact, you'll be able to build new workloads.
 
-![.NET Core workloads](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/NETCoreWorkloads.png)
+![.NET Core workloads](https://github.com/Microsoft/AppConsult-WinAppsModernizationWorkshop/raw/master/Manual/Images/NETCoreWorkloads.png)
 
 As you can see from the image, for the first time .NET Core will support not just web and back-end applications, but also desktop ones which, until today, have always been part only of the full traditional .NET Framework.
 
@@ -159,3 +159,41 @@ Additionally, you will be able to leverage many of the benefits of the .NET Core
 You may be wonder which role .NET Core plays here. All the long-term investments in .NET will be delivered to .NET Core, while the full .NET Framework will focus mainly on security updates and in supporting the latest networking protocols, security standards, and Windows features. You can learn more about the roadmap [here](https://blogs.msdn.microsoft.com/dotnet/2018/10/04/update-on-net-core-3-0-and-net-framework-4-8/).
 
 As such, XAML Island is supported also on the .NET Framework, but all the long-terms investement in this technology will be focused on .NET Core.
+
+
+Let's start to work!
+
+___ 
+
+### Exercise 0 - The source code
+First, please download the source code and set up the active folder for all the upcoming exercises.
+
+___ 
+
+### Exercise 0 - Task 1 - Setup the Contoso Expenses solution
+Let's first be sure we can run and debug the Contoso Expenses solution locally.
+
+1.  The source code of the Contoso Expenses solution is in the **Releases** tab of <a href="https://github.com/Microsoft/AppConsult-WinAppsModernizationWorkshop" target="_blank">AppConsult WinAppsModernization workshop repository</a>. A direct link for the download is `https://aka.ms/WinAppsModernizationSourceCode`. Please use this url to donwload the zip file containing the lab content. 
+
+2.  When ready, click on the downloaded file in your browser to open it.
+
+    ![Downloaded file](TODO:IMAGEFORTHEDOWNLOADEDFILE)
+
+3.  Open the zip file and extract all the content to `C:\`. It will create a folder named `C:\WinAppsModernizationWorkshop`
+
+4.  Launch Visual Studio 2019, and double click on the `C:\WinAppsModernizationWorkshop\Lab\Exercise1\01-Start\ContosoExpenses\ContosoExpenses.sln` file to open the solution.
+
+    ![ContosoExpenses solution in Windows Explorer](ttps://github.com/Microsoft/AppConsult-WinAppsModernizationWorkshop/raw/master/Manual/Images/ContosoExpensesSolution.png)
+
+5.  Verify that you can debug the Contoso Expenses WPF project by pressing the **Start** button or CTRL+F5.
+
+___
+
+Here are all exercises illustrating the modernization journey for an application:
+
+* <a href="https://github.com/Microsoft/AppConsult-WinAppsModernizationWorkshop/tree/master/Exercise1" target="_blank">Exercise1 - Start with a full .NET WPF application and migrate it to .NET Core 3</a>
+* Exercise2 - 
+* Exercise3 - 
+* Exercise4 - 
+* Exercise5 - 
+* Exercise6 - 
