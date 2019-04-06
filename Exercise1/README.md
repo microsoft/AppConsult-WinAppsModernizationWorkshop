@@ -88,27 +88,27 @@ It is now safe to save file by pressing **CTRL+S**.
 ___ 
 
 ### Exercise 1 Task 3 - Perform the migration - The csproj for the class library
-The Contoso Expenses solution is using a class library for some models and interfaces for Services.
-
-Let's apply the same steps for this second project:
+The Contoso Expenses solution is using a class library for some models and interfaces for Services. The class library project is also a .NET 4.7.2 project. Let's see how to migrate the project to .NET Core 3:
 
 1.  Right click on the **ContosoExpenses.Data** project in the solution explorer and choose **Unload Project**.
 
 2.  Right click again on the project in the solution explorer ; click **Edit ContosoExpenses.Data.csproj**.
 
-3. Remove all the content of the file by doing **CTRL+A** and than  **SUPPR**!
+3. Remove all the content of the file by doing **CTRL+A** and than **SUPPR**.
     
-4. Because we explained all part of the new XML tags for the .NET Core 3 project, just use the following content:
+4. Because we explained all part of the new XML tags for the .NET Core 3 project, just use the following content and save the file:
 
 ```xml
-<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
 </Project>
 ```
+
+> **Note:** This time, we use the .NET Standard 2.0 wich is highly portable/compatible with cross-platform apps. This way, you can see there that this class library could be shared with others apps on others platforms (MacOS, Linux) and still with existing full .NET apps on Windows.
 
 ___
 
