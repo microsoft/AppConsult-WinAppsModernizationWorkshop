@@ -192,8 +192,8 @@ ___
 Here are all exercises illustrating the modernization journey for an application:
 
 * <a href="https://github.com/Microsoft/AppConsult-WinAppsModernizationWorkshop/tree/master/Exercise1" target="_blank">Exercise1 - Start with a full .NET WPF application and migrate it to .NET Core 3</a>
-* Exercise2 - 
-* Exercise3 - 
-* Exercise4 - 
+* <a href="https://github.com/Microsoft/AppConsult-WinAppsModernizationWorkshop/tree/master/Exercise2" target="_blank">Exercise2 - Use a 1st party UWP control with XAML Islands</a>
+* <a href="https://github.com/Microsoft/AppConsult-WinAppsModernizationWorkshop/tree/master/Exercise3" target="_blank">Exercise3 - Integrate a custom UWP XAML component</a>
+* <a href="https://github.com/Microsoft/AppConsult-WinAppsModernizationWorkshop/tree/master/Exercise4" target="_blank">Exercise4 - Create a XAML Islands wrapper</a>
 * Exercise5 - 
 * Exercise6 - 
