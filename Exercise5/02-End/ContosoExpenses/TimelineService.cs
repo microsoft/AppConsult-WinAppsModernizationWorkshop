@@ -73,7 +73,7 @@ namespace ContosoExpenses
         public async Task AddToTimeline(Expense expense)
         {
             _userActivityChannel = UserActivityChannel.GetDefault();
-            _userActivity = await _userActivityChannel.GetOrCreateUserActivityAsync($"Expense");
+            _userActivity = await _userActivityChannel.GetOrCreateUserActivityAsync($"Expense-{expense.ExpenseId}");
 
             _userActivity.ActivationUri = new Uri($"contosoexpenses://expense/{expense.ExpenseId}");
             _userActivity.VisualElements.DisplayText = "Contoso Expenses";

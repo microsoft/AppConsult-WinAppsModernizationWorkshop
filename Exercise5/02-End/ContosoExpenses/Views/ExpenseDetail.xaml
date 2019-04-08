@@ -23,7 +23,6 @@
         xmlns:toolkit="clr-namespace:Microsoft.Toolkit.Wpf.UI.Controls;assembly=Microsoft.Toolkit.Wpf.UI.Controls"
         xmlns:local="clr-namespace:ContosoExpenses"
         mc:Ignorable="d"
-        Loaded="Window_Loaded"
         Title="Expense Detail" Height="500" Width="800"
         Background="{StaticResource HorizontalBackground}">
 

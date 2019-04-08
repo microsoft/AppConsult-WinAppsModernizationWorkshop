@@ -29,10 +29,5 @@ namespace ContosoExpenses.Views
             InitializeComponent();
             Signature.InkPresenter.InputDeviceTypes = CoreInputDeviceTypes.Mouse | CoreInputDeviceTypes.Pen;
         }
-
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            Messenger.Default.Send<ExpenseDetailLoadedMessage>(new ExpenseDetailLoadedMessage());
-        }
     }
 }

@@ -1,7 +1,5 @@
 ﻿using ContosoExpenses.Data.Services;
-using ContosoExpenses.Messages;
 using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Messaging;
 
 namespace ContosoExpenses.ViewModels
 {
@@ -44,11 +42,8 @@ namespace ContosoExpenses.ViewModels
             Location = expense.Address;
             Amount = expense.Cost;
 
-            Messenger.Default.Register<ExpenseDetailLoadedMessage>(this, async message =>
-            {
-                TimelineService timeline = new TimelineService();
-                await timeline.AddToTimeline(expense);
-            });
+            TimelineService timeline = new TimelineService();
+            timeline.AddToTimeline(expense);
         }
     }
 }
