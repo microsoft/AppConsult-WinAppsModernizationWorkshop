@@ -30,11 +30,12 @@ namespace ContosoExpenses
             {
                 Width = "auto"
             };
+
             AdaptiveImage image = new AdaptiveImage
             {
-                Url = new Uri("https://pbs.twimg.com/profile_images/587911661526327296/ZpWZRPcp_400x400.jpg"),
+                Url = new Uri("https://appmodernizationworkshop.blob.core.windows.net/contosoexpenses/Contoso192x192.png"),
                 Size = AdaptiveImageSize.Small,
-                Style = AdaptiveImageStyle.Person
+                Style = AdaptiveImageStyle.Default
             };
             photoColumn.Items.Add(image);
 
@@ -53,15 +54,15 @@ namespace ContosoExpenses
                 Wrap = true
             };
 
-            AdaptiveColumn authorColumn = new AdaptiveColumn
+            AdaptiveColumn expenseColumn = new AdaptiveColumn
             {
                 Width = "stretch"
             };
-            authorColumn.Items.Add(amount);
-            authorColumn.Items.Add(date);
+            expenseColumn.Items.Add(amount);
+            expenseColumn.Items.Add(date);
 
             columnSet.Columns.Add(photoColumn);
-            columnSet.Columns.Add(authorColumn);
+            columnSet.Columns.Add(expenseColumn);
 
             card.Body.Add(title);
             card.Body.Add(columnSet);
