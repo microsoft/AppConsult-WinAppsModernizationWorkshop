@@ -1,6 +1,8 @@
-## Exercise 5 - Adding Timeline to Contoso Expenses
+## Exercise 5 - Adding Windows 10 features to the application
 In Exercise 3 we have added the Universal Windows Platform to our WPF application, so that we could use the CalendarView control. By doing this, however, we didn't just add the opportunity to use any control from the Universal Windows Platform, but also new features offered by Windows 10.
-The development team of Contoso Expenses has decided to take this opportunity to include a new feature in the application: Activities. In Windows 10 applications can track activities performed by the user within an application, like opening a file or displaying a specific page. These activities are then made available through Timeline, a feature introduced in Windows 10 1803, which allows the user to quickly go back to the past and resume an activity he did.
+The development team of Contoso Expenses has decided to take this opportunity to include two new features in the application: Activities and Notifications. 
+
+Let's start with Activities! In Windows 10 applications can track activities performed by the user within an application, like opening a file or displaying a specific page. These activities are then made available through Timeline, a feature introduced in Windows 10 1803, which allows the user to quickly go back to the past and resume an activity he did.
 
 ![](../Manual/Images/WindowsTimeline.png)
 
@@ -10,7 +12,7 @@ Let's start!
 
 ### Exercise 5 Task 1 - Add an Adaptive Card
 Adaptive Cards are a new way for developers to exchange card content in a common and consistent way. An Adaptive Card is described by a JSON payload, which defines its content: text, images, actions, etc.
-An adaptive defines just the content and not the visual styles. It will be up to the platform where the adaptive card will be received it to render it, using the most appropriate styling. The way Adaptive Cards are designed is through renderers, which are able to take the JSON payload and to convert into native UI: it could be XAML for a WPF or UWP application, AXML for an Android application, HTML for a website or a bot, etc.
+An adaptive card defines just the content and not the visual styles. It will be up to the platform where the adaptive card will be received it to render it, using the most appropriate styling. The way Adaptive Cards are designed is through renderers, which are able to take the JSON payload and to convert it into native UI: it could be XAML for a WPF or UWP application, AXML for an Android application, HTML for a website or a bot, etc.
 
 This is an example of a simple adaptive card's payload:
 
@@ -110,7 +112,7 @@ The image below shows how this JSON is being rendered in a different way by the 
 
 ![](../Manual/Images/AdaptiveCards.png)
 
-Adaptive cards play an important role in Timeline because it's the way Windows renders activities. Each thumbnail displayed inside Timeline it's actually an Adaptive Card. As such, when you're going to create a user activity inside your application, you will be asked to provide an Adaptive Card to render it.
+Adaptive cards play an important role in Timeline because it's the way Windows renders activities. Each thumbnail displayed inside Timeline is actually an Adaptive Card. As such, when you're going to create a user activity inside your application, you will be asked to provide an Adaptive Card to render it.
 
 So let's create it! We're going to build an Adaptive Card which looks like this:
 
@@ -120,6 +122,9 @@ A great way to brainstorm the design of an Adaptive Card is using [the online de
 
 1. Right click on the **ContosoExpenses** project in Solution Explorer and choose **Manage NuGet packages**.
 2. Look for the package with identifier **AdaptiveCards** and install it.
+
+    ![](../Manual/Images/AdaptiveCardsNuGet.png)
+
 3. Now let's create a class to host the code we need to interact with Timeline. Right click on the project in Solution Explorer, choose **Add -> Class** and name it **TimelineService.cs**.
 4. Add the following namespace at the top of the class:
 
@@ -251,7 +256,7 @@ Now that our Adaptive Card is ready, we need a method to create a user activity 
     Once we have the **UserActivity** object, we can start to populate it with:
     
     - An **ActivationUri**, which is invoked when the user clicks on the activity in Timeline. We're using a custom protocol called **contosoexpenses**, so that later we can implement some logic to handle it in our application.
-    - The **VisualElements** object, which contains a set of properties that define the visual appearance of the activity. We set the **DisplayText** (which is the title displayed on top of the entry in Timeline) and the **Content**. This is where our Adaptive Card comes in. We need to pass as content the Adaptive Card we have designed before. However, Windows 10 uses a different object to represent a card compared to the one used by the NuGet package. As such, we need to recreate it by using the **CreateAdaptiveCardFromJson()** method exposed by the **AdaptiveCardBuilder** class. We pass, as input, the JSON returned by the **BuildAdaptiveCard()** method we have added before to our **TimelineService** class. Once we have created the user activity, we save it with the **SaveAsync()** metdod and we create a new session
+    - The **VisualElements** object, which contains a set of properties that define the visual appearance of the activity. We set the **DisplayText** (which is the title displayed on top of the entry in Timeline) and the **Content**. This is where our Adaptive Card comes into play. We need to pass as content the Adaptive Card we have designed before. However, Windows 10 uses a different object to represent a card compared to the one used by the NuGet package. As such, we need to recreate it by using the **CreateAdaptiveCardFromJson()** method exposed by the **AdaptiveCardBuilder** class. We pass, as input, the JSON returned by the **BuildAdaptiveCard()** method we have added before to our **TimelineService** class. Once we have created the user activity, we save it with the **SaveAsync()** metdod and we create a new session
     
 ### Exercise 5 Task 3 - Integrate the application with Timeline
 Now that we have created a class that we can use to interact with Timeline, we can start using it to enhance the application's experience.
@@ -302,8 +307,120 @@ Let's test if the implementation works!
     
 9. If you now open other expenses, you will see new cards being added as user activities. Remember that we have chosen to use a different identifier for each activity, so we will get a card for each expense we open in the application.
 
+### Exercise 5 Task 4 - Add a notification
+The second scenario the Contoso Expenses team wants to implement is providing a notification to the user whenever a new expense is saved into the database. We can leverage the built-in notifications system in Windows 10, which has many advantages:
 
+- Notifications are consistent, from a visual point of view, with the rest of the operating system
+- They are actionable
+- They get stored inside the Action Center, so they can be picked up at a later time
 
+Also these APIs are part of the Universal Windows Platform, so let's add them! Let's start by creating a helper class:
+
+1. Right click on the **ContosoExpenses** project in Solution Explorer and choose **Add -> Class**.
+2. Name it **NotificationService.cs** and press Ok.
+3. Add the following namespaces at the top of the class:
+
+    ```csharp
+    using Windows.Data.Xml.Dom;
+    using Windows.UI.Notifications;
+    ```
+
+4. Copy and paste the following method inside the class:
+
+    ```csharp
+    public void ShowNotification(string description, double amount)
+    {
+        string xml = $@"<toast>
+        <visual>
+            <binding template='ToastGeneric'>
+                <text>Expense added</text>
+                <text>Description: {description} - Amount: {amount} </text>
+            </binding>
+        </visual>
+    </toast>";
+    
+        XmlDocument doc = new XmlDocument();
+        doc.LoadXml(xml);
+    
+        ToastNotification toast = new ToastNotification(doc);
+        ToastNotificationManager.CreateToastNotifier().Show(toast);
+    }
+    ```
+    
+    Toast notifications are represented by a XML payload, which can include text, images, actions, etc. You can find all the supported elements [in the documentation](https://docs.microsoft.com/en-us/windows/uwp/design/shell/tiles-and-notifications/toast-schema).
+    
+    In this case we're using a very simple schema, with two lines of text: the first will be the title, the second one the body.
+    
+    Once we have defined the XML payload and we have loaded it inside a **XmlDocument** object, we wrap it inside a **ToastNotification** object. In the end, we show it by using a the **ToastNotificationManager** class.
+    
+5. Now that we have a helper class, we can use it inside the application. We're going to show the notification when the expense is created, so open in Solution Explorer the **AddNewExpenseViewModel.cs** file under the **ViewModels** folder.
+6. Identify the definition of the **SaveExpenseCommand**, which is triggered when the user presses on the button to save a new expense.
+7. Inside the method definition, right after the expense is saved into the database, add the following code:
+
+    ```csharp
+    NotificationService notificationService = new NotificationService();
+    notificationService.ShowNotification(expense.Description, expense.Cost);
+    ```
+    
+    We're using the helper class we have just created to display a toast notification using, as title, the description and, as body, the amount.
+    
+    This is how the full command should look like:
+    
+    ```csharp
+    private RelayCommand _saveExpenseCommand;
+    public RelayCommand SaveExpenseCommand
+    {
+        get
+        {
+            if (_saveExpenseCommand == null)
+            {
+                _saveExpenseCommand = new RelayCommand(() =>
+                {
+                    Expense expense = new Expense
+                    {
+                        Address = Address,
+                        City = City,
+                        Cost = Cost,
+                        Date = Date,
+                        Description = Description,
+                        EmployeeId = storageService.SelectedEmployeeId,
+                        Type = ExpenseType
+                    };
+    
+                    databaseService.SaveExpense(expense);
+    
+                    NotificationService notificationService = new NotificationService();
+                    notificationService.ShowNotification(expense.Description, expense.Cost);
+    
+                    Messenger.Default.Send<UpdateExpensesListMessage>(new UpdateExpensesListMessage());
+                    Messenger.Default.Send<CloseWindowMessage>(new CloseWindowMessage());
+                }, () => IsFormFilled
+                );
+            }
+    
+            return _saveExpenseCommand;
+        }
+    }
+    ```
+    
+We're ready to test the work we have done!
+
+1. Press F5 to launch the application.
+2. Choose one employee from the list.
+3. Press the **Add new expense** button.
+4. Fill all the information about the expense and press **Save**.
+5. Everything will work as... well, no. You will actually get an exception:
+
+    ![](../Manual/Images/ToastNotificationError.png)
+
+> Can you imagine why this problem is happening?
+
+Some APIs of the Universal Windows Platform can't be used as they are inside a Win32 application, but they require an identity, which is obtained when the application is packaged using the Windows 10 packaging format: MSIX (formerly known as AppX).
+When you build a Universal Windows Platform application you don't face this problem, because MSIX is the only way to distribute these kind of applications.
+
+Notification APIs fall into this category. Without an identity, you get an exception like the one we have just experienced. In order to solve this problem we need to package our WPF application as MSIX, so that Windows can assign an identity to it.
+
+We're going to explore this opportunity in the next exercise.
 
 
 

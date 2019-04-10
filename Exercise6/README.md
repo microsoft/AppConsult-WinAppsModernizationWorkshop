@@ -11,7 +11,7 @@ Additionally, thanks to the AppInstaller feature it's easy to deploy application
 
 In this exercise we're going to learn how to package our WPF application as MSIX and how we can improve the deployment story thanks to Azure DevOps.
 
-### Exercise 6 Task 1 - Package the application.
+### Exercise 6 Task 1 - Package the application
 Visual Studio offers an easy way to package an existing application thanks to a new template called Windows Application Packaging Project. Let's add it!
 
 1. Go back to Visual Studio. 
@@ -87,3 +87,14 @@ Out of the box, you won't notice any meaningful difference. We have simply packa
 
 - If we want to remove the application from the system, we can just right click again on his icon in the Start menu and choose **Uninstall**. After pressing Ok, the application will be immediately removed, without leaving any leftover on the system.
 
+### Exercise 6 Task 2 - Test the notification scenario
+Now that we have packaged the application with MSIX, we can test the notification scenario which wasn't working at the end of Exercise 5.
+
+1. Make sure that the **ContosoExpenses.Package** is still set as startup project.
+2. Press F5 to launch the application.
+3. Choose one employee from the list.
+4. Press the **Add new expense** button.
+5. Fill all the information about the expense and press **Save**.
+6. This time you will see a notification appearing in the lower right corner.
+
+![](../Manual/Images/ToastNotification.png)
