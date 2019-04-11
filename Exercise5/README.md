@@ -12,7 +12,7 @@ Let's start!
 
 ### Exercise 5 Task 1 - Add an Adaptive Card
 Adaptive Cards are a new way for developers to exchange card content in a common and consistent way. An Adaptive Card is described by a JSON payload, which defines its content: text, images, actions, etc.
-An adaptive card defines just the content and not the visual styles. It will be up to the platform where the adaptive card will be received it to render it, using the most appropriate styling. The way Adaptive Cards are designed is through renderers, which are able to take the JSON payload and to convert it into native UI: it could be XAML for a WPF or UWP application, AXML for an Android application, HTML for a website or a bot, etc.
+An adaptive card defines just the content and not the visual styles. It will be up to the platform where the adaptive card will be received it to render it, using the most appropriate styling. The way Adaptive Cards are designed is through [a renderer](https://docs.microsoft.com/en-us/adaptive-cards/rendering-cards/getting-started), which is able to take the JSON payload and to convert it into native UI: it could be XAML for a WPF or UWP application, AXML for an Android application, HTML for a website or a bot chat, etc.
 
 This is an example of a simple adaptive card's payload:
 

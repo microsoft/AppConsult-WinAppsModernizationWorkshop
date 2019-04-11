@@ -7,7 +7,7 @@ MSIX brings many advantages to the table both for IT Pros and developers, like:
 - It empowers a modern IT environment, by decoupling OS updates, application updates and customization
 - Simplifies the install, update and uninstall process. All these tasks are performed by Windows, so as a developer you can focus on building your application rather than maintaining the installer technology.
 
-Additionally, thanks to the AppInstaller feature it's easy to deploy applications on a website or a file share and offer automatic updates.
+Additionally, thanks to a feature called AppInstaller it's easy to deploy applications on a website or a file share and offer automatic updates.
 
 In this exercise we're going to learn how to package our WPF application as MSIX and how we can improve the deployment story thanks to Azure DevOps.
 
