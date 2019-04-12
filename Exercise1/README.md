@@ -1,3 +1,5 @@
+WORK IN PROGRESS
+
 ## Exercise 1 - Migrate to .NET Core 3
 Migrating the application to .NET Core 3 is the best and recomanded path for modernizing a .NET application (WPF or Windows Forms). As previously mentioned, the first really nice improvment is about the startup and execution time! This is only the tip of the iceberg. The best advantage is that, the app will be able to use all the upcoming new features both from .NET Core and UWP! 
 
@@ -354,3 +356,5 @@ Before wrapping up the exercise, let's make sure that also the Desktop Bridge ve
 8. Now press F5 to launch the application.
 
 Congratulations! You're running a .NET Core 3.0 WPF application!
+
+WORK IN PROGRESS
