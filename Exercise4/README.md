@@ -10,7 +10,7 @@ ___
 
 ### Exercise 4 Task 1 - Create a basic wrapper
 
-1. If you have completed Exercise 3, you can start from the outcome of it. Otherwise, open the folder `C:\XAMLIslandsLab\Lab\Exercise5\01-Start\ContosoExpenses` and double click on the **ContosoExpenses.sln** file.
+1. If you have completed Exercise 3, you can start from the outcome of it. Otherwise, open the folder `C:\WinAppsModernizationWorkshop\Lab\Exercise4\01-Start\ContosoExpenses` and double click on the **ContosoExpenses.sln** file.
 2. First we need to create the wrapper control. Right click on the **ContosoExpenses** project in Solution Explorer and choose **Add -> Class**. 
 3. Name it `CalendarViewWrapper` and press OK.
 4. Add a reference to the following namespaces at the top of the class:

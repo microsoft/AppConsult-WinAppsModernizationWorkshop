@@ -3,33 +3,12 @@
 We start with the simpliest modernization path possible: We would like to use a rich UWP control that is "*available for use in WPF*". Crazy idea? No! Indeed, the most requested controls are already wrapped for you! The current XAML Islands iteration brings you the InkCanvas, the InkToolbar, the MapControl and the MediaPlayerElement.
 So in our Contoso Expenses application we will bring a modern touch by using InkCanvas and MapControl. This is possible thanks to the Microsoft.Toolkit.Wpf.UI.Controls NuGet package.
 
-___ 
-
-### Exercise 2 Task 1 - Setup the Contoso Expenses solution
-Let's first be sure we can run and debug the Contoso Expenses solution locally.
-
-1.  The source code of the Contoso Expenses solution is in the **Releases** tab of <a href="https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/tree/master/" target="_blank">Windows AppConsult XAMLIslandsLab repository</a>. A direct link for the download is `https://aka.ms/XAMLIslandsLab-Content`. Please use this url to donwload the zip file containing the lab content. 
-
-2.  When ready, click on the downloaded file in your browser to open it.
-
-    ![Downloaded file in Chrome](../Manual/Images/SourceCodeDownloaded.png)
-
-3.  Open the zip file and extract all the content to `C:\`. It will create a folder named `C:\XAMLI
-
-4.  Launch Visual Studio 2019, and double click on the `C:\XAMLIslandsLab\Lab\Exercise1\01-Start\ContosoExpenses\ContosoExpenses.sln` file to open the solution.
-
-    ![ContosoExpenses solution in Windows Explorer](../Manual/Images/ContosoExpensesSolution.png)
-
-5.  Verify that you can debug the Contoso Expenses WPF project by pressing the **Start** button or CTRL+F5.
-
-___ 
-
-### Exercise 2 Task 2 - Reference the "Microsoft.Toolkit.Wpf.UI.Controls" NuGet package
+### Exercise 2 Task 1 - Reference the "Microsoft.Toolkit.Wpf.UI.Controls" NuGet package
 We need this WPF package because it takes care for us about all the necessary piping for XAML Islands. It provides wrapper classes for 1st party controls, such as the InkCanvas, InkToolbar, MapControl, and MediaPlayerElement, all for WPF.
 
 Please note that the same package exists for Windows Forms. Its name is <a href="https://www.nuget.org/packages/Microsoft.Toolkit.Forms.UI.Controls/" target="_blank">Microsoft.Toolkit.Forms.UI.Controls</a>.
 
-1.  If the Contoso Expenses solution is not opened in Visual Studio, double click on `C:\XAMLIslandsLab\Lab\Exercise2\01-Start\ContosoExpenses\ContosoExpenses.sln` (the folder where you have extracted the zipped file).
+1.  If the Contoso Expenses solution is not opened in Visual Studio, double click on `C:\WinAppsModernizationWorkshop\Lab\Exercise2\01-Start\ContosoExpenses\ContosoExpenses.sln` (the folder where you have extracted the zipped file).
 2.  Right click on the **ContosoExpenses** project in the Solution Explorer window on the left and choose **Manage NuGet Packages...**.
 
     ![Manage NuGet Packages menu in Visual Studio](../Manual/Images//ManageNuGetPackages.png)
@@ -44,7 +23,7 @@ Please note that the same package exists for Windows Forms. Its name is <a href=
 
 ___ 
 
-### Exercise 2 Task 3 - Use the InkCanvas control in the application
+### Exercise 2 Task 2 - Use the InkCanvas control in the application
 One of the features that the development team is looking to integrate inside the application is support to digital signature. Managers wants to be able to easily sign the expenses reports, without having to print them and digitalize them back.
 'XAML Islands' is the perfect candidate for this scenario, since the Universal Windows Platform includes a control called **InkCanvas**, which offers advanced support to digital ink. Additionally, it includes many AI powered features, like the capability to recognize text, shapes, etc.
 
