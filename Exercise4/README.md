@@ -2,7 +2,7 @@
 In Excercise 3 we have added a **CalendarView** control to our WPF application using the generic **WindowsXamlHost** control.
 From a technical point of view, the outcome of the exercise worked without issues. However, the code we have written isn't super elegant. In order to interact with the **CalendarView** control we had to subscribe to the **ChildChanged** event exposed by the **WindowsXamlHost** control, peform a cast and subscribe to an event. Since the properties we need weren't directly exposed by the **WindowsXamlHost** control, we had to break the MVVM pattern and implement some logic inside the code-behind instead of the ViewModel.
 
-Woudln't be better if we could use the **CalendarView** control like a native WPF control and create a binding channel between the **Date** property in the ViewModel and the **SelectedDates** property of the control?
+Wouldn't it be better if we could use the **CalendarView** control like a native WPF control and create a binding channel between the **Date** property in the ViewModel and the **SelectedDates** property of the control?
 
 We can solve this problem by creating our own wrapper to the UWP control we want to integrate, similar to **InkCanvas** control we have used in Exercise 2. The purpose of this wrapper is to take the properties and events exposed by the UWP control and forward them to the WPF control, so that they could be directly accessed like with a native .NET control. Let's start!
 

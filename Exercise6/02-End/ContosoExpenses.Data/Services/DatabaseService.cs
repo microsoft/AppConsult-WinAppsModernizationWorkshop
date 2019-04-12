@@ -10,11 +10,11 @@ namespace ContosoExpenses.Data.Services
 {
     public class DatabaseService: IDatabaseService
     {
-        readonly int numberOfEmployees = 10;
-        readonly int numberOfExpenses = 5;
+        private readonly int numberOfEmployees = 10;
+        private readonly int numberOfExpenses = 5;
 
-        string filePath = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\ContosoExpenses\\data.db";
-        string directoryPath = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\ContosoExpenses\\";
+        private string filePath = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\ContosoExpenses\\data.db";
+        private string directoryPath = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\ContosoExpenses\\";
 
         public Employee GetEmployee(int employeeId)
         {
