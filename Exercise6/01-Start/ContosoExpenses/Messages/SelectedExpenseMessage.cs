@@ -2,7 +2,7 @@
 
 namespace ContosoExpenses.Messages
 {
-    public class ExpenseDetailLoadedMessage: MessageBase
+    public class SelectedExpenseMessage: MessageBase
     {
     }
 }
