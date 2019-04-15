@@ -1,7 +1,7 @@
 WORK IN PROGRESS
 
 ## Exercise 1 - Migrate to .NET Core 3
-Migrating the application to .NET Core 3 is the best and recomanded path for modernizing a .NET application (WPF or Windows Forms). As previously mentioned, the first really nice improvment is about the startup and execution time! This is only the tip of the iceberg. The best advantage is that, the app will be able to use all the upcoming new features both from .NET Core and UWP! 
+Migrating the application to .NET Core 3 is the best and recommended path for modernizing a .NET application (WPF or Windows Forms). As previously mentioned, the first really nice improvment is about the startup and execution time! This is only the tip of the iceberg. The best advantage is that, the app will be able to use all the upcoming new features both from .NET Core and UWP! 
 
 ___ 
 
@@ -19,7 +19,7 @@ As mentioned, .NET Core is in the Preview state. Visual Studio 2019 has been rel
 Let's open the solution using Visual Studio 2019:
 1.  In Windows Explorer, navigate to `C:\WinAppsModernizationWorkshop\Lab\Exercise1\01-Start\ContosoExpenses` and double click on the `ContosoExpenses.sln` solution.
     
-    The project ContosoExpenses is now open in Visual Studio but nothing changed: The appllication still uses the Full .NET 4.7.2. To verify this, just right click on the project in the Solution Explorer Windows and **Properties**.
+    The project ContosoExpenses is now open in Visual Studio but nothing changed: The application still uses the Full .NET 4.7.2. To verify this, just right click on the project in the Solution Explorer Windows and **Properties**.
     
     ![Project properties in the Solution Explorer](../Manual/Images/PropertiesContosoExpenses.png)
 

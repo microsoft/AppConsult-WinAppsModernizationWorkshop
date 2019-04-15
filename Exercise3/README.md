@@ -18,11 +18,11 @@ In order to start using Universal Windows Platform APIs in a WPF application we 
 
 In the past this process wasn't really straightforward, because it required to manually dig into the file system and look for the folders where these files are deployed by the Windows 10 SDK. However, the team has recently released a NuGet package which makes the overall process really easy. Let's add it!
 
-1. You can use the output of Exercise 2 as a starting point. In case you haven't completed it, you can open the folder `C:\XAMLIslandsLab\Lab\Exercise3\01-Start\ContosoExpenses` in the location where you have unzipped the lab and double click on the **ContosoExpenses.sln** file.
+1. You can use the output of Exercise 2 as a starting point. In case you haven't completed it, you can open the folder `C:\WinAppsModernizationWorkshop\Lab\Exercise3\01-Start\ContosoExpenses` in the location where you have unzipped the lab and double click on the **ContosoExpenses.sln** file.
 2. Right click on the **ContosoExpenses** project.
 3. Choose **Manage NuGet Packages**.
 4. Look for a package with the following identity: [Microsoft.Windows.SDK.Contracts](https://www.nuget.org/packages/Microsoft.Windows.SDK.Contracts)
-5. Press Install
+5. Press **Install**
 
 You're all set. Now you're ready to start using APIs from the Universal Windows Platform.
 ___ 
