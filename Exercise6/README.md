@@ -98,3 +98,127 @@ Now that we have packaged the application with MSIX, we can test the notificatio
 6. This time you will see a notification appearing in the lower right corner.
 
 ![](../Manual/Images/ToastNotification.png)
+
+### Exercise 6 Task 3 - Sign in to the Azure DevOps portal
+In this task, you will learn how to start Azure DevOps for free, how to define builds to automatically run whenever a team member checks in code changes and to build pipelines to package the application to MSIX after the build runs.
+
+![](../Manual/Images/Exercise6Task3Objectives.jpg)
+
+Azure DevOps Services is a cloud service for collaborating on code development. It provides an integrated set of features that you access through your web browser or IDE client. The following features are included:
+
+* Git repositories for source control of your code.
+* Build and release services to support continuous integration and delivery of your apps.
+* Agile tools to support planning and tracking your work, code defects, and issues using Kanban and Scrum methods.
+* Many tools to test your apps, including manual/exploratory testing and continuous testing.
+* Highly customizable dashboards for sharing progress and trends.
+* Built-in wiki for sharing information with your team.
+
+Azure DevOps Projects presents a simplified experience where you bring your existing code and Git repository or choose from one of the sample applications to create a continuous integration (CI) and continuous delivery (CD) pipeline to Azure. 
+
+DevOps Projects sets up everything you need for developing, deploying, and monitoring your application. You can use the DevOps Projects dashboard to monitor code commits, builds, and deployments, all from a single view in the Azure portal.
+
+1. Open the <a href="https://dev.azure.com/" target="_blank">Azure DevOps portal</a>.
+
+2. Click on the **Start free** button to create a free account.
+
+![](../Manual/Images/AzureDevOpsPortal.jpg)
+
+3. Enter your email address, phone number, or Skype ID for your Microsoft account.
+
+
+![](../Manual/Images/MicrosoftAccountSignIn.jpg)
+
+
+4. After signing in, click on Continue to get started with Azure DevOps:
+
+
+![](../Manual/Images/GetStartedAzureDevOps.jpg)
+
+5. Enter a name for your project and select the visibility. The name can't contain special characters (such as / : \ ~ & % ; @ ' " ? < > | # $ * } { , + = [  ]), can't begin with an underscore, can't begin or end with a period, and must be 64 characters or less. Visibility can be either public or private. With public visibility, anyone on the internet can view your project. With private visibility, only people who you give access to can view your project. Select **Create project**.
+
+![](../Manual/Images/AzureDevOpsCreateProject.jpg)
+
+When your project has been created, the welcome page will appear. Feel free to explore and customize the new project.
+
+![](../Manual/Images/AzureDevOpsWelcome.png)
+
+
+### Exercise 6 Task 4 - Integrate Contoso Expense with Azure DevOps Repository
+In this session, we will learn how to integrate the ContosoExpenses solution to the project in Azure DevOps.
+
+As we will use Git, you need to clone it to your computer. Cloning a repo creates a complete local copy of the repo for you to work with. Cloning also downloads all commits and branches in the repo and sets up a named relationship with the repo on the server. Use this relationship to interact with the existing repo, pushing and pulling changes to share code with your team.
+
+Clone the repo to your computer:
+
+1. In the Contoso Expenses solution, select the Teams Explorer tab and click on the **Manage Connections** button:
+
+![](../Manual/Images/AzureDevOpsVSManageConnections.png)
+
+2. Click on the **Connect...** link:
+
+![](../Manual/Images/AzureDevOpsGitHubConnect.png)
+
+
+3. Provide the same credential used in the Azure DevOpsPortal, select the Contoso Expense from the repository list and click on **Connect** button.
+
+![](../Manual/Images/AzureDevOpsVSConnecttoaproject.png)
+
+The project will be connected to the Azure DevOps repositoy, as follows:
+
+
+![](../Manual/Images/AzureDevOpsRepositoryConnected.png)
+
+Before commit the changes, it is important to notice that not every file created or updated in your code should be committed to Git. Temporary files from development environment, test outputs and logs are all examples of files that are created but are not part of the codebase. Throught the gitignore feature it is possible to customize which files Git tracks.
+
+4. Click on **Settings**:
+
+![](../Manual/Images/AzureDevOpsRepositorySettings.png)
+
+5. Click on **Repository Settings**:
+
+![](../Manual/Images/AzureDevOpsRepositorySettings2.png)
+
+6. Click on **Add** to create a default **.gitignore** file:
+
+![](../Manual/Images/AzureDevOpsRepositoryGitIgnore.png)
+
+More information about .gitignore file available at:
+<a href="https://docs.microsoft.com/en-us/azure/devops/repos/git/ignore-files?view=azure-devops&tabs=command-line" target="_blank">Ignore file changes with Git</a>
+
+
+8. Click on **Changes** to commit the changes, in this case, to commit all the solution files.
+
+
+![](../Manual/Images/AzureDevOpsCommitChanges.png)
+
+The commit changes UI will be displayed, asking to enter the commit message.
+
+
+7. Enter the commit message and click on **Commit All** button:
+
+![](../Manual/Images/AzureDevOpsCommitAll.png)
+
+8. Click on Sync option to share with the remotely server that there are changes in the local repository.
+
+![](../Manual/Images/AzureDevOpsSync.png)
+
+It is important to observe that so far, the commit and the changes exist only locally.
+
+9. Click on **Push** to upload the changes to the server:
+
+![](../Manual/Images/AzureDevOpsPush0.png)
+
+Visual Studio will push your changes to the Azure DevOps repository:
+
+![](../Manual/Images/AzureDevOpsPush.png)
+
+At the end, the following message will be displayed to inform that the changes were successfully pushed to the server:
+
+![](../Manual/Images/AzureDevOpsPush2.png)
+
+10. Switch back to the Azure DevOps portal and click on Repos/Files to double-check that the files were upload to the server:
+
+![](../Manual/Images/AzureDevOpsAddRepoFiles.png)
+
+### Exercise 6 Task 5 - Create your first pipeline
+
