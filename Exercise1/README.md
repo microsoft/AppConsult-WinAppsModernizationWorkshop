@@ -1,5 +1,3 @@
-WORK IN PROGRESS
-
 ## Exercise 1 - Migrate to .NET Core 3
 Migrating the application to .NET Core 3 is the best and recommended path for modernizing a .NET application (WPF or Windows Forms). As previously mentioned, the first really nice improvment is about the startup and execution time! This is only the tip of the iceberg. The best advantage is that, the app will be able to use all the upcoming new features both from .NET Core and UWP! 
 
@@ -90,7 +88,7 @@ Last point: To be able to use a preview of .NET Core 3, in Visual Studio 2019, p
 ___ 
 
 ### Exercise 1 Task 3 - Perform the migration - The csproj for the class library
-The Contoso Expenses solution is using a class library for some models and interfaces for Services. The class library project is also a .NET 4.7.2 project. Let's see how to migrate the project to .NET Core 3:
+The Contoso Expenses solution is using a class library with some models and interfaces for Services. The class library project is also a .NET 4.7.2 project. Let's see how to migrate the project to .NET Core 3:
 
 1.  Right click on the **ContosoExpenses.Data** project in the solution explorer and choose **Unload Project**.
 
@@ -114,9 +112,9 @@ The Contoso Expenses solution is using a class library for some models and inter
 
 ___
 
-### Exercise 1 Task 4 - Perform the migration - NuGet packages of the project
+### Exercise 1 Task 4 - Perform the migration - NuGet packages and references of the projects
 
-1.  The csproj is saved. Let's reopen the project: Go to the **Solution Explorer**, right click on the project and choose **Reload project**.
+1.  The two csproj are saved. Let's reopen the projects: Go to the **Solution Explorer**, right click on each project and choose **Reload project**.
 
     ![Reload project in the Solution Explorer](../Manual/Images/ReloadProject.png)
     
@@ -124,9 +122,9 @@ ___
 
     ![Confirmation for closing the csproj](../Manual/Images/CloseCSPROJ.png)
     
-3.  The project should load correctly. But remember: The NuGet packages used by the project were gone by removing all the content of the csproj! 
+3.  The projects should load correctly. But remember: The NuGet packages used by the projects were gone by removing all the content of the csproj! 
 
-4.  You have a confirmation by expending the **Dependencies/NuGet** node in which you have only the .NET Code 3 package.
+4.  You have a confirmation by expending the **Dependencies/NuGet** node of the main project in which you have only the .NET Code 3 package.
 
     ![NuGet packages](../Manual/Images/NuGetPackages.png)
     
@@ -139,16 +137,16 @@ ___
     ```xml
     <?xml version="1.0" encoding="utf-8"?>
     <packages>
-      <package id="Bogus" version="25.0.3" targetFramework="net472" />
-      <package id="LiteDB" version="4.1.4" targetFramework="net472" />
-      <package id="Microsoft.Toolkit.Wpf.UI.Controls" version="5.0.1" targetFramework="net472" />
-      <package id="Microsoft.Toolkit.Wpf.UI.XamlHost" version="5.0.1" targetFramework="net472" />
+      <package id="CommonServiceLocator" version="2.0.2" targetFramework="net472" />
+      <package id="MvvmLightLibs" version="5.4.1.1" targetFramework="net472" />
+      <package id="System.Runtime.CompilerServices.Unsafe" version="4.5.2" targetFramework="net472" />
+      <package id="Unity" version="5.10.2" targetFramework="net472" />
     </packages>
     ```
 
-5. Delete the file **Packages.config** by right clicking on it and **Delete** in the **Solution Explorer**.
+5. From the main project (**ContosoExpenses**), delete the file **Packages.config** by right clicking on it and **Delete** in the **Solution Explorer**.
 
-6. Right click on the **Dependencies** node in the **Solution Explorer** and **Manage NuGet Packages...**
+6. Right click on the **Dependencies** node of the **ContosoExpenses** project in the **Solution Explorer** and **Manage NuGet Packages...**
 
   ![Manage NuGet Packages...](../Manual/Images/ManageNugetNETCORE3.png)
 
@@ -162,90 +160,66 @@ ___
 
 > Isn't it strange that we add the same packages as the ones used by the .NET Framework 4.7.2?
 
-NuGet packages supports multi-targeting. You can include, in the same package, different versions of the library, compiled for different architectures. If you give a closer look at the packages' details, you will see that, other than supporting the full .NET Framework, it includes also a .NET Standard 2.0 version, which is perfect for .NET Core 3 (Further details on .NET Framework, .NET Core and .NET Standard at [https://docs.microsoft.com/en-us/dotnet/standard/net-standard](https://docs.microsoft.com/en-us/dotnet/standard/net-standard))
+NuGet packages supports multi-targeting. You can include, in the same package, different versions of the library, compiled for different architectures. If you give a closer look at the packages' details, you will see that, other than supporting the full .NET Framework, it includes also a .NET Standard 2.0 version, which is perfect for .NET Core 3 (Further details on .NET Framework, .NET Core and .NET Standard at [https://docs.microsoft.com/en-us/dotnet/standard/net-standard](https://docs.microsoft.com/en-us/dotnet/standard/net-standard)).
 
 ![Dot Net standard](../Manual/Images/DotNetStandard.png)
+
+9. We need some other NuGet packages: `MvvmLightLibs` by Laurent Bugnion, `Unity` by Unity Container Project.
 
 > Since we don't have anymore a packages.config file, can you guess where the list of NuGet packages gets stored?
 
 With the new project format, the referenced NuGet packages are stored directly in the .csproj file. You can check this by right clicking on the **ContosoExpenses** project in Solution Explorer and choosing **Edit ContosoExpenses.csproj**. You will find the following lines added at the end of the file:
 
 ```xml
+TODO
   <ItemGroup>
     <PackageReference Include="Bogus" Version="25.0.4" />
     <PackageReference Include="LiteDB" Version="4.1.4" />
   </ItemGroup>
 ```
 
-___ 
+10. For the **ContosoExpenses.Data** project, please add the following NuGet packages: `Bogus` and `LiteDB`.
 
-### Exercise 1 Task 4 - Perform the migration - A Preview NuGet package for Microsoft.Toolkit.Wpf.UI.Controls
+11. The last reference which is missing is the **ContosoExpenses.Data** in the **ContosoExpenses project**: Right click on the **Dependencies** node of the **ContosoExpenses** project in the **Solution Explorer** and **Add Reference...**.
 
-1. Let's try to build it in order to 'discover' what we have to do to complete the migration. Use the **Build** menu and **Build solution**.
+12. Select **ContosoExpenses.Data** from the **Projects \ Solution** category.
 
-![](../Manual/Images/BuildErrorsNETCore3.png)
-
-> All these errors are caused by the same issue. What is it?
-
-Again remember that we deleted all the content of the initial csproj file. We just had the **Bogus** and **LiteDB** NuGet Packages but not the **Microsoft.Toolkit.Wpf.UI.Controls**. There is a reason: go back to the **NuGet: ContosoExpenses** tab and search for `Microsoft.Toolkit.Wpf.UI.Controls`. You will see that this package supports the .NET Framework starting at the version 4.6.2. It does not support yet the .NET Core 3 version.
-
-![](../Manual/Images/WPFUICONTROLSNuGetPackage.png)
-
-Because we are working with Preview versions in this lab, let's continue and add a custom source for NuGet Packages. 
-
-2.  In the **NuGet: ContosoExpenses** tab, click on the  **Settings** icon for NuGet.
-
-![](../Manual/Images/SettingsForNuGet.png)
-
-3. Click on the green "PLUS" sign to add a new NuGet Package source.
-
-![](../Manual/Images/AddNewNuGetSource.png)
-
-4.  Name it `Custom` and give the url `https://dotnet.myget.org/F/uwpcommunitytoolkit/api/v3/index.json` ; Click **Ok**.
-
-![](../Manual/Images/CustomNuGetSource.png)
-
-5. Still in the **NuGet: ContosoExpenses** tab, you can now change the Packages source with the dropdown listbox; Select **Custom**.
-
-![](../Manual/Images/ChangeSource.png)
-
-6. Check also the **Include prerelease** checkbox and some NuGet packages will magically be displayed.
-
-![](../Manual/Images/PrereleaseNuGetPackages.png)
-
-7. Select **Microsoft.Toolkit.Wpf.UI.Controls**. Please be sure to choose the version **6.0.0-build.15.ge5444fb4a5** before clicking **Install**. This version supports the .NET Core 3.0 runtime installed on the VM.
-
-> For the users not using the VM, if you have downloaded the recently released Preview 2 of .NET Core 3.0, you can use the latest version of **Microsoft.Toolkit.Wpf.UI.Controls** provided by this custom source.
-
-8.  Build the project (CTRL+SHIFT+B). We get still some errors that we will fix in the next tasks.
-
-![](../Manual/Images/NETCore3BuilldErrors.png)
+    ![](../Manual/Images/AddReference.png)
 
 ___ 
 
-### Exercise 1 Task 5 - Perform the migration - Fixing AssemblyInfo.cs
+### Exercise 1 Task 4 - Perform the migration - Fixing AssemblyInfo.cs
 
-The Preview version of .NET Core 3 and Visual Studio 2019 causes the last 6 errors. It is not interesting to give explanations here: It is only 'piping' we have to resolve by either removing the mentioned lines in the `AssemblyInfo.cs` file or just delete the file. We go for the simpliest. 
+Let's try to build it in order to 'discover' what we have to do to complete the migration. Use the **Build** menu and **Build solution**.
+
+Oupss...
+
+![](../Manual/Images/NETCORE3BuildNewErrors.png)
+
+The Preview version of .NET Core 3 and Visual Studio 2019 causes some errors. It is not interesting to give explanations here: It is only 'piping' we have to resolve by either removing the mentioned lines in the `AssemblyInfo.cs` file or just delete the file. We go for the simpliest. 
 
 1.  In the **Solution Explorer** window / Under the **ContosoExpenses** project, expand the **Properties** node and right click on the **AssemblyInfo.cs** file ; Click on **Delete**.
     
     ![AssemblyInfo cs file](../Manual/Images/AssemblyInfoFile.png)
+    
+2. Do the same for the **ContosoExpenses.Data** project.
 
-2.  Just rebuild the project (for example using CTRL+SHIFT+B): Only the last three previous errors should remain listed (if nothing is displayed in the **Error List** window, look at the **Output** window).
+3.  Just rebuild the project (for example using CTRL+SHIFT+B). Yeah!
 
     ```dos
-    1>------ Build started: Project: ContosoExpenses, Configuration: Debug Any CPU ------
-    ...
-    1>ExpenseDetail.xaml.cs(20,15,20,23): error CS0234: The type or namespace name 'Services' does not exist in the namespace 'Windows' (are you missing an assembly reference?)
-    1>CalendarViewWrapper.cs(26,81,26,93): error CS0234: The type or namespace name 'CalendarView' does not exist in the namespace 'Windows.UI.Xaml.Controls' (are you missing an assembly reference?)
-    1>CalendarViewWrapper.cs(26,127,26,168): error CS0234: The type or namespace name 'CalendarViewSelectedDatesChangedEventArgs' does not exist in the namespace 'Windows.UI.Xaml.Controls' (are you missing an assembly reference?)
-    1>Done building project "ContosoExpenses_y1viyncj_wpftmp.csproj" -- FAILED.
-    =======___ Build: 0 succeeded, 1 failed, 0 up-to-date, 0 skipped ==========
+    1>------ Build started: Project: ContosoExpenses.Data, Configuration: Debug Any CPU ------
+    1>C:\Program Files\dotnet\sdk\3.0.100-preview4-011033\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.RuntimeIdentifierInference.targets(151,5): message NETSDK1057: You are using a preview version of .NET Core. See: https://aka.ms/dotnet-core-preview
+    1>ContosoExpenses.Data -> C:\WinAppsModernizationWorkshop\Lab\Exercise1\01-Start\ContosoExpenses.Data\bin\Debug\netstandard2.0\ContosoExpenses.Data.dll
+    2>------ Build started: Project: ContosoExpenses, Configuration: Debug Any CPU ------
+    2>C:\WinAppsModernizationWorkshop\Lab\Exercise1\01-Start\ContosoExpenses\ContosoExpenses.csproj : warning NU1701: Package 'MvvmLightLibs 5.4.1.1' was restored using '.NETFramework,Version=v4.6.1' instead of the project target framework '.NETCoreApp,Version=v3.0'. This package may not be fully compatible with your project.
+    2>ContosoExpenses -> C:\WinAppsModernizationWorkshop\Lab\Exercise1\01-Start\ContosoExpenses\bin\Debug\netcoreapp3.0\ContosoExpenses.dll
+    2>Done building project "ContosoExpenses.csproj".
+    ========== Build: 2 succeeded, 0 failed, 0 up-to-date, 0 skipped ==========
     ``` 
 
 ___ 
 
-### Exercise 1 Task 6 - Perform the migration - Adding a reference to the Universal Windows Platform
+### Exercise 1 Task 5 - Perform the migration - Adding a reference to the Universal Windows Platform
 
 This error is our fault because we removed everything in the csproj at the beginning of the exercise. 
 
