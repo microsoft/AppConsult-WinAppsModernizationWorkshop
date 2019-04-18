@@ -487,3 +487,58 @@ The yaml file should looks like:
 
 ![](../Manual/Images/AzureDevOpsPipelineBuildSuccess.png)
 
+
+Congrats! The build succeeded, but it is missing one thing here. Where are the build output? To access the output files, it will be necessary to add one more task.
+
+30.  Click on **Pipeline** and click on the **Edit** button to edit the yaml file:
+
+![](../Manual/Images/AzureDevOpsPipelineEdit3.png)
+
+
+31.  Click on the last line of the yaml file, type **artifacts** in the **filter text** and click on **Publish Build Artifacts**:
+
+![](../Manual/Images/AzureDevOpsPipelinePublishArtifacts.png)
+
+32. Add the **\AppxPackages** at the end of the **Path to publish**, name the **Artifact name** field to **drop** and click on **Add**.
+
+![](../Manual/Images/AzureDevOpsPipelinePublishArtifacts2.png)
+
+Note that the task was included at the end of yaml file:
+
+```yaml
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)\AppxPackages'
+    ArtifactName: 'drop'
+```
+
+Azure-pipelines.yml:
+
+![](../Manual/Images/AzureDevOpsPipelinePublishArtifacts3.png)
+
+
+33. Commit the yaml file changes by clicking on **Save**:
+
+![](../Manual/Images/AzureDevOpsPipelineSave2.png)
+
+34. Click on **Pipeline**, click on **Builds** and select the latest build:
+
+![](../Manual/Images/AzureDevOpsPipelineBuildList.png)
+
+
+After build succeeds, observe that the **Artifacts** button is available.  
+
+![](../Manual/Images/AzureDevOpsPipelinePublishArtifacts4.png)
+
+35. Click on the **Artifacts** button and select the **drop** item that contains the build output.
+
+![](../Manual/Images/AzureDevOpsPipelinePublishArtifacts3.png)
+
+
+In the **Artifacts explorer** UI it is possible to see all the output files generated:
+
+![](../Manual/Images/AzureDevOpsPipelinePublishArtifacts6.png)
+
+36. Click on the **...** button, beside the **drop** folder, to download the output files:
+
+![](../Manual/Images/AzureDevOpsPipelinePublishArtifacts7.png)
