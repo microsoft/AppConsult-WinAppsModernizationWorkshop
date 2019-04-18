@@ -4,7 +4,7 @@ Migrating the application to .NET Core 3 is the best and recommended path for mo
 ___ 
 
 ### Exercise 1 Task 1 - Setup for using .NET Core 3
-At the moment of writing .NET Core is still in Preview and it is highly experimental technologies. Nevertheless, it is enough stable to play with it. You will need to install the .NET Core 3 SDK, which is available at [https://dotnet.microsoft.com/download/dotnet-core/3.0](https://dotnet.microsoft.com/download/dotnet-core/3.0). Make sure to download the most recent Preview version.
+At the moment of writing .NET Core is still in Preview and it is highly experimental technologies. Nevertheless, it is enough stable to play with it. You will need to install the **.NET Core 3 SDK**, which is available at [https://dotnet.microsoft.com/download/dotnet-core/3.0](https://dotnet.microsoft.com/download/dotnet-core/3.0). Make sure to download the most recent Preview version.
 
 
 ![](../Manual/Images/NetCoreDownload.png)
@@ -171,10 +171,11 @@ NuGet packages supports multi-targeting. You can include, in the same package, d
 With the new project format, the referenced NuGet packages are stored directly in the .csproj file. You can check this by right clicking on the **ContosoExpenses** project in Solution Explorer and choosing **Edit ContosoExpenses.csproj**. You will find the following lines added at the end of the file:
 
 ```xml
-TODO
   <ItemGroup>
-    <PackageReference Include="Bogus" Version="25.0.4" />
+    <PackageReference Include="Bogus" Version="26.0.2" />
     <PackageReference Include="LiteDB" Version="4.1.4" />
+    <PackageReference Include="MvvmLightLibs" Version="5.4.1.1" />
+    <PackageReference Include="Unity" Version="5.10.3" />
   </ItemGroup>
 ```
 
@@ -219,46 +220,8 @@ The Preview version of .NET Core 3 and Visual Studio 2019 causes some errors. It
 
 ___ 
 
-### Exercise 1 Task 5 - Perform the migration - Adding a reference to the Universal Windows Platform
 
-This error is our fault because we removed everything in the csproj at the beginning of the exercise. 
-
-> This method for migrating the project to .NET Core 3 is manual because Visual Studio 2019 Preview does not handle yet the migration work for us. The Visual Studio team is working to make the migration path easier and smoother in the future.
-
-So to fix this error, we have to reference again the Universal Windows Platform again. This was done in the Exercise 2 Task 3. Here are the same steps:
-
-In order to be able to use the Universal Windows Platform APIs in a WPF application we need to add a reference to two files:
-
-- **Windows.md**, which contains the metadata that describes all the APIs of the Universal Windows Platform.
-- **System.Runtime.WindowsRuntime** which is a library that contains the infrastructure required to properly support the **IAsyncOperation** type, which is used by the Universal Windows Platform to handle asynchronous operation with the well known async / await pattern. Without this library your options to interact with the Universal Windows Platform would be very limited, since all the APIs which take more than 50 ms to return a result are implemented with this pattern.
-
-1. Go back to Visual Studio and right click on the **ContosoExpenses** project.
-2. Choose **Add reference**.
-3. Press the **Browse** button.
-4. Look for the following folder on the system: `C:\Program Files (x86)\Windows Kits\10\UnionMetadata\10.0.17763.0\`
-5. Change the dropdown to filter the file types from **Component files** to **All files**. This way, the `Windows.md` file will become visible.
-
-    ![](../Manual/Images/WindowsMd.png)
-    
-6. Select it and press **Add**.
-7. Now press again the **Browse** button.
-8. This time look for the following folder on the system: `C:\Windows\Microsoft.NET\Framework\v4.0.30319`
-9. Look for a file called `System.Runtime.WindowsRuntime.dll`, select it and press Ok.
-10. Now expand the **References** section of the **ContosoExpenses** project in Solution Explorer and look for the **Windows** reference.
-
-    ![](../Manual/Images/CopyLocalNETCore3.png)
-   
-11. Select it, right it click on it and choose **Properties**.
-12. Change the value of the **Copy Local** property to **No**.
-13. Rebuild the project (CTRL+SHIFT+B) and... you succeed!
-
-```dos
-=======___ Build: 1 succeeded, 0 failed, 0 up-to-date, 0 skipped ==========
-```
-
-___ 
-
-### Exercise 1 Task 7 - Perform the migration - Debug
+### Exercise 1 Task 5 - Perform the migration - Debug
 
 We are ok to finally, launch the app.
 
@@ -288,44 +251,3 @@ In fact, it is simple. Again, as we hardly deleted all the content of the csproj
 We are done! Test the app in debug with F5 and it should work... Everything running using .NET Core 3!
 
 We are now ready to go further and use all the power of the full UWP ecosystem controls, packages, dlls.
-
-___ 
-
-### Exercise 1 Task 8 - Supporting the Desktop Bridge
-Before wrapping up the exercise, let's make sure that also the Desktop Bridge version of our WPF application based on .NET Core works fine, so that we can leverage all the UWP APIs and the deep Windows 10 integration also with our migrated WPF project.
-
-1. Right click on the **ContosoExpenses.Package** project and choose **Set as StartUp Project**.
-2. Right click on the **ContosoExpenses.Package** project and choose **Rebuild**.
-3. The build operation will fail with the following error:
-
-    ![](../Manual/Images/DesktopBridgeNetCoreError.png)
-    
-    The error is happening because, when a .NET Core application is running packaged with the Desktop Bridge, it's included as self-contained, which means that the whole .NET Core runtime is embedded with the application. Thanks to this configuration, we can deploy the package on any Windows 10 machine and run it, even if it doesn't have the .NET Core runtime installed. However, when we package the application with the Desktop Bridge, we can't use the **Any CPU** compilation architecture, but we need to specify which runtimes we support. As such, we need to add this information in the **.csproj** file of our WPF project.
-4. Right click on the **ContosoExpenses** project in Solution Explorer and choose **Edit ContosoExpenses.csproj**.
-5. Add the following entry inside the **PropertyGroup** section:
-
-    ```xml
-    <RuntimeIdentifiers>win-x86;win-x64</RuntimeIdentifiers>
-    ```
-    
-    This is how the full **PropertyGroup** should look like:
-    
-    ```xml
-    <PropertyGroup>
-      <OutputType>WinExe</OutputType>
-      <TargetFramework>netcoreapp3.0</TargetFramework>
-      <UseWPF>true</UseWPF>
-      <ApplicationIcon />
-      <RuntimeIdentifiers>win-x86;win-x64</RuntimeIdentifiers>
-    </PropertyGroup>
-    ```
-    
-    We are explictly saying that our WPF application can be compiled both for the x86 and x64 architectures for the Windows platform.
-    
-6. Now press CTRL+S, then right click again on the **ContosoExpenses.Package** and choose **Rebuild**.
-7. This time the compilation should complete without errors. If you still see an error related to the **project.assets.json** file, right click on the **ContosoExpenses** project in Solution Explorer and choose **Open Folder in File Explorer**. Delete the **bin** and **obj** folders and rebuild the **ContosoExpenses.Package** project.
-8. Now press F5 to launch the application.
-
-Congratulations! You're running a .NET Core 3.0 WPF application!
-
-WORK IN PROGRESS
