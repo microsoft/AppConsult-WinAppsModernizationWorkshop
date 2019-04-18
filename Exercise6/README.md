@@ -225,7 +225,7 @@ Azure Pipelines helps you to implement a build, test, and deployment pipeline fo
 
 In this session, you will learn how to use Azure Pipelines to automatically build the **Contoso Expense** application every time that the changes are pushed to the repository.
 
-1. – In the Azure DevOps portal, navigate to the **Pipelines** page. Then choose **New**, **New build pipeline**.
+1. In the Azure DevOps portal, navigate to the **Pipelines** page. Then choose **New**, **New build pipeline**.
 
 ![](../Manual/Images/AzureDevOpsNewPipeline.png)
 
@@ -339,7 +339,7 @@ Note that the build finished with the same error. Through the message error, it 
 C:\Program Files\dotnet\sdk\2.2.105\Sdks\Microsoft.NET.Sdk.WindowsDesktop\Sdk not found. Check that a recent enough .NET Core SDK is installed and/or increase the version specified in global.json.
 ```
 
-To fix this error, it will be necessary to add the **global.json** file to the repository folder. If the **global.json** exists, the .NET Core SDK version, specified in the file, will be used for all SDK commands like **dotnet build**.
+To fix this error, it will be necessary to add the **global.json** file to the repository folder. If the **global.json** exists, the .NET Core SDK version specified in the file will be used for all the compilation related tasks.
 
 For more information about the global.json file check the <a href="https://docs.microsoft.com/en-us/dotnet/core/tools/global-json" target="_blank">global.json overview</a>.
 
@@ -347,13 +347,9 @@ For more information about the global.json file check the <a href="https://docs.
 
 ```json
 {
-
- "sdk": {
-
- "version": "3.0.100-preview3-010431"
-
- }
-
+    "sdk": {
+        "version": "3.0.100-preview3-010431"
+    }
 }
 ```
 
@@ -388,7 +384,7 @@ Error message:
 Version 3.0.100-preview3-010431 of the .NET Core SDK requires at least version 16.0.0 of MSBuild. The current available version of MSBuild is 15.9.21.66.
 ```
 
-That is happening because the **Contoso Expenses** is using **Visual Studio 2019 Preview**. Therefore, we need to change the pipeline image to **Windows Server 2019**, as it comes with the Visual Studio 2019 Preview installed.
+That is happening because to build .NET Core 3.0 project you need **Visual Studio 2019**. Therefore, we need to change the pipeline image to **Windows Server 2019**, as it comes with Visual Studio 2019  installed.
 
 18. Click on **Pipeline** and click on the **Edit** button to modify the yaml file:
 
