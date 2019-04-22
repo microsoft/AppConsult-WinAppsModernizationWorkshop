@@ -134,7 +134,7 @@ DevOps Projects sets up everything you need for developing, deploying, and monit
 
 ![](../Manual/Images/GetStartedAzureDevOps.jpg)
 
-5. Enter a name for your project and select the visibility. The name can't contain special characters (such as / : \ ~ & % ; @ ' " ? < > | # $ * } { , + = [  ]), can't begin with an underscore, can't begin or end with a period, and must be 64 characters or less. Visibility can be either public or private. With public visibility, anyone on the internet can view your project. With private visibility, only people who you give access to can view your project. Select **Create project**.
+5. Enter the **Contoso Expenses** name for your project and select the visibility. The name can't contain special characters (such as / : \ ~ & % ; @ ' " ? < > | # $ * } { , + = [  ]), can't begin with an underscore, can't begin or end with a period, and must be 64 characters or less. Visibility can be either public or private. With public visibility, anyone on the internet can view your project. With private visibility, only people who you give access to can view your project. Select **Create project**.
 
 ![](../Manual/Images/AzureDevOpsCreateProject.jpg)
 
@@ -143,42 +143,69 @@ When your project has been created, the welcome page will appear. Feel free to e
 ![](../Manual/Images/AzureDevOpsWelcome.png)
 
 
-### Exercise 6 Task 4 - Integrate Contoso Expense with Azure DevOps Repository
+### Exercise 6 Task 4 - Integrate Contoso Expenses with Azure DevOps Repository
 In this session, we will learn how to integrate the ContosoExpenses solution to the project in Azure DevOps.
 
-As we will use Git, you need to clone it to your computer. Cloning a repo creates a complete local copy of the repo for you to work with. Cloning also downloads all commits and branches in the repo and sets up a named relationship with the repo on the server. Use this relationship to interact with the existing repo, pushing and pulling changes to share code with your team.
+Note that so far the **Contoso Expenses** Repository is empty:
+
+![](../Manual/Images/AzureDevOpsRepositoryEmpty.png)
+
+We need to clone it to our computer. Cloning a repo creates a complete local copy of the repo for you to work with. Cloning also downloads all commits and branches in the repo and sets up a named relationship with the repo on the server. Use this relationship to interact with the existing repo, pushing and pulling changes to share code with your team.
 
 Clone the repo to your computer:
 
-1. In the Contoso Expenses solution, select the Teams Explorer tab and click on the **Manage Connections** button:
+1. Click on **Clone in Visual Studio** to clone this repository:
 
-![](../Manual/Images/AzureDevOpsVSManageConnections.png)
-
-2. Click on the **Connect...** link:
-
-![](../Manual/Images/AzureDevOpsGitHubConnect.png)
+![](../Manual/Images/AzureDevOpsRepositoryCloneInVS.png)
 
 
-3. Provide the same credential used in the Azure DevOpsPortal, select the Contoso Expense from the repository list and click on **Connect** button.
+2. Provide the **local path** for the repository and click on **Clone**:
 
-![](../Manual/Images/AzureDevOpsVSConnecttoaproject.png)
+![](../Manual/Images/AzureDevOpsRepositoryVS1.png)
 
-The project will be connected to the Azure DevOps repositoy, as follows:
+After finishing to clone the Repository, the Team Explorer tab will be displayed, as follows:
+
+![](../Manual/Images/AzureDevOpsRepositoryCloned.png)
 
 
-![](../Manual/Images/AzureDevOpsRepositoryConnected.png)
+The next step will be to add the Contoso Expenses solution to this repository.
+
+3. Click on the **Show Folder view** option:
+
+![](../Manual/Images/AzureDevOpsShowFolderView.png)
+
+4. Right click in the **Contoso Expenses** folder or in a empty area and select **Open Folder in File Explorer**:
+
+![](../Manual/Images/AzureDevOpsOpenFolderinFileExplorer.png)
+
+
+Note that the local repository folder is empty and that exists only the local .vs folder used by Git tracking:
+
+![](../Manual/Images/AzureDevOpsRepositoryLocalEmpty.png)
+
+5. Copy the **Contoso Expenses** solution created in the previous exercise to the local repository.
+
+![](../Manual/Images/AzureDevOpsRepositoryAddedSolution.png)
+
+6. Switch back to Visual Studio and double-click on the **ContosoExpenses.sln**:
+
+![](../Manual/Images/AzureDevOpsOpenSolution.png)
+
+Observe that the solution was added to source-control:
+
+![](../Manual/Images/AzureDevOpsSolutionAddedToSourceControl.png)
 
 Before commit the changes, it is important to notice that not every file created or updated in your code should be committed to Git. Temporary files from development environment, test outputs and logs are all examples of files that are created but are not part of the codebase. Throught the gitignore feature it is possible to customize which files Git tracks.
 
-4. Click on **Settings**:
+7. Click on the **Team Explorer** tab and click on **Settings**:
 
 ![](../Manual/Images/AzureDevOpsRepositorySettings.png)
 
-5. Click on **Repository Settings**:
+8. Click on **Repository Settings**:
 
 ![](../Manual/Images/AzureDevOpsRepositorySettings2.png)
 
-6. Click on **Add** to create a default **.gitignore** file:
+9. Click on **Add** to create a default **.gitignore** file:
 
 ![](../Manual/Images/AzureDevOpsRepositoryGitIgnore.png)
 
@@ -186,7 +213,7 @@ More information about .gitignore file available at:
 <a href="https://docs.microsoft.com/en-us/azure/devops/repos/git/ignore-files?view=azure-devops&tabs=command-line" target="_blank">Ignore file changes with Git</a>
 
 
-8. Click on **Changes** to commit the changes, in this case, to commit all the solution files.
+10. Click on **Changes** to commit the changes, in this case, to commit all the solution files.
 
 
 ![](../Manual/Images/AzureDevOpsCommitChanges.png)
@@ -194,17 +221,17 @@ More information about .gitignore file available at:
 The commit changes UI will be displayed, asking to enter the commit message.
 
 
-7. Enter the commit message and click on **Commit All** button:
+11. Enter the commit message and click on **Commit Staged** button:
 
-![](../Manual/Images/AzureDevOpsCommitAll.png)
+![](../Manual/Images/AzureDevOpsCommitChanges.png)
 
-8. Click on Sync option to share with the remotely server that there are changes in the local repository.
+12. Click on **Sync** option to share with the remotely server that there are changes in the local repository.
 
 ![](../Manual/Images/AzureDevOpsSync.png)
 
 It is important to observe that so far, the commit and the changes exist only locally.
 
-9. Click on **Push** to upload the changes to the server:
+13. Click on **Push** to upload the changes to the server:
 
 ![](../Manual/Images/AzureDevOpsPush0.png)
 
@@ -216,7 +243,7 @@ At the end, the following message will be displayed to inform that the changes w
 
 ![](../Manual/Images/AzureDevOpsPush2.png)
 
-10. Switch back to the Azure DevOps portal and click on Repos/Files to double-check that the files were upload to the server:
+14. Switch back to the Azure DevOps portal and click on Repos/Files to double-check that the files were upload to the server:
 
 ![](../Manual/Images/AzureDevOpsAddRepoFiles.png)
 
