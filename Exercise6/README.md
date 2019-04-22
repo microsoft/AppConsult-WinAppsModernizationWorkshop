@@ -183,9 +183,14 @@ Note that the local repository folder is empty and that exists only the local .v
 
 ![](../Manual/Images/AzureDevOpsRepositoryLocalEmpty.png)
 
+
 5. Copy the **Contoso Expenses** solution created in the previous exercise to the local repository.
 
+
 ![](../Manual/Images/AzureDevOpsRepositoryAddedSolution.png)
+
+
+**NOTE:** If you are using the **Contoso Expenses** solution cloned from <a href="https://github.com/Microsoft/AppConsult-WinAppsModernizationWorkshop" target="_blank">GitHub</a>, please make sure to download the code as ZIP to make sure that Visual Studio is pointing to the right repository.
 
 6. Switch back to Visual Studio and double-click on the **ContosoExpenses.sln**:
 
@@ -212,14 +217,11 @@ Before commit the changes, it is important to notice that not every file created
 More information about .gitignore file available at:
 <a href="https://docs.microsoft.com/en-us/azure/devops/repos/git/ignore-files?view=azure-devops&tabs=command-line" target="_blank">Ignore file changes with Git</a>
 
-
 10. Click on **Changes** to commit the changes, in this case, to commit all the solution files.
-
 
 ![](../Manual/Images/AzureDevOpsCommitChanges.png)
 
 The commit changes UI will be displayed, asking to enter the commit message.
-
 
 11. Enter the commit message and click on **Commit Staged** button:
 
@@ -264,7 +266,7 @@ In the **Where is your code?** page, you can select your source code from differ
 
 ![](../Manual/Images/AzureDevOpsWhereIsYourpage.png)
 
-2. To keep it simple, click on **Azure Repos Git** as we made the source code available in the Azure DevOps portal:
+2. Click on **Azure Repos Git** as we made the source code available in the Azure DevOps portal:
 
 ![](../Manual/Images/AzureDevOpsWhereIsYourpage2.png)
 
@@ -279,9 +281,19 @@ In the **Where is your code?** page, you can select your source code from differ
 
 Azure Pipelines will analyze your repository. As it is the first time that we are configuring the pipeline to this project, the repository doesn't have the **azure-pipelines.yml** yet. Azure Pipelines recommends a starter template based on the code in your repository.
 
-5. Click on **Save and run**.
+More information about the YAML file available at <a href="https://docs.microsoft.com/en-us/azure/devops/pipelines/yaml-schema?view=azure-devops&tabs=schema" target="_blank">YAML schema reference</a>.
 
-![](../Manual/Images/AzureDevOpsPipelineReview.png)
+As **Contoso Expenses** solution was developed on **Visual Studio 2019 Preview**, we need to change the pipeline image to **Windows Server 2019** that comes with the Visual Studio 2019 Preview installed.  
+
+If you didn't change the vmImage, you will receive the following error message during the build:
+
+```text
+Version 3.0.100-preview3-010431 of the .NET Core SDK requires at least version 16.0.0 of MSBuild. The current available version of MSBuild is 15.9.21.66.
+```
+
+5. Change the **vmImage** value from **VS2017-Win2016** to **windows-2019** and click on **Save and run** button:
+
+![](../Manual/Images/AzureDevOpsPipelineEdit4.png)
 
 6. Select **Commit directly to the master branch** and click on **Save and Run**:
 
@@ -291,7 +303,6 @@ Wait for the pipeline finished to be configured:
 
 ![](../Manual/Images/AzureDevOpsPipelineConfiguring.png)
 
-More information about the YAML file available at <a href="https://docs.microsoft.com/en-us/azure/devops/pipelines/yaml-schema?view=azure-devops&tabs=schema" target="_blank">YAML schema reference</a>.
 
 The build will be started automatically:
 
@@ -300,26 +311,20 @@ The build will be started automatically:
 Wait for the build to finish. Observe that the build finished with errors.
 
 
-![](../Manual/Images/AzureDevOpsPipelineBuildWithErrors.png)
+![](../Manual/Images/AzureDevOpsPipelineSdkError.png)
 
+Message error:
 
-Error message:
 ```text
 C:\Program Files\dotnet\sdk\2.2.105\Sdks\Microsoft.NET.Sdk.WindowsDesktop\Sdk not found. Check that a recent enough .NET Core SDK is installed and/or increase the version specified in global.json.
 ```
 
+This error happened, because it is necessary to install the **.NET Core 3.0 SDK Preview** in Azure DevOps build environment.
 
-This is happening as the **.NET Core 3.0 SDK** is in **preview** and doesn't exist yet in the Azure DevOps environment.
+7. Click on **Pipelines**, click on **Edit**:
 
+![](../Manual/Images/AzureDevOpsPipelineEdit0.png)
 
-
-7. Click on **Pipelines** item and click on the **Edit** button to edit the **azure-pipelines.yml** file:
-
-![](../Manual/Images/AzureDevOpsPipelineEdit.png)
-
-The following page will be displayed with the content of the azure-pipelines.yml. Observe that there are a lot of extensions available to help to define the tasks:
-
-![](../Manual/Images/AzureDevOpsAzurePipelineYmlFile.png)
 
 8. Scroll down in the task list and click on **Use dotnet** task. That option will acquire a specific version of the .NET Core SDK from the Internet or the local cache and adds it to the PATH.
 
@@ -347,30 +352,59 @@ Observe that the following code will be added to the yaml file:
     version: '3.0.100-preview3-010431'
 ```
 
-11. Click on the **Save** button:
+Now that the task to install .NET Core 3.0 SDK is defined, we need to specify the NuGet version 4.3.0 that contains the latest NuGet packages used by the project.
 
-![](../Manual/Images/AzureDevOpsPipelineSave1.png)
+That setting will prevent us to receive the following build error:
 
-12. Click on **Save** again:
+```text
+NU1605: Detected package downgrade: System.Collections from 4.3.0 to 4.0.11. Reference the package directly from the project to select a different version.
+```
+
+11. Locate the **task: NuGetToolInstaller@0** line and add the NuGet version, as follows:
+
+```yaml
+- task: NuGetToolInstaller@0
+  displayName: 'Use NuGet 4.4.1'
+  inputs:
+    versionSpec: 4.4.1
+```
+
+Be aware with the file indentation.
+
+Before saving, the last change in the yaml file will be to disable the **AppxPackageSigningEnabled** in the build process. That change is necessary to eliminate the error below, as the compiler not found the certificate to sign the package.
+
+```text
+Error APPX0104: Certificate file 'ContosoExpenses.Package_TemporaryKey.pfx' not found.
+```
+
+
+12. Locate the **VSBuild@1** task, and include the **/p:AppxPackageSigningEnabled=false** parameter, as follows:
+
+```yaml
+- task: VSBuild@1
+  inputs:
+    platform: 'x86'
+    solution: '$(solution)'
+    configuration: '$(buildConfiguration)'
+    msbuildArgs: '/p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=StoreUpload /p:AppxPackageSigningEnabled=false'
+```
+
+13. Click on **Save**.
+
+
+![](../Manual/Images/AzureDevOpsPipelineSave.png)
+
+
+12. Click on **Save** to commit the yaml file changes:
 
 ![](../Manual/Images/AzureDevOpsPipelineSave2.png)
 
-13. Click on **Pipeline**, click on **Builds** and select the latest build:
 
-![](../Manual/Images/AzureDevOpsPipelineBuildList.png)
-
-
-Note that the build finished with the same error. Through the message error, it is possible to see that the compiler still using the **.NET Core SDK 2.2.105** instead of **.NET Core SDK 3.0**.
-
-```text
-C:\Program Files\dotnet\sdk\2.2.105\Sdks\Microsoft.NET.Sdk.WindowsDesktop\Sdk not found. Check that a recent enough .NET Core SDK is installed and/or increase the version specified in global.json.
-```
-
-To fix this error, it will be necessary to add the **global.json** file to the repository folder. If the **global.json** exists, the .NET Core SDK version, specified in the file, will be used for all SDK commands like **dotnet build**.
+Before clicking on the Run button, it is necessary to add a **global.json** file to the repository folder to force the compiler to use the .NET Core 3.0 SDK version.
 
 For more information about the global.json file check the <a href="https://docs.microsoft.com/en-us/dotnet/core/tools/global-json" target="_blank">global.json overview</a>.
 
-14. Open the **local repository folder** of the **Contoso Expenses** project and add a **global.json** file with the following content:
+13. Switch back to the **local repository folder** of the **Contoso Expenses** project and add a **global.json** file with the following content:
 
 ```json
 {
@@ -389,130 +423,25 @@ The local repository folder should looks like:
 ![](../Manual/Images/AzureDevOpsPipelineGlobalJson.png)
 
 
-15. In the Visual Studio, open the **Contoso Expenses** solution and click on **Changes** available in the **Team Explorer** tab.
+14. In the Visual Studio, open the **Contoso Expenses** solution and click on **Changes** available in the **Team Explorer** tab.
 
 ![](../Manual/Images/AzureDevOpsCommitChanges.png)
 
 
-16. Make sure that the **global.json** is listed in the changes folder, fill in the **commit message** and click on **Commit All** button:
+15. Make sure that the **global.json** is listed in the changes folder, fill in the **commit message** and click on **Commit All** button:
 
 ![](../Manual/Images/AzureDevOpsPipelineGlobalJsonCommit.png)
 
-Now, it will be necessary to create a task to install .NET Core 3.0 in the Azure DevOps build environment.
-
-17. Switch back to the **Azure DevOps portal**, click on **Pipeline** and click on the last build that was automatically started after committing the changes in Visual Studio.
-
-![](../Manual/Images/AzureDevOpsPipelineBuildAfterGlobal.png)
 
 
-Observe that this time, the build finishes with a different error telling us that the **MSBuild version**, of the build environment, is less than the required by the **Contoso Expenses** project:
-
-![](../Manual/Images/AzureDevOpsPipelineError1.png)
-
-Error message:
-
-```text
-Version 3.0.100-preview3-010431 of the .NET Core SDK requires at least version 16.0.0 of MSBuild. The current available version of MSBuild is 15.9.21.66.
-```
-
-That is happening because the **Contoso Expenses** is using **Visual Studio 2019 Preview**. Therefore, we need to change the pipeline image to **Windows Server 2019**, as it comes with the Visual Studio 2019 Preview installed.
-
-18. Click on **Pipeline** and click on the **Edit** button to modify the yaml file:
-
-![](../Manual/Images/AzureDevOpsPipelineEdit3.png)
-
-19. Change the vmImage value from **VS2017-Win2016** to **windows-2019** and click on **Save**:
-
-![](../Manual/Images/AzureDevOpsPipelineEdit4.png)
-
-20. Commit the yaml file changes by clicking on **Save**:
-
-![](../Manual/Images/AzureDevOpsPipelineSave2.png)
-
-21. Click on **Pipeline**, click on **Builds** and select the latest build:
-
-![](../Manual/Images/AzureDevOpsPipelineBuildList.png)
-
-Note that this time, it was generated an error during the NuGetCommand task:
-
-![](../Manual/Images/AzureDevOpsPipelineError2.png)
-
-Error message:
-
-```text
-NU1605: Detected package downgrade: System.Collections from 4.3.0 to 4.0.11. Reference the package directly from the project to select a different version.
-```
-
-To fix that error, it is necessary to edit the yaml file and specify the NuGet version that we want to use.
-
-22. Click on **Pipeline** and click on the **Edit** button to edit the yaml file:
-
-![](../Manual/Images/AzureDevOpsPipelineEdit3.png)
-
-23. Add the NuGet veersion, as follows:
-
-```yaml
-- task: NuGetToolInstaller@0
-  displayName: 'Use NuGet 4.4.1'
-  inputs:
-    versionSpec: 4.4.1
-```
-
-Be aware with the indentation.
 
 
-24. Click on **Save**.
-
-![](../Manual/Images/AzureDevOpsPipelineEdit5.png)
 
 
-25. Commit the yaml file changes by clicking on **Save**:
-
-![](../Manual/Images/AzureDevOpsPipelineSave2.png)
-
-26. Click on **Pipeline**, click on **Builds** and select the latest build:
-
-![](../Manual/Images/AzureDevOpsPipelineBuildList.png)
-
-The build will fail again, but this will be the last error. :)
-
-![](../Manual/Images/AzureDevOpsPipelineError3.png)
-
-Message error:
-
-```text
-Error APPX0104: Certificate file 'ContosoExpenses.Package_TemporaryKey.pfx' not found.
-```
 
 
-This error happened, because the compiler not found the certificate to sign the package.
-
-To fix this error, it will be necessary to disable the AppxPackageSigningEnabled in the yaml file.
-
-27. Click on **Pipeline** and click on **Edit** button to edit the yaml file:
-
-![](../Manual/Images/AzureDevOpsPipelineEdit3.png)
 
 
-28. In the last task, include the **/p:AppxPackageSigningEnabled=false** parameter, as follows:
-
-```yaml
-- task: VSBuild@1
-  inputs:
-    platform: 'x86'
-    solution: '$(solution)'
-    configuration: '$(buildConfiguration)'
-    msbuildArgs: '/p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=StoreUpload /p:AppxPackageSigningEnabled=false'
-```
-
-The yaml file should looks like:
-
-![](../Manual/Images/AzureDevOpsPipelineFinalYaml.png)
-
-
-29. Click on **Run** to queue a new build and click on the **build number** to go to the build details. Note that the build succeeded this time.
-
-![](../Manual/Images/AzureDevOpsPipelineBuildSuccess.png)
 
 
 Congrats! The build succeeded, but it is missing one thing here. Where are the build output? To access the output files, it will be necessary to add one more task.
