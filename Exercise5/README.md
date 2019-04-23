@@ -220,7 +220,7 @@ Now that our Adaptive Card is ready, we need a method to create a user activity 
     using Windows.UI.Shell;
     ```
     
-    These namespaces are part of the Universal Windows Platform but, thanks to the NuGet package we have installed in Exercise 3, we are able to use these APIs without issues.
+    These namespaces are part of the Universal Windows Platform but, thanks to the Windows Community Toolkit we have installed in Exercise 2, we are able to use these APIs without issues.
 2. Then declare the following objects at class level:
 
     ```csharp
