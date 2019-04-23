@@ -1,0 +1,196 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Waf.MusicManager.Domain.Playlists.PlaylistManager">
+    <Position X="10.75" Y="2.25" Width="2" />
+    <Members>
+      <Field Name="canNextItem" Hidden="true" />
+      <Field Name="canPreviousItem" Hidden="true" />
+      <Field Name="currentItem" Hidden="true" />
+      <Field Name="isTotalDurationEstimated" Hidden="true" />
+      <Field Name="items" Hidden="true" />
+      <Method Name="ItemsCollectionChanged" Hidden="true" />
+      <Method Name="MusicFilePropertyChanged" Hidden="true" />
+      <Method Name="OnPropertyChanged" Hidden="true" />
+      <Field Name="playedItemsStack" Hidden="true" />
+      <Method Name="PlaylistManager" Hidden="true" />
+      <Field Name="randomService" Hidden="true" />
+      <Field Name="repeat" Hidden="true" />
+      <Field Name="shuffle" Hidden="true" />
+      <Field Name="totalDuration" Hidden="true" />
+      <Method Name="UpdateCanPreviousAndCanNextItem" Hidden="true" />
+      <Method Name="UpdateTotalDuration" Hidden="true" />
+    </Members>
+    <AssociationLine Name="CurrentItem" Type="Waf.MusicManager.Domain.Playlists.PlaylistItem" FixedFromPoint="true">
+      <Path>
+        <Point X="10.75" Y="4.5" />
+        <Point X="9.5" Y="4.5" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AEQwAABAREAADCQAIAgABEBDQABIAgAAEBIDAAAAEQA=</HashCode>
+      <FileName>Playlists\PlaylistManager.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="CurrentItem" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Items" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Waf.MusicManager.Domain.MusicFiles.Entity">
+    <Position X="0.5" Y="1" Width="2" />
+    <Members>
+      <Field Name="changes" Hidden="true" />
+      <Field Name="changeTrackerService" Hidden="true" />
+      <Method Name="Entity" Hidden="true" />
+      <Field Name="entityLoaded" Hidden="true" />
+      <Field Name="hasChanges" Hidden="true" />
+      <Method Name="SetPropertyAndTrackChanges" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAEEAAAgAAEAAIAAIAAAAAAIAAAAAAABAIAAAQAA=</HashCode>
+      <FileName>MusicFiles\Entity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Waf.MusicManager.Domain.MusicFiles.Genres">
+    <Position X="0.5" Y="9" Width="2" />
+    <Members>
+      <Field Name="defaultValues" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAIAAAAA=</HashCode>
+      <FileName>MusicFiles\Genres.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Waf.MusicManager.Domain.MusicFiles.MusicFile">
+    <Position X="4" Y="3.5" Width="2" />
+    <Members>
+      <Field Name="isMetadataLoaded" Hidden="true" />
+      <Field Name="loadCalled" Hidden="true" />
+      <Field Name="loadError" Hidden="true" />
+      <Field Name="loadMetadata" Hidden="true" />
+      <Field Name="loadMetadataCompletionSource" Hidden="true" />
+      <Method Name="LoadMetadataCore" Hidden="true" />
+      <Field Name="metadata" Hidden="true" />
+      <Method Name="MusicFile" Hidden="true" />
+      <Field Name="sharedMusicFiles" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>BQQAAAEAAAIEAAAAABAAAAAQAIAAgACAAAAAAABEAAA=</HashCode>
+      <FileName>MusicFiles\MusicFile.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Metadata" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Waf.MusicManager.Domain.MusicFiles.MusicMetadata">
+    <Position X="0.5" Y="3.75" Width="2" />
+    <Members>
+      <Field Name="album" Hidden="true" />
+      <Field Name="albumArtist" Hidden="true" />
+      <Field Name="artists" Hidden="true" />
+      <Field Name="composers" Hidden="true" />
+      <Field Name="conductors" Hidden="true" />
+      <Field Name="genre" Hidden="true" />
+      <Method Name="MusicMetadata" Hidden="true" />
+      <Field Name="publisher" Hidden="true" />
+      <Field Name="rating" Hidden="true" />
+      <Field Name="subtitle" Hidden="true" />
+      <Field Name="title" Hidden="true" />
+      <Field Name="trackNumber" Hidden="true" />
+      <Field Name="year" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAEAAAARBACAEAASAIAUEgCAzAACAMIQEgACEBAAgA=</HashCode>
+      <FileName>MusicFiles\MusicMetadata.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Waf.MusicManager.Domain.Playlists.PlayedItemsStack&lt;T&gt;">
+    <Position X="14" Y="0.75" Width="2" />
+    <Members>
+      <Field Name="capacity" Hidden="true" />
+      <Method Name="PlayedItemsStack" Hidden="true" />
+      <Field Name="playlistItems" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAAAAIAAAQAAACQAAAAIAAAAABQAAA=</HashCode>
+      <FileName>Playlists\PlayedItemsStack.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Waf.MusicManager.Domain.Playlists.PlaylistItem">
+    <Position X="7.5" Y="3.75" Width="2" />
+    <Members>
+      <Method Name="PlaylistItem" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAA=</HashCode>
+      <FileName>Playlists\PlaylistItem.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="MusicFile" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Waf.MusicManager.Domain.Playlists.RandomService">
+    <Position X="14" Y="5.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAA=</HashCode>
+      <FileName>Playlists\RandomService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Waf.MusicManager.Domain.Playlists.StatisticsHelper">
+    <Position X="14" Y="7" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Playlists\StatisticsHelper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Waf.MusicManager.Domain.Transcoding.TranscodingManager">
+    <Position X="10.75" Y="7.5" Width="2" />
+    <Members>
+      <Field Name="transcodeItems" Hidden="true" />
+      <Method Name="TranscodingManager" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAIAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAg=</HashCode>
+      <FileName>Transcoding\TranscodingManager.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="TranscodeItems" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Waf.MusicManager.Domain.Transcoding.TranscodeItem">
+    <Position X="7" Y="7.25" Width="2" />
+    <Members>
+      <Field Name="error" Hidden="true" />
+      <Field Name="progress" Hidden="true" />
+      <Method Name="TranscodeItem" Hidden="true" />
+      <Field Name="transcodeStatus" Hidden="true" />
+    </Members>
+    <AssociationLine Name="Source" Type="Waf.MusicManager.Domain.MusicFiles.MusicFile" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="7.219" Y="7.25" />
+        <Point X="7.219" Y="5.312" />
+        <Point X="6" Y="5.312" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAgAAAQAAAIEAAAAAAAAQAAAAEIAAAACAAAA=</HashCode>
+      <FileName>Transcoding\TranscodeItem.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Source" />
+    </ShowAsAssociation>
+  </Class>
+  <Interface Name="Waf.MusicManager.Domain.Playlists.IRandomService">
+    <Position X="14" Y="3.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAA=</HashCode>
+      <FileName>Playlists\IRandomService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
