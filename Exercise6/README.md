@@ -291,7 +291,7 @@ If you didn't change the vmImage, you will receive the following error message d
 Version 3.0.100-preview3-010431 of the .NET Core SDK requires at least version 16.0.0 of MSBuild. The current available version of MSBuild is 15.9.21.66.
 ```
 
-5. Change the **vmImage** value from **VS2017-Win2016** to **windows-2019** and click on **Save and run** button:
+5. Change the **vmImage** value from **VS2017-Win2016** to **windows-2019** and remove the **ARM** option from the **buildPlatform** values as the Contoso Expenses project is set to x86 and x64. Click on **Save and run** button:
 
 ![](../Manual/Images/AzureDevOpsPipelineEdit4.png)
 
@@ -395,7 +395,7 @@ Error APPX0104: Certificate file 'ContosoExpenses.Package_TemporaryKey.pfx' not 
 ![](../Manual/Images/AzureDevOpsPipelineSave.png)
 
 
-12. Click on **Save** to commit the yaml file changes:
+14. Click on **Save** to commit the yaml file changes:
 
 ![](../Manual/Images/AzureDevOpsPipelineSave2.png)
 
@@ -404,7 +404,7 @@ Before clicking on the Run button, it is necessary to add a **global.json** file
 
 For more information about the global.json file check the <a href="https://docs.microsoft.com/en-us/dotnet/core/tools/global-json" target="_blank">global.json overview</a>.
 
-13. Switch back to the **local repository folder** of the **Contoso Expenses** project and add a **global.json** file with the following content:
+15. Switch back to the **local repository folder** of the **Contoso Expenses** project and add a **global.json** file with the following content:
 
 ```json
 {
@@ -423,39 +423,43 @@ The local repository folder should looks like:
 ![](../Manual/Images/AzureDevOpsPipelineGlobalJson.png)
 
 
-14. In the Visual Studio, open the **Contoso Expenses** solution and click on **Changes** available in the **Team Explorer** tab.
+16. In the Visual Studio, open the **Contoso Expenses** solution and click on **Changes** available in the **Team Explorer** tab.
 
 ![](../Manual/Images/AzureDevOpsCommitChanges.png)
 
 
-15. Make sure that the **global.json** is listed in the changes folder, fill in the **commit message** and click on **Commit All** button:
+17. Make sure that the **global.json** is listed in the changes folder, fill in the **commit message** and click on **Commit All** button:
 
 ![](../Manual/Images/AzureDevOpsPipelineGlobalJsonCommit.png)
 
 
+After committing the code, click on Sync and push the changes to server.
+
+18. Switch back to Azure DevOps Portal, click on Pipelines and observe that the build will automatically started. Click on the top build name to see the details.  
+
+
+![](../Manual/Images/AzureDevOpsPipelineBuildAutomaticallyStarted.png)
+
+
+**Congrats!** The build succeeded!
+
+![](../Manual/Images/AzureDevOpsPipelineBuildSuccess.png)
 
 
 
+Probably you are wondering where is the build output. :)
+To access the output files, it will be necessary to add one more task.
 
-
-
-
-
-
-
-
-Congrats! The build succeeded, but it is missing one thing here. Where are the build output? To access the output files, it will be necessary to add one more task.
-
-30.  Click on **Pipeline** and click on the **Edit** button to edit the yaml file:
+19.  Click on **Pipelines** and click on the **Edit** button to edit the yaml file:
 
 ![](../Manual/Images/AzureDevOpsPipelineEdit3.png)
 
 
-31.  Click on the last line of the yaml file, type **artifacts** in the **filter text** and click on **Publish Build Artifacts**:
+20.  Click on the last line of the yaml file, type **artifacts** in the **filter text** and click on **Publish Build Artifacts**:
 
 ![](../Manual/Images/AzureDevOpsPipelinePublishArtifacts.png)
 
-32. Add the **\AppxPackages** at the end of the **Path to publish**, name the **Artifact name** field to **drop** and click on **Add**.
+21. Add the **\AppxPackages** at the end of the **Path to publish**, name the **Artifact name** field to **drop** and click on **Add**.
 
 ![](../Manual/Images/AzureDevOpsPipelinePublishArtifacts2.png)
 
@@ -473,11 +477,11 @@ Azure-pipelines.yml:
 ![](../Manual/Images/AzureDevOpsPipelinePublishArtifacts3.png)
 
 
-33. Commit the yaml file changes by clicking on **Save**:
+22. Commit the yaml file changes by clicking on **Save**:
 
 ![](../Manual/Images/AzureDevOpsPipelineSave2.png)
 
-34. Click on **Pipeline**, click on **Builds** and select the latest build:
+23. Click on **Pipelines** and select the latest build:
 
 ![](../Manual/Images/AzureDevOpsPipelineBuildList.png)
 
@@ -486,7 +490,7 @@ After build succeeds, observe that the **Artifacts** button is available.
 
 ![](../Manual/Images/AzureDevOpsPipelinePublishArtifacts4.png)
 
-35. Click on the **Artifacts** button and select the **drop** item that contains the build output.
+24. Click on the **Artifacts** button and select the **drop** item that contains the build output.
 
 ![](../Manual/Images/AzureDevOpsPipelinePublishArtifacts3.png)
 
@@ -495,6 +499,11 @@ In the **Artifacts explorer** UI it is possible to see all the output files gene
 
 ![](../Manual/Images/AzureDevOpsPipelinePublishArtifacts6.png)
 
-36. Click on the **...** button, beside the **drop** folder, to download the output files:
+25. Click on the **...** button, beside the **drop** folder, to download the output files:
 
 ![](../Manual/Images/AzureDevOpsPipelinePublishArtifacts7.png)
+
+### Exercise 6 Task 6 - Create the release pipeline
+
+
+### Exercise 6 Task 7 - Sign the package
