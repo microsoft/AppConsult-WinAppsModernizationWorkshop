@@ -131,7 +131,7 @@ DevOps Projects sets up everything you need for developing, deploying, and monit
 
     ![](../Manual/Images/GetStartedAzureDevOps.jpg)
 
-5. Enter a name for your project and select the visibility. The name can't contain special characters (such as / : \ ~ & % ; @ ' " ? < > | # $ * } { , + = [  ]), can't begin with an underscore, can't begin or end with a period, and must be 64 characters or less. Visibility can be either public or private. With public visibility, anyone on the internet can view your project. With private visibility, only people who you give access to can view your project. Select **Create project**.
+5. Enter the **Contoso Expenses** name for your project and select the visibility. The name can't contain special characters (such as / : \ ~ & % ; @ ' " ? < > | # $ * } { , + = [  ]), can't begin with an underscore, can't begin or end with a period, and must be 64 characters or less. Visibility can be either public or private. With public visibility, anyone on the internet can view your project. With private visibility, only people who you give access to can view your project. Select **Create project**.
 
     ![](../Manual/Images/AzureDevOpsCreateProject.jpg)
 
@@ -140,22 +140,39 @@ When your project has been created, the welcome page will appear. Feel free to e
     ![](../Manual/Images/AzureDevOpsWelcome.png)
 
 
-### Exercise 6 Task 4 - Integrate Contoso Expense with Azure DevOps Repository
+### Exercise 6 Task 4 - Integrate Contoso Expenses with Azure DevOps Repository
 In this session, we will learn how to integrate the ContosoExpenses solution to the project in Azure DevOps.
 
-As we will use Git, you need to clone it to your computer. Cloning a repo creates a complete local copy of the repo for you to work with. Cloning also downloads all commits and branches in the repo and sets up a named relationship with the repo on the server. Use this relationship to interact with the existing repo, pushing and pulling changes to share code with your team.
+Note that so far the **Contoso Expenses** Repository is empty:
+
+![](../Manual/Images/AzureDevOpsRepositoryEmpty.png)
+
+We need to clone it to our computer. Cloning a repo creates a complete local copy of the repo for you to work with. Cloning also downloads all commits and branches in the repo and sets up a named relationship with the repo on the server. Use this relationship to interact with the existing repo, pushing and pulling changes to share code with your team.
 
 Clone the repo to your computer:
 
-1. In the Contoso Expenses solution, select the Teams Explorer tab and click on the **Manage Connections** button:
+1. Click on **Clone in Visual Studio** to clone this repository:
+
+![](../Manual/Images/AzureDevOpsRepositoryCloneInVS.png)
+
+
+2. Provide the **local path** for the repository and click on **Clone**:
+
+![](../Manual/Images/AzureDevOpsRepositoryVS1.png)
+
+After finishing to clone the Repository, the Team Explorer tab will be displayed, as follows:
+
+![](../Manual/Images/AzureDevOpsRepositoryCloned.png)
+
+
+The next step will be to add the Contoso Expenses solution to this repository.
 
     ![](../Manual/Images/AzureDevOpsVSManageConnections.png)
 
-2. Click on the **Connect...** link:
+![](../Manual/Images/AzureDevOpsShowFolderView.png)
 
     ![](../Manual/Images/AzureDevOpsGitHubConnect.png)
 
-3. Provide the same credential used in the Azure DevOpsPortal, select the Contoso Expense from the repository list and click on **Connect** button.
 
     ![](../Manual/Images/AzureDevOpsVSConnecttoaproject.png)
 
@@ -165,15 +182,15 @@ Clone the repo to your computer:
 
     Before commit the changes, it is important to notice that not every file created or updated in your code should be committed to Git. Temporary files from development environment, test outputs and logs are all examples of files that are created but are not part of the codebase. Throught the gitignore feature it is possible to customize which files Git tracks.
 
-4. Click on **Settings**:
+7. Click on the **Team Explorer** tab and click on **Settings**:
 
     ![](../Manual/Images/AzureDevOpsRepositorySettings.png)
 
-5. Click on **Repository Settings**:
+8. Click on **Repository Settings**:
 
     ![](../Manual/Images/AzureDevOpsRepositorySettings2.png)
 
-6. Click on **Add** to create a default **.gitignore** file:
+9. Click on **Add** to create a default **.gitignore** file:
 
     ![](../Manual/Images/AzureDevOpsRepositoryGitIgnore.png)
 
@@ -228,7 +245,7 @@ In this session, you will learn how to use Azure Pipelines to automatically buil
 
     ![](../Manual/Images/AzureDevOpsWhereIsYourpage.png)
 
-2. To keep it simple, click on **Azure Repos Git** as we made the source code available in the Azure DevOps portal:
+2. Click on **Azure Repos Git** as we made the source code available in the Azure DevOps portal:
 
     ![](../Manual/Images/AzureDevOpsWhereIsYourpage2.png)
 
@@ -243,7 +260,17 @@ In this session, you will learn how to use Azure Pipelines to automatically buil
 
     Azure Pipelines will analyze your repository. As it is the first time that we are configuring the pipeline to this project, the repository doesn't have the **azure-pipelines.yml** yet. Azure Pipelines recommends a starter template based on the code in your repository.
 
-5. Click on **Save and run**.
+More information about the YAML file available at <a href="https://docs.microsoft.com/en-us/azure/devops/pipelines/yaml-schema?view=azure-devops&tabs=schema" target="_blank">YAML schema reference</a>.
+
+As **Contoso Expenses** solution was developed on **Visual Studio 2019 Preview**, we need to change the pipeline image to **Windows Server 2019** that comes with the Visual Studio 2019 Preview installed.  
+
+If you didn't change the vmImage, you will receive the following error message during the build:
+
+```text
+Version 3.0.100-preview3-010431 of the .NET Core SDK requires at least version 16.0.0 of MSBuild. The current available version of MSBuild is 15.9.21.66.
+```
+
+5. Change the **vmImage** value from **VS2017-Win2016** to **windows-2019** and remove the **ARM** option from the **buildPlatform** values as the Contoso Expenses project is set to x86 and x64. Click on **Save and run** button:
 
     ![](../Manual/Images/AzureDevOpsPipelineReview.png)
 
@@ -305,7 +332,7 @@ In this session, you will learn how to use Azure Pipelines to automatically buil
         version: '3.0.100-preview4-011223'
     ```
 
-11. Click on the **Save** button:
+Now that the task to install .NET Core 3.0 SDK is defined, we need to specify the NuGet version 4.3.0 that contains the latest NuGet packages used by the project.
 
     ![](../Manual/Images/AzureDevOpsPipelineSave1.png)
 
@@ -397,11 +424,9 @@ In this session, you will learn how to use Azure Pipelines to automatically buil
 
     To fix that error, it is necessary to edit the yaml file and specify the NuGet version that we want to use.
 
-22. Click on **Pipeline** and click on the **Edit** button to edit the yaml file:
 
     ![](../Manual/Images/AzureDevOpsPipelineEdit3.png)
 
-23. Add the NuGet veersion, as follows:
 
     ```yaml
     - task: NuGetToolInstaller@0
@@ -412,16 +437,18 @@ In this session, you will learn how to use Azure Pipelines to automatically buil
 
     Be aware with the indentation.
 
-24. Click on **Save**.
+Before clicking on the Run button, it is necessary to add a **global.json** file to the repository folder to force the compiler to use the .NET Core 3.0 SDK version.
 
     ![](../Manual/Images/AzureDevOpsPipelineEdit5.png)
 
+15. Switch back to the **local repository folder** of the **Contoso Expenses** project and add a **global.json** file with the following content:
 
-25. Commit the yaml file changes by clicking on **Save**:
+```json
+{
 
     ![](../Manual/Images/AzureDevOpsPipelineSave2.png)
 
-26. Click on **Pipeline**, click on **Builds** and select the latest build:
+ "version": "3.0.100-preview3-010431"
 
     ![](../Manual/Images/AzureDevOpsPipelineBuildList.png)
     
@@ -437,11 +464,11 @@ In this session, you will learn how to use Azure Pipelines to automatically buil
 
     This error happened, because the compiler not found the certificate to sign the package. To fix this error, it will be necessary to disable the AppxPackageSigningEnabled in the yaml file.
 
-27. Click on **Pipeline** and click on **Edit** button to edit the yaml file:
+17. Make sure that the **global.json** is listed in the changes folder, fill in the **commit message** and click on **Commit All** button:
 
     ![](../Manual/Images/AzureDevOpsPipelineEdit3.png)
 
-28. In the last task, include the **/p:AppxPackageSigningEnabled=false** parameter, as follows:
+After committing the code, click on Sync and push the changes to server.
 
     ```yaml
     - task: VSBuild@1
@@ -462,15 +489,18 @@ In this session, you will learn how to use Azure Pipelines to automatically buil
 
     Congrats! The build succeeded, but it is missing one thing here. Where are the build output? To access the output files, it will be necessary to add one more task.
 
-30.  Click on **Pipeline** and click on the **Edit** button to edit the yaml file:
+Probably you are wondering where is the build output. :)
+To access the output files, it will be necessary to add one more task.
+
+19.  Click on **Pipelines** and click on the **Edit** button to edit the yaml file:
 
     ![](../Manual/Images/AzureDevOpsPipelineEdit3.png)
 
-31.  Click on the last line of the yaml file, type **artifacts** in the **filter text** and click on **Publish Build Artifacts**:
+20.  Click on the last line of the yaml file, type **artifacts** in the **filter text** and click on **Publish Build Artifacts**:
 
     ![](../Manual/Images/AzureDevOpsPipelinePublishArtifacts.png)
 
-32. Add the **\AppxPackages** at the end of the **Path to publish**, name the **Artifact name** field to **drop** and click on **Add**.
+21. Add the **\AppxPackages** at the end of the **Path to publish**, name the **Artifact name** field to **drop** and click on **Add**.
 
     ![](../Manual/Images/AzureDevOpsPipelinePublishArtifacts2.png)
 
@@ -488,11 +518,11 @@ In this session, you will learn how to use Azure Pipelines to automatically buil
     ![](../Manual/Images/AzureDevOpsPipelinePublishArtifacts3.png)
 
 
-33. Commit the yaml file changes by clicking on **Save**:
+22. Commit the yaml file changes by clicking on **Save**:
 
     ![](../Manual/Images/AzureDevOpsPipelineSave2.png)
 
-34. Click on **Pipeline**, click on **Builds** and select the latest build:
+23. Click on **Pipelines** and select the latest build:
 
     ![](../Manual/Images/AzureDevOpsPipelineBuildList.png)
 
@@ -500,7 +530,7 @@ In this session, you will learn how to use Azure Pipelines to automatically buil
 
     ![](../Manual/Images/AzureDevOpsPipelinePublishArtifacts4.png)
 
-35. Click on the **Artifacts** button and select the **drop** item that contains the build output.
+24. Click on the **Artifacts** button and select the **drop** item that contains the build output.
 
     ![](../Manual/Images/AzureDevOpsPipelinePublishArtifacts3.png)
 
@@ -508,6 +538,11 @@ In this session, you will learn how to use Azure Pipelines to automatically buil
 
     ![](../Manual/Images/AzureDevOpsPipelinePublishArtifacts6.png)
 
-36. Click on the **...** button, beside the **drop** folder, to download the output files:
+25. Click on the **...** button, beside the **drop** folder, to download the output files:
+
+![](../Manual/Images/AzureDevOpsPipelinePublishArtifacts7.png)
+
+### Exercise 6 Task 6 - Create the release pipeline
+
 
     ![](../Manual/Images/AzureDevOpsPipelinePublishArtifacts7.png)
