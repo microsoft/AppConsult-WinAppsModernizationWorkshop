@@ -121,7 +121,13 @@ So let's create it! We're going to build an Adaptive Card which looks like this:
 A great way to brainstorm the design of an Adaptive Card is using [the online designer](https://adaptivecards.io/designer/). You will have the chance to design the card with building blocks (images, texts, columns, etc) and to get the corresponding JSON. Once you have an idea of the final design, you can use a library called [Adaptive Cards](https://www.nuget.org/packages/AdaptiveCards/) to make easier to build your Adaptive Card using C# classes instead of plain JSON, which might be hard to debug and build.
 
 1. Right click on the **ContosoExpenses** project in Solution Explorer and choose **Manage NuGet packages**.
-2. Look for the package with identifier **AdaptiveCards** and install it.
+2. First let's install **Json.NET**, the popular JSON manipulation library. It's required by the AdaptiveCards to work properly since, as we have seen, they are defined with JSON. Search for the package **Newtonsoft.Json** and install the most recent version:
+
+    ![](../Manual/Images/JsonNetNuGet.png)
+    
+    We have to install it manually because otherwise the AdaptiveCards library will try to pull from NuGet an older version of Json.NET, which doesn't work with .NET Core 3.0 and will generate an error during the installation.
+
+2. Now look for the package with identifier **AdaptiveCards** and install it.
 
     ![](../Manual/Images/AdaptiveCardsNuGet.png)
 
@@ -214,7 +220,7 @@ Now that our Adaptive Card is ready, we need a method to create a user activity 
     using Windows.UI.Shell;
     ```
     
-    These namespaces are part of the Universal Windows Platform but, thanks to the NuGet package we have installed in Exercise 3, we are able to use these APIs without issues.
+    These namespaces are part of the Universal Windows Platform but, thanks to the Windows Community Toolkit we have installed in Exercise 2, we are able to use these APIs without issues.
 2. Then declare the following objects at class level:
 
     ```csharp

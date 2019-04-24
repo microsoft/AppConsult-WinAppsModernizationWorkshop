@@ -97,7 +97,7 @@ Now that we have packaged the application with MSIX, we can test the notificatio
 5. Fill all the information about the expense and press **Save**.
 6. This time you will see a notification appearing in the lower right corner.
 
-![](../Manual/Images/ToastNotification.png)
+    ![](../Manual/Images/ToastNotification.png)
 
 ### Exercise 6 Task 3 - Sign in to the Azure DevOps portal
 In this task, you will learn how to start Azure DevOps for free, how to define builds to automatically run whenever a team member checks in code changes and to build pipelines to package the application to MSIX after the build runs.
@@ -121,26 +121,23 @@ DevOps Projects sets up everything you need for developing, deploying, and monit
 
 2. Click on the **Start free** button to create a free account.
 
-![](../Manual/Images/AzureDevOpsPortal.jpg)
+    ![](../Manual/Images/AzureDevOpsPortal.jpg)
 
 3. Enter your email address, phone number, or Skype ID for your Microsoft account.
 
-
-![](../Manual/Images/MicrosoftAccountSignIn.jpg)
-
+    ![](../Manual/Images/MicrosoftAccountSignIn.jpg)
 
 4. After signing in, click on Continue to get started with Azure DevOps:
 
-
-![](../Manual/Images/GetStartedAzureDevOps.jpg)
+    ![](../Manual/Images/GetStartedAzureDevOps.jpg)
 
 5. Enter the **Contoso Expenses** name for your project and select the visibility. The name can't contain special characters (such as / : \ ~ & % ; @ ' " ? < > | # $ * } { , + = [  ]), can't begin with an underscore, can't begin or end with a period, and must be 64 characters or less. Visibility can be either public or private. With public visibility, anyone on the internet can view your project. With private visibility, only people who you give access to can view your project. Select **Create project**.
 
-![](../Manual/Images/AzureDevOpsCreateProject.jpg)
+    ![](../Manual/Images/AzureDevOpsCreateProject.jpg)
 
 When your project has been created, the welcome page will appear. Feel free to explore and customize the new project.
 
-![](../Manual/Images/AzureDevOpsWelcome.png)
+    ![](../Manual/Images/AzureDevOpsWelcome.png)
 
 
 ### Exercise 6 Task 4 - Integrate Contoso Expenses with Azure DevOps Repository
@@ -170,116 +167,98 @@ After finishing to clone the Repository, the Team Explorer tab will be displayed
 
 The next step will be to add the Contoso Expenses solution to this repository.
 
-3. Click on the **Show Folder view** option:
+    ![](../Manual/Images/AzureDevOpsVSManageConnections.png)
 
 ![](../Manual/Images/AzureDevOpsShowFolderView.png)
 
-4. Right click in the **Contoso Expenses** folder or in a empty area and select **Open Folder in File Explorer**:
-
-![](../Manual/Images/AzureDevOpsOpenFolderinFileExplorer.png)
+    ![](../Manual/Images/AzureDevOpsGitHubConnect.png)
 
 
-Note that the local repository folder is empty and that exists only the local .vs folder used by Git tracking:
+    ![](../Manual/Images/AzureDevOpsVSConnecttoaproject.png)
 
-![](../Manual/Images/AzureDevOpsRepositoryLocalEmpty.png)
+    The project will be connected to the Azure DevOps repositoy, as follows:
 
+    ![](../Manual/Images/AzureDevOpsRepositoryConnected.png)
 
-5. Copy the **Contoso Expenses** solution created in the previous exercise to the local repository.
-
-
-![](../Manual/Images/AzureDevOpsRepositoryAddedSolution.png)
-
-
-**NOTE:** If you are using the **Contoso Expenses** solution cloned from <a href="https://github.com/Microsoft/AppConsult-WinAppsModernizationWorkshop" target="_blank">GitHub</a>, please make sure to download the code as ZIP to make sure that Visual Studio is pointing to the right repository.
-
-6. Switch back to Visual Studio and double-click on the **ContosoExpenses.sln**:
-
-![](../Manual/Images/AzureDevOpsOpenSolution.png)
-
-Observe that the solution was added to source-control:
-
-![](../Manual/Images/AzureDevOpsSolutionAddedToSourceControl.png)
-
-Before commit the changes, it is important to notice that not every file created or updated in your code should be committed to Git. Temporary files from development environment, test outputs and logs are all examples of files that are created but are not part of the codebase. Throught the gitignore feature it is possible to customize which files Git tracks.
+    Before commit the changes, it is important to notice that not every file created or updated in your code should be committed to Git. Temporary files from development environment, test outputs and logs are all examples of files that are created but are not part of the codebase. Throught the gitignore feature it is possible to customize which files Git tracks.
 
 7. Click on the **Team Explorer** tab and click on **Settings**:
 
-![](../Manual/Images/AzureDevOpsRepositorySettings.png)
+    ![](../Manual/Images/AzureDevOpsRepositorySettings.png)
 
 8. Click on **Repository Settings**:
 
-![](../Manual/Images/AzureDevOpsRepositorySettings2.png)
+    ![](../Manual/Images/AzureDevOpsRepositorySettings2.png)
 
 9. Click on **Add** to create a default **.gitignore** file:
 
-![](../Manual/Images/AzureDevOpsRepositoryGitIgnore.png)
+    ![](../Manual/Images/AzureDevOpsRepositoryGitIgnore.png)
 
-More information about .gitignore file available at:
-<a href="https://docs.microsoft.com/en-us/azure/devops/repos/git/ignore-files?view=azure-devops&tabs=command-line" target="_blank">Ignore file changes with Git</a>
+    More information about .gitignore file available at: <a href="https://docs.microsoft.com/en-us/azure/devops/repos/git/ignore-files?view=azure-devops&tabs=command-line" target="_blank">Ignore file changes with Git</a>
 
-10. Click on **Changes** to commit the changes, in this case, to commit all the solution files.
+7. Click on **Changes** to commit the changes, in this case, to commit all the solution files.
 
-![](../Manual/Images/AzureDevOpsCommitChanges.png)
+    ![](../Manual/Images/AzureDevOpsCommitChanges.png)
 
-The commit changes UI will be displayed, asking to enter the commit message.
+    The commit changes UI will be displayed, asking to enter the commit message.
 
-11. Enter the commit message and click on **Commit Staged** button:
+8. Enter the commit message and click on **Commit All** button:
 
-![](../Manual/Images/AzureDevOpsCommitChanges.png)
+    ![](../Manual/Images/AzureDevOpsCommitAll.png)
 
-12. Click on **Sync** option to share with the remotely server that there are changes in the local repository.
+9. Click on Sync option to share with the remotely server that there are changes in the local repository.
 
-![](../Manual/Images/AzureDevOpsSync.png)
+    ![](../Manual/Images/AzureDevOpsSync.png)
 
-It is important to observe that so far, the commit and the changes exist only locally.
+    It is important to observe that so far, the commit and the changes exist only locally.
 
-13. Click on **Push** to upload the changes to the server:
+10. Click on **Push** to upload the changes to the server:
 
-![](../Manual/Images/AzureDevOpsPush0.png)
+    ![](../Manual/Images/AzureDevOpsPush0.png)
 
-Visual Studio will push your changes to the Azure DevOps repository:
+    Visual Studio will push your changes to the Azure DevOps repository:
 
-![](../Manual/Images/AzureDevOpsPush.png)
+    ![](../Manual/Images/AzureDevOpsPush.png)
 
-At the end, the following message will be displayed to inform that the changes were successfully pushed to the server:
+    At the end, the following message will be displayed to inform that the changes were successfully pushed to the server:
 
-![](../Manual/Images/AzureDevOpsPush2.png)
+    ![](../Manual/Images/AzureDevOpsPush2.png)
 
-14. Switch back to the Azure DevOps portal and click on Repos/Files to double-check that the files were upload to the server:
+11. Switch back to the Azure DevOps portal and click on Repos/Files to double-check that the files were upload to the server:
 
-![](../Manual/Images/AzureDevOpsAddRepoFiles.png)
+    ![](../Manual/Images/AzureDevOpsAddRepoFiles.png)
 
 ### Exercise 6 Task 5 - Create your first pipeline
 Azure Pipelines helps you to implement a build, test, and deployment pipeline for any app. 
 
 In this session, you will learn how to use Azure Pipelines to automatically build the **Contoso Expense** application every time that the changes are pushed to the repository.
 
-1. – In the Azure DevOps portal, navigate to the **Pipelines** page. Then choose **New**, **New build pipeline**.
+1. In the Azure DevOps portal, navigate to the **Pipelines** page. Then choose **New**, **New build pipeline**.
 
-![](../Manual/Images/AzureDevOpsNewPipeline.png)
+    ![](../Manual/Images/AzureDevOpsNewPipeline.png)
 
-Alternatively, you can navigate to **Pipelines** page, click on **+** button besides the Contoso Expense project name and select **New build pipeline**:
+    Alternatively, you can navigate to **Pipelines** page, click on **+** button besides the Contoso Expense project name and select **New build pipeline**:
 
-![](../Manual/Images/AzureDevOpsNewPipeline2.png)
+    ![](../Manual/Images/AzureDevOpsNewPipeline2.png)
 
-In the **Where is your code?** page, you can select your source code from different repository sources:
+    In the **Where is your code?** page, you can select your source code from different repository sources:
 
-![](../Manual/Images/AzureDevOpsWhereIsYourpage.png)
+    ![](../Manual/Images/AzureDevOpsWhereIsYourpage.png)
 
 2. Click on **Azure Repos Git** as we made the source code available in the Azure DevOps portal:
 
-![](../Manual/Images/AzureDevOpsWhereIsYourpage2.png)
+    ![](../Manual/Images/AzureDevOpsWhereIsYourpage2.png)
 
 3. The following page will be displayed asking to select the **Contoso Expense** repository:
 
-![](../Manual/Images/AzureDevOpsPipelineSelectRepository.png)
+    ![](../Manual/Images/AzureDevOpsPipelineSelectRepository.png)
 
 
 4. In the Configure your pipeline page, select the **Universal Windows Platform** pipeline option, as we want to generate the MSIX through the ContosoExpenses.Package project:
 
-![](../Manual/Images/AzureDevOpsPipelineConfigure.png)
+    ![](../Manual/Images/AzureDevOpsPipelineConfigure.png)
 
-Azure Pipelines will analyze your repository. As it is the first time that we are configuring the pipeline to this project, the repository doesn't have the **azure-pipelines.yml** yet. Azure Pipelines recommends a starter template based on the code in your repository.
+    Azure Pipelines will analyze your repository. As it is the first time that we are configuring the pipeline to this project, the repository doesn't have the **azure-pipelines.yml** yet. Azure Pipelines recommends a starter template based on the code in your repository.
 
 More information about the YAML file available at <a href="https://docs.microsoft.com/en-us/azure/devops/pipelines/yaml-schema?view=azure-devops&tabs=schema" target="_blank">YAML schema reference</a>.
 
@@ -293,211 +272,271 @@ Version 3.0.100-preview3-010431 of the .NET Core SDK requires at least version 1
 
 5. Change the **vmImage** value from **VS2017-Win2016** to **windows-2019** and remove the **ARM** option from the **buildPlatform** values as the Contoso Expenses project is set to x86 and x64. Click on **Save and run** button:
 
-![](../Manual/Images/AzureDevOpsPipelineEdit4.png)
+    ![](../Manual/Images/AzureDevOpsPipelineReview.png)
 
 6. Select **Commit directly to the master branch** and click on **Save and Run**:
 
-![](../Manual/Images/AzureDevOpsPipelineSaveAndRun.png)
+    ![](../Manual/Images/AzureDevOpsPipelineSaveAndRun.png)
 
-Wait for the pipeline finished to be configured:
+    Wait for the pipeline finished to be configured:
 
-![](../Manual/Images/AzureDevOpsPipelineConfiguring.png)
+    ![](../Manual/Images/AzureDevOpsPipelineConfiguring.png)
 
+    More information about the YAML file available at <a href="https://docs.microsoft.com/en-us/azure/devops/pipelines/yaml-schema?view=azure-devops&tabs=schema" target="_blank">YAML schema reference</a>.
 
-The build will be started automatically:
+    The build will be started automatically:
 
-![](../Manual/Images/AzureDevOpsPipelineBuild.png)
+    ![](../Manual/Images/AzureDevOpsPipelineBuild.png)
 
-Wait for the build to finish. Observe that the build finished with errors.
+    Wait for the build to finish. Observe that the build finished with errors.
 
+    ![](../Manual/Images/AzureDevOpsPipelineBuildWithErrors.png)
 
-![](../Manual/Images/AzureDevOpsPipelineSdkError.png)
+    Error message:
+    ```text
+    C:\Program Files\dotnet\sdk\2.2.105\Sdks\Microsoft.NET.Sdk.WindowsDesktop\Sdk not found. Check that a recent enough .NET Core SDK is installed and/or increase the version specified in global.json.
+    ```
 
-Message error:
+    This is happening as the **.NET Core 3.0 SDK** is in **preview** and doesn't exist yet in the Azure DevOps environment.
 
-```text
-C:\Program Files\dotnet\sdk\2.2.105\Sdks\Microsoft.NET.Sdk.WindowsDesktop\Sdk not found. Check that a recent enough .NET Core SDK is installed and/or increase the version specified in global.json.
-```
+7. Click on **Pipelines** item and click on the **Edit** button to edit the **azure-pipelines.yml** file:
 
-This error happened, because it is necessary to install the **.NET Core 3.0 SDK Preview** in Azure DevOps build environment.
+    ![](../Manual/Images/AzureDevOpsPipelineEdit.png)
 
-7. Click on **Pipelines**, click on **Edit**:
+    The following page will be displayed with the content of the azure-pipelines.yml. Observe that there are a lot of extensions available to help to define the tasks:
 
-![](../Manual/Images/AzureDevOpsPipelineEdit0.png)
+    ![](../Manual/Images/AzureDevOpsAzurePipelineYmlFile.png)
 
+    8. Scroll down in the task list and click on **Use dotnet** task. That option will acquire a specific version of the .NET Core SDK from the Internet or the local cache and adds it to the PATH.
 
-8. Scroll down in the task list and click on **Use dotnet** task. That option will acquire a specific version of the .NET Core SDK from the Internet or the local cache and adds it to the PATH.
+    ![](../Manual/Images/AzureDevOpsPipelineTaskUseDotnet.png)
 
-![](../Manual/Images/AzureDevOpsPipelineTaskUseDotnet.png)
+    9. Enter the version **3.0.100-preview4-011223** and click on **Add**:
 
-9. Enter the version **3.0.100-preview3-010431** and click on **Add**:
+    ![](../Manual/Images/AzureDevOpsPipelineTaskUseDotnetVersion.png)
 
-![](../Manual/Images/AzureDevOpsPipelineTaskUseDotnetVersion.png)
+    Observe that the following code will be added to the yaml file:
 
-
-Observe that the following code will be added to the yaml file:
-
-```yaml
-- task: DotNetCoreInstaller@0
-  inputs:
-    version: '3.0.100-preview3-010431'
-```
+    ```yaml
+    - task: DotNetCoreInstaller@0
+      inputs:
+        version: '3.0.100-preview4-011223'
+    ```
 
 10. You can include the **displayname** attribute to make the task more user friendly:
 
-```yaml
-- task: DotNetCoreInstaller@0
-  displayName: 'Use .NET Core sdk 3.0.100-preview3-010431'
-  inputs:
-    version: '3.0.100-preview3-010431'
-```
+    ```yaml
+    - task: DotNetCoreInstaller@0
+      displayName: 'Use .NET Core sdk 3.0.100-preview4-011223'
+      inputs:
+        version: '3.0.100-preview4-011223'
+    ```
 
 Now that the task to install .NET Core 3.0 SDK is defined, we need to specify the NuGet version 4.3.0 that contains the latest NuGet packages used by the project.
 
-That setting will prevent us to receive the following build error:
+    ![](../Manual/Images/AzureDevOpsPipelineSave1.png)
 
-```text
-NU1605: Detected package downgrade: System.Collections from 4.3.0 to 4.0.11. Reference the package directly from the project to select a different version.
-```
+12. Click on **Save** again:
 
-11. Locate the **task: NuGetToolInstaller@0** line and add the NuGet version, as follows:
+    ![](../Manual/Images/AzureDevOpsPipelineSave2.png)
 
-```yaml
-- task: NuGetToolInstaller@0
-  displayName: 'Use NuGet 4.4.1'
-  inputs:
-    versionSpec: 4.4.1
-```
+13. Click on **Pipeline**, click on **Builds** and select the latest build:
 
-Be aware with the file indentation.
-
-Before saving, the last change in the yaml file will be to disable the **AppxPackageSigningEnabled** in the build process. That change is necessary to eliminate the error below, as the compiler not found the certificate to sign the package.
-
-```text
-Error APPX0104: Certificate file 'ContosoExpenses.Package_TemporaryKey.pfx' not found.
-```
+    ![](../Manual/Images/AzureDevOpsPipelineBuildList.png)
 
 
-12. Locate the **VSBuild@1** task, and include the **/p:AppxPackageSigningEnabled=false** parameter, as follows:
+    Note that the build finished with the same error. Through the message error, it is possible to see that the compiler still using the **.NET Core SDK 2.2.105** instead of **.NET Core SDK 3.0**.
 
-```yaml
-- task: VSBuild@1
-  inputs:
-    platform: 'x86'
-    solution: '$(solution)'
-    configuration: '$(buildConfiguration)'
-    msbuildArgs: '/p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=StoreUpload /p:AppxPackageSigningEnabled=false'
-```
+    ```text
+    C:\Program Files\dotnet\sdk\2.2.105\Sdks\Microsoft.NET.Sdk.WindowsDesktop\Sdk not found. Check that a recent enough .NET Core SDK is installed and/or increase the version specified in global.json.
+    ```
 
-13. Click on **Save**.
+    To fix this error, it will be necessary to add the **global.json** file to the repository folder. If the **global.json** exists, the .NET Core SDK version specified in the file will be used for all the compilation related tasks.
+
+    For more information about the global.json file check the <a href="https://docs.microsoft.com/en-us/dotnet/core/tools/global-json" target="_blank">global.json overview</a>.
+
+14. Open the **local repository folder** of the **Contoso Expenses** project and add a **global.json** file with the following content:
+
+    ```json
+    {
+        "sdk": {
+            "version": "3.0.100-preview4-011223"
+        }
+    }
+    ```
+
+    The local repository folder should looks like:
+    
+    ![](../Manual/Images/AzureDevOpsPipelineGlobalJson.png)
 
 
-![](../Manual/Images/AzureDevOpsPipelineSave.png)
+15. In the Visual Studio, open the **Contoso Expenses** solution and click on **Changes** available in the **Team Explorer** tab.
+
+    ![](../Manual/Images/AzureDevOpsCommitChanges.png)
+
+16. Make sure that the **global.json** is listed in the changes folder, fill in the **commit message** and click on **Commit All** button:
+
+    ![](../Manual/Images/AzureDevOpsPipelineGlobalJsonCommit.png)
+
+    Now, it will be necessary to create a task to install .NET Core 3.0 in the Azure DevOps build environment.
+
+17. Switch back to the **Azure DevOps portal**, click on **Pipeline** and click on the last build that was automatically started after committing the changes in Visual Studio.
+
+    ![](../Manual/Images/AzureDevOpsPipelineBuildAfterGlobal.png)
+
+    Observe that this time, the build finishes with a different error telling us that the **MSBuild version**, of the build environment, is less than the required by the **Contoso Expenses** project:
+
+    ![](../Manual/Images/AzureDevOpsPipelineError1.png)
+
+    Error message:
+
+    ```text
+    3.0.100-preview4-011223 of the .NET Core SDK requires at least version 16.0.0 of MSBuild. The current available version of MSBuild is 15.9.21.66.
+    ```
+
+    That is happening because to build .NET Core 3.0 project you need **Visual Studio 2019**. Therefore, we need to change the pipeline image to **Windows Server 2019**, as it comes with Visual Studio 2019 installed.
+
+18. Click on **Pipeline** and click on the **Edit** button to modify the yaml file:
+
+    ![](../Manual/Images/AzureDevOpsPipelineEdit3.png)
+
+19. Change the vmImage value from **VS2017-Win2016** to **windows-2019** and click on **Save**:
+
+    ![](../Manual/Images/AzureDevOpsPipelineEdit4.png)
+
+20. Commit the yaml file changes by clicking on **Save**:
+
+    ![](../Manual/Images/AzureDevOpsPipelineSave2.png)
+
+21. Click on **Pipeline**, click on **Builds** and select the latest build:
+
+    ![](../Manual/Images/AzureDevOpsPipelineBuildList.png)
+
+    Note that this time, it was generated an error during the NuGetCommand task:
+
+    ![](../Manual/Images/AzureDevOpsPipelineError2.png)
+
+    Error message:
+
+    ```text
+    NU1605: Detected package downgrade: System.Collections from 4.3.0 to 4.0.11. Reference the package directly from the project to select a different version.
+    ```
+
+    To fix that error, it is necessary to edit the yaml file and specify the NuGet version that we want to use.
 
 
-14. Click on **Save** to commit the yaml file changes:
+    ![](../Manual/Images/AzureDevOpsPipelineEdit3.png)
 
-![](../Manual/Images/AzureDevOpsPipelineSave2.png)
 
+    ```yaml
+    - task: NuGetToolInstaller@0
+      displayName: 'Use NuGet 4.4.1'
+      inputs:
+        versionSpec: 4.4.1
+    ```
+
+    Be aware with the indentation.
 
 Before clicking on the Run button, it is necessary to add a **global.json** file to the repository folder to force the compiler to use the .NET Core 3.0 SDK version.
 
-For more information about the global.json file check the <a href="https://docs.microsoft.com/en-us/dotnet/core/tools/global-json" target="_blank">global.json overview</a>.
+    ![](../Manual/Images/AzureDevOpsPipelineEdit5.png)
 
 15. Switch back to the **local repository folder** of the **Contoso Expenses** project and add a **global.json** file with the following content:
 
 ```json
 {
 
- "sdk": {
+    ![](../Manual/Images/AzureDevOpsPipelineSave2.png)
 
  "version": "3.0.100-preview3-010431"
 
- }
+    ![](../Manual/Images/AzureDevOpsPipelineBuildList.png)
+    
+    The build will fail again, but this will be the last error. :)
+    
+    ![](../Manual/Images/AzureDevOpsPipelineError3.png)
 
-}
-```
+    Message error:
+    
+    ```text
+    Error APPX0104: Certificate file 'ContosoExpenses.Package_TemporaryKey.pfx' not found.
+    ```
 
-The local repository folder should looks like:
-
-![](../Manual/Images/AzureDevOpsPipelineGlobalJson.png)
-
-
-16. In the Visual Studio, open the **Contoso Expenses** solution and click on **Changes** available in the **Team Explorer** tab.
-
-![](../Manual/Images/AzureDevOpsCommitChanges.png)
-
+    This error happened, because the compiler not found the certificate to sign the package. To fix this error, it will be necessary to disable the AppxPackageSigningEnabled in the yaml file.
 
 17. Make sure that the **global.json** is listed in the changes folder, fill in the **commit message** and click on **Commit All** button:
 
-![](../Manual/Images/AzureDevOpsPipelineGlobalJsonCommit.png)
-
+    ![](../Manual/Images/AzureDevOpsPipelineEdit3.png)
 
 After committing the code, click on Sync and push the changes to server.
 
-18. Switch back to Azure DevOps Portal, click on Pipelines and observe that the build will automatically started. Click on the top build name to see the details.  
+    ```yaml
+    - task: VSBuild@1
+      inputs:
+        platform: 'x86'
+        solution: '$(solution)'
+        configuration: '$(buildConfiguration)'
+        msbuildArgs: '/p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=StoreUpload /p:AppxPackageSigningEnabled=false'
+    ```
 
+    The yaml file should looks like:
 
-![](../Manual/Images/AzureDevOpsPipelineBuildAutomaticallyStarted.png)
+    ![](../Manual/Images/AzureDevOpsPipelineFinalYaml.png)
 
+    29. Click on **Run** to queue a new build and click on the **build number** to go to the build details. Note that the build succeeded this time.
 
-**Congrats!** The build succeeded!
+    ![](../Manual/Images/AzureDevOpsPipelineBuildSuccess.png)
 
-![](../Manual/Images/AzureDevOpsPipelineBuildSuccess.png)
-
-
+    Congrats! The build succeeded, but it is missing one thing here. Where are the build output? To access the output files, it will be necessary to add one more task.
 
 Probably you are wondering where is the build output. :)
 To access the output files, it will be necessary to add one more task.
 
 19.  Click on **Pipelines** and click on the **Edit** button to edit the yaml file:
 
-![](../Manual/Images/AzureDevOpsPipelineEdit3.png)
-
+    ![](../Manual/Images/AzureDevOpsPipelineEdit3.png)
 
 20.  Click on the last line of the yaml file, type **artifacts** in the **filter text** and click on **Publish Build Artifacts**:
 
-![](../Manual/Images/AzureDevOpsPipelinePublishArtifacts.png)
+    ![](../Manual/Images/AzureDevOpsPipelinePublishArtifacts.png)
 
 21. Add the **\AppxPackages** at the end of the **Path to publish**, name the **Artifact name** field to **drop** and click on **Add**.
 
-![](../Manual/Images/AzureDevOpsPipelinePublishArtifacts2.png)
+    ![](../Manual/Images/AzureDevOpsPipelinePublishArtifacts2.png)
 
-Note that the task was included at the end of yaml file:
+    Note that the task was included at the end of yaml file:
 
-```yaml
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)\AppxPackages'
-    ArtifactName: 'drop'
-```
+    ```yaml
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)\AppxPackages'
+        ArtifactName: 'drop'
+    ```
 
-Azure-pipelines.yml:
+    Azure-pipelines.yml:
 
-![](../Manual/Images/AzureDevOpsPipelinePublishArtifacts3.png)
+    ![](../Manual/Images/AzureDevOpsPipelinePublishArtifacts3.png)
 
 
 22. Commit the yaml file changes by clicking on **Save**:
 
-![](../Manual/Images/AzureDevOpsPipelineSave2.png)
+    ![](../Manual/Images/AzureDevOpsPipelineSave2.png)
 
 23. Click on **Pipelines** and select the latest build:
 
-![](../Manual/Images/AzureDevOpsPipelineBuildList.png)
+    ![](../Manual/Images/AzureDevOpsPipelineBuildList.png)
 
+    After build succeeds, observe that the **Artifacts** button is available.  
 
-After build succeeds, observe that the **Artifacts** button is available.  
-
-![](../Manual/Images/AzureDevOpsPipelinePublishArtifacts4.png)
+    ![](../Manual/Images/AzureDevOpsPipelinePublishArtifacts4.png)
 
 24. Click on the **Artifacts** button and select the **drop** item that contains the build output.
 
-![](../Manual/Images/AzureDevOpsPipelinePublishArtifacts3.png)
+    ![](../Manual/Images/AzureDevOpsPipelinePublishArtifacts3.png)
 
+    In the **Artifacts explorer** UI it is possible to see all the output files generated:
 
-In the **Artifacts explorer** UI it is possible to see all the output files generated:
-
-![](../Manual/Images/AzureDevOpsPipelinePublishArtifacts6.png)
+    ![](../Manual/Images/AzureDevOpsPipelinePublishArtifacts6.png)
 
 25. Click on the **...** button, beside the **drop** folder, to download the output files:
 
@@ -506,4 +545,4 @@ In the **Artifacts explorer** UI it is possible to see all the output files gene
 ### Exercise 6 Task 6 - Create the release pipeline
 
 
-### Exercise 6 Task 7 - Sign the package
+    ![](../Manual/Images/AzureDevOpsPipelinePublishArtifacts7.png)

@@ -4,10 +4,10 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.0</TargetFramework>
     <UseWPF>true</UseWPF>
-    <RuntimeIdentifiers>win-x86;win-x64</RuntimeIdentifiers>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <ApplicationIcon>Images\contoso.ico</ApplicationIcon>
     <SignAssembly>false</SignAssembly>
+    <StartupObject>ContosoExpenses.Program</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
@@ -27,10 +27,10 @@
 
   <ItemGroup>
     <PackageReference Include="AdaptiveCards" Version="1.1.2" />
-    <PackageReference Include="Microsoft.Toolkit.Wpf.UI.Controls" Version="6.0.0-preview3" />
+    <PackageReference Include="Microsoft.Toolkit.Wpf.UI.Controls" Version="6.0.0-preview4" />
     <PackageReference Include="MvvmLightLibsStd10" Version="5.4.1.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
     <PackageReference Include="Unity" Version="5.10.2" />
-    <PackageReference Include="Microsoft.Windows.SDK.Contracts" Version="10.0.17763.144-preview" />
   </ItemGroup>
 
   <ItemGroup>

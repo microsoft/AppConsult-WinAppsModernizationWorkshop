@@ -3,10 +3,10 @@
 We start with the simpliest modernization path possible: We would like to use a rich UWP control that is "*available for use in WPF*". Crazy idea? No! Indeed, the most requested controls are already wrapped for you! The current XAML Islands iteration brings you the InkCanvas, the InkToolbar, the MapControl and the MediaPlayerElement.
 So in our Contoso Expenses application we will bring a modern touch by using InkCanvas and MapControl. This is possible thanks to the Microsoft.Toolkit.Wpf.UI.Controls NuGet package.
 
-### Exercise 2 Task 1 - Reference the "Microsoft.Toolkit.Wpf.UI.Controls" NuGet package
-We need this WPF package because it takes care for us about all the necessary piping for XAML Islands. It provides wrapper classes for 1st party controls, such as the InkCanvas, InkToolbar, MapControl, and MediaPlayerElement, all for WPF.
+### Exercise 2 Task 1 - Setup the project to use XAML Islands
+In order for our WPF application to host UWP controls through XAML Islands we need to do a bit of setup, like installing a NuGet package and adding an application manifest.
+Let's start!
 
-Please note that the same package exists for Windows Forms. Its name is <a href="https://www.nuget.org/packages/Microsoft.Toolkit.Forms.UI.Controls/" target="_blank">Microsoft.Toolkit.Forms.UI.Controls</a>.
 
 1.  If the Contoso Expenses solution is not opened in Visual Studio, double click on `C:\WinAppsModernizationWorkshop\Lab\Exercise2\01-Start\ContosoExpenses\ContosoExpenses.sln` (the folder where you have extracted the zipped file).
 2.  Right click on the **ContosoExpenses** project in the Solution Explorer window on the left and choose **Manage NuGet Packages...**.
@@ -20,6 +20,93 @@ Please note that the same package exists for Windows Forms. Its name is <a href=
 4.  Click on the **Install** button on the right.
 
     ![Install Controls NuGet package](../Manual/Images//InstallControlsNuGetPackage.png)
+    
+    We need this WPF package because it takes care for us about all the necessary infrastructure for XAML Islands. It provides wrapper classes for 1st party controls, such as the InkCanvas, InkToolbar, MapControl, and MediaPlayerElement, all for WPF.
+    
+    > Please note that the same package exists for Windows Forms. Its name is <a href="https://www.nuget.org/packages/Microsoft.Toolkit.Forms.UI.Controls/" target="_blank">Microsoft.Toolkit.Forms.UI.Controls</a>.
+
+5. Now right click on the project in Solution Explorer and choose **Add -> New item**.
+6. Look for the template called **Application Manifest File**. Name it **app.manifest** and press **Add**.
+7. The file will be automatically opened inside Visual Studio. Look for the **compatibility** section and identify the commented entry prefixed by **Windows 10**:
+
+    ```xml
+    <!-- Windows 10 -->
+    <!--<supportedOS Id="{8e0f7a12-bfb3-4fe8-b9a5-48fd50a15a9a}" />-->
+    ```
+8. Add the following entry below this item:
+
+    ```xml
+    <maxversiontested Id="10.0.18362.0"/>
+    ```
+    
+9. Uncomment the **supportedOS** entry for Windows 10. This is how the section should look like:
+
+    ```xml
+    <!-- Windows 10 -->
+    <supportedOS Id="{8e0f7a12-bfb3-4fe8-b9a5-48fd50a15a9a}" />
+    <maxversiontested Id="10.0.18362.0"/>
+    ```
+    
+    With this entry we specify that our application requires at minimum Windows 10 1903 (build 18362), since it's the version which shipped with the first official version of XAML Islands. Windows 10 1809 already included it, but it was in preview and not all the features were properly working. Without this entry in the application's manifest, the application would trigger an exception as soon as we start using any UWP control.
+
+10. Below you will find another section called **application/windowsSettings**, which will be commented:
+
+    ```xml
+    <application xmlns="urn:schemas-microsoft-com:asm.v3">
+      <windowsSettings>
+        <dpiAware xmlns="http://schemas.microsoft.com/SMI/2005/WindowsSettings">true</dpiAware>
+      </windowsSettings>
+    </application>
+    ```
+
+    Delete it and replace it with the following one:
+    
+    ```xml
+    <application xmlns="urn:schemas-microsoft-com:asm.v3">
+      <windowsSettings>
+          <dpiAware xmlns="http://schemas.microsoft.com/SMI/2005/WindowsSettings">true/PM</dpiAware>
+          <dpiAwareness xmlns="http://schemas.microsoft.com/SMI/2016/WindowsSettings">PerMonitorV2, PerMonitor</dpiAwareness>
+      </windowsSettings>
+    </application>
+    ```
+    
+    This will make sure that our application will be DPI aware and it will be able to handle in a better way the different scaling factors supported by Windows 10.
+    
+11. Now we need to replace the standard entry point of a WPF app with a new class offered by the Windows Community Toolkit, which will help us to consume WinRT components in an easier way.
+12. Right click on the **ContosoExpenses** project and choose **Add -> Class**.
+13. Name it **Program.cs**
+14. Replace the whole class with the following definition: 
+
+    ```csharp
+    public static class Program
+    {
+        [STAThread]
+        public static void Main()
+        {
+            using (var xamlApp = new Microsoft.Toolkit.Win32.UI.XamlHost.XamlApplication())
+            {
+                var appOwnedWindowsXamlManager = xamlApp.WindowsXamlManager;
+    
+                var app = new App();
+                app.InitializeComponent();
+                app.Run();
+            }
+        }
+    }
+    ```
+    
+    This code will create a **XamlApplication** instance, which has the responsibility of loading all other metadata for custom UWP XAML types. Then we just initiate a new instance of the main **App** class.
+
+13. Now right click on the **ContosoExpenses** project and choose **Properties**.
+14. Make sure that, in the **Resources** section, the **Manifest** dropdown is set to **app.manifest**:
+
+    ![](../Manual/Images/NetCoreAppManifest.png)
+    
+15. As last step, open the **Startup object** dropdown. We need to set this with new **Program** class we have just created, since it will act as an entry point. Choose **ConstosoExpenses.Program** and save.
+
+    ![](../Manual/Images/NetCoreStartupObject.png)
+
+That's it! Now our application is ready to host XAML controls from the Universal Windows Platform.
 
 ___ 
 
@@ -70,33 +157,7 @@ Adding it to a WPF application is easy, since it's one of the 1st party controls
     ```
 
     XAML Islands with .NET Core 3.0 is supported only starting from Windows 10 1903, so we need to declare this requirement. We can do it using an application manifest.
-8. Right click on the project in Solution Explorer and choose **Add -> New item**.
-9. Look for the template called **Application Manifest File**. Name it **app.manifest** and press **Add**.
-10. The file will be automatically opened inside Visual Studio. Look for the **compatibility** section and identify the commented entry prefixed by **Windows 10**:
-
-    ```xml
-    <!-- Windows 10 -->
-    <!--<supportedOS Id="{8e0f7a12-bfb3-4fe8-b9a5-48fd50a15a9a}" />-->
-    ```
-11. Add the following entry below this item:
-
-    ```xml
-    <maxversiontested Id="10.0.18362.0"/>
-    ```
-    
-12. Uncomment the **supportedOS** entry for Windows 10. This is how the section should look like:
-
-    ```xml
-    <!-- Windows 10 -->
-    <supportedOS Id="{8e0f7a12-bfb3-4fe8-b9a5-48fd50a15a9a}" />
-    <maxversiontested Id="10.0.18362.0"/>
-    ```
-
-13. Now right click on the **ContosoExpenses** project and choose **Properties**.
-14. Make sure that, in the **Resources** section, the **Manifest** dropdown is set to **app.manifest**:
-
-    ![](../Manual/Images/NetCoreAppManifest.png)
-    
+8. 
 15. Now press F5 and try again to click on an employee, then one of the expenses. Now the exception should be gone.
 16. Notice that, in the expense detail page, there's a new space for the **InkCanvas** control. 
 
