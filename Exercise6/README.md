@@ -576,10 +576,9 @@ In this session we will learn how to create a free **Visual Studio App Center** 
 
 ### Exercise 6 Task 15 - Create the release pipeline
 
-In this task, we will configure a release pipeline to automate the deployment of the application to App Center.
-
 A release pipeline is one of the fundamental concepts in Azure Pipelines for your DevOps CI/CD processes. It defines the end-to-end release pipeline for an application to be deployed across various stages.
 
+In this task, we will configure a release pipeline to automate the deployment of the application to App Center.
 
 1. In the Azure Devops portal, click on **Pipelines** / **Releases** and click on **New pipeline**: 
 
@@ -601,12 +600,12 @@ You define the release pipeline using **stages**, and restrict deployments into 
 ![](../Manual/Images/AzureDevOpsReleasesAddArtifact.png)
 
 
-5. Choose **Contoso Expenses** project from the build pipeline source and keep the **default settings** to use the latest version every time that I build succeeds. Click on **Add**:
+5. Choose **Contoso Expenses** project from the build pipeline source and keep the **default settings** to use the **latest** version every time that I build succeeds. Click on **Add**:
 
 ![](../Manual/Images/AzureDevOpsReleasesArtifactSettings.png)
 
 
-6. Again in the **Artifacts** region, click on the **lightning** icon to setup the continuous deployment trigger. 
+6. In the **Artifacts** region, click on the **lightning** icon to setup the continuous deployment trigger. **Enable the first option** that will automatically start a new release build every time a build succeeds.
 
 ![](../Manual/Images/AzureDevOpsAppCenterEnableCDTrigger.png)
 
@@ -615,31 +614,33 @@ You define the release pipeline using **stages**, and restrict deployments into 
 ![](../Manual/Images/AzureDevOpsReleasesCreateTask.png)
 
 
-8. In the Agent job session, click on **+** button to add a task to the agent job. Locate the **App Center Distribute** item from the tasks templates and click on **Add**:
+8. In the **Agent job** session, click on **+** button to add a task to the agent job. Select the **App Center Distribute** item from the tasks templates and click on **Add**:
 
 ![](../Manual/Images/AzureDevOpsReleasesAddATasktoAgentJob.png)
 
 
-9. Click on **Deploy to Visual Studio App Center**, that was added to the the Agent job, and click on **New** to create a new App Center service:
+9. Click on **Deploy to Visual Studio App Center**, that was added to the the **Agent job** list, and click on **New** to create a new App Center service:
 
 ![](../Manual/Images/AzureDevOpsReleasesAppCenterAdded.png)
 
 
-10. Enter the **connection name**, inform the App Center **API token** that was created in the previous task and click on **OK**:
+10. Enter the **connection name**, inform the App Center **API token**, created in the previous task, and click on **OK**:
 
 ![](../Manual/Images/AzureDevOpsAppCenterAddAppCenterAccount.png)
 
 
-11. Enter the app slug in the format of {username}/{app_identifier}. In my case, the app slug value is: **appconsultbuild/Contoso-Expenses**:
+11. Enter the app slug in the format of **{username}/{app_identifier}**. In my case, the app slug value is: **appconsultbuild/Contoso-Expenses**:
 
 ![](../Manual/Images/AzureDevOpsAppCenterAppSlug.png)
 
-To locate {username} and {app_identifier} for an app, click on its name from https://appcenter.ms/apps, and the resulting URL is in the format of https://appcenter.ms/users/{username}/apps/{app_identifier}.
+
+To locate {username} and {app_identifier} for an app, click on its name from https://appcenter.ms/apps, and the resulting URL is in the format of https://appcenter.ms/users/{username}/apps/{app_identifier}, as shown:
+
 
 
 ![](../Manual/Images/AzureDevOpsAppCenterURL2.png)
 
-12. In the **Binary file path** field, click on ... button to add the relative path from the repository root to the APK or IPA file you want to publish:
+12. In the **Binary file path** field, click on **...** button to add the relative path from the repository root to the file you want to publish:
 
 ![](../Manual/Images/AzureDevOpsAppCenterBinaryFilePath.png)
 
@@ -647,7 +648,7 @@ To locate {username} and {app_identifier} for an app, click on its name from htt
 
 ![](../Manual/Images/AzureDevOpsAppCenterBinaryFilePath2.png)
 
-As the artifacts' build version now is been generated using the build number, we can replace the hard code version number by $(Build.BuildNumber):
+As the artifacts' build version now is been generated using the build number, we can replace the hard code version number by **$(Build.BuildNumber)**:
 
 ```text
 $(System.DefaultWorkingDirectory)/_Contoso Expenses/drop/ContosoExpenses.Package_$(Build.BuildNumber)_Test/ContosoExpenses.Package_$(Build.BuildNumber)_x86_x64.msixbundle
@@ -666,12 +667,14 @@ $(System.DefaultWorkingDirectory)/_Contoso Expenses/drop/ContosoExpenses.Package
 
 At this point, the release pipeline is created and it will be trigger after a successful build.
 
-16. Feel free to start a new build to automatically start the release or click on **Create release** to manually start the deployment to **App Center**. After starting the release, click on the **release name** to see the release progress:
+16. Feel free to start/queue a new build to automatically start the release, or click on **Create release** to manually start the deployment to **App Center**. 
+
+17. After starting the release, click on the **release name** to see the release progress:
 
 
 ![](../Manual/Images/AzureDevOpsAppCentermanuallycreaterelease.png)
 
-Follows the release progress page:
+The release progress page will be displayed:
 
 ![](../Manual/Images/AzureDevOpsAppCenterReleaseProgress.png)
 
@@ -681,9 +684,13 @@ At the end, the status should be **Succeeded**:
 ![](../Manual/Images/AzureDevOpsAppCenterReleaseDeployed.png)
 
 
-17. Navigate to the **App Center page** that you used in this task, and observe that the App was successfully deployed.
+18. Navigate to the **App Center page** that you used in this task, and observe that the App was successfully deployed.
 
 ![](../Manual/Images/AzureDevOpsAppCenterReleaseDeployed2.png)
 
 
+Now, every time a build succeeds the release pipeline will automatically start to deploy the **Contoso Expenses** to App Center.
+
 ### Exercise 6 Task 16 - Sign the package
+
+
