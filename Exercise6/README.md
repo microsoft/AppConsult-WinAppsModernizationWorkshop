@@ -448,7 +448,242 @@ Now that we have made all the required changes, we are ready to test the build p
     
     However, this isn't necessary for our exercise.
 
-### Exercise 6 Task 6 - Create the release pipeline
 
 
-### Exercise 6 Task 7 - Sign the package
+### Exercise 6 Task 13 - Change the build version number
+
+Before proceeding to the next session, observe that the artifacts were generated with the version number **1.0.0.0**. It is important to notice that the version number will not change for future builds, as the build environment are not persistent between the builds.
+
+In this session, you will learn how to generate different version numbers for the artifacts by using an extension from Marketplace.
+
+1. Click on the **shop icon** available in the upper right corner of the Azure DevOps portal and click on **Manage extensions**:
+
+![](../Manual/Images/AzureDevOpsExtensionMarketplaceIcon.png)
+
+2. Click on **Browse Marketplace** button:
+
+![](../Manual/Images/AzureDevOpsBrowseMarketplace.png)
+
+3. Search for **Manifest Versioning Build Tasks** extension and click on **Manifest Version BUild Task** item:
+
+
+![](../Manual/Images/AzureDevOpsVersionAppxExtension.png)
+
+4. Click on **Get it free** to install the extension:
+
+![](../Manual/Images/AzureDevOpsExtensionGetitFree.png)
+
+
+5. Select your **Azure DevOps organization** and click on **Install**:
+
+![](../Manual/Images/AzureDevOpsExtensionInstall.png)
+
+
+6. Click on **Proceed to organization** to switch back to **Azure DevOps** portal:
+
+![](../Manual/Images/AzureDevOpsExtensionInstalled.png)
+
+7. Click on **Contoso Expenses** region to open the project:
+
+![](../Manual/Images/AzureDevOpsContosoExpensesProject.png)
+
+
+8. Click on **Pipelines** and click on the **Edit** button available in the right upper corner to edit the azure-pipelines.yml file:
+
+![](../Manual/Images/AzureDevOpsPipelineEdit3.png)
+
+9. Click on the line before the task **VSBuild@1** to inform that the task will be included there. Search for **Version Appx**, in the search tasks box, and click on **Version APPX Manifest** item:
+
+![](../Manual/Images/AzureDevOpsExtensionAddVersionAppx.png)
+
+10. Keep the default settings and click on **Add** button:
+
+![](../Manual/Images/AzureDevOpsExtensionAddVersionAppx2.png)
+
+
+11. Remove the **input:** attribute and add the **displayName** attribute to better identify this task:
+
+```yaml
+- task: VersionAPPX@2
+  displayName: 'Version MSIX'
+```
+
+
+12. Add the following code before the steps session:
+
+```yaml
+name: $(date:yyyy).$(Month)$(rev:.r).0
+```
+
+13. Click on **Save** and Save again to commit the changes:
+
+![](../Manual/Images/AzureDevOpsExtensionAddVersionAppx3.png)
+
+
+14. Click on **Pipelines** and click on the latest **build**. After the build finishes, click on the **Artifacts** button and observe that the artifacts have the version defined in the yaml file:
+
+![](../Manual/Images/AzureDevOpsExtensionAddVersionAppx4.png)
+
+
+### Exercise 6 Task 14 - Create a Visual Studio App Center account
+
+In this session we will learn how to create a free **Visual Studio App Center** account. In the next task, we will learn how to automate the **Contoso Expenses** deployment to App Center.
+
+1. Navigate to <a href="https://appcenter.ms/" target="_blank">Visual Studio App Center</a> web page and click on Get Start button to create an account.
+
+ ![](../Manual/Images/AzureDevOpsCreateAccount.png)
+ 
+ 
+2. Choose the provider that you want to use to login using your account credentials:
+ 
+  ![](../Manual/Images/AzureDevOpsChooseProviderTologin.png)
+  
+  
+3.  After login, choose a username available and click on **Choose username** button:
+
+![](../Manual/Images/AzureDevOpsAppCenterChooseusername.png)
+
+
+4. On the top right corner of the App Center portal, click your account avatar, then select **Account Settings**.
+
+![](../Manual/Images/AzureDevOpsAppCenterAccountSettings.png)
+
+5. In the middle panel, select **API Tokens** from the menu list. On the top right corner, click **New API token**. 
+
+![](../Manual/Images/AzureDevOpsAppCenterNewApiToken.png)
+
+
+6. In the text field, **enter a descriptive name** for your token, select the type of access **Full Access** for your API token and click on **Add new APIToken**:
+
+![](../Manual/Images/AzureDevOpsAppCenterFillNewApiToken.png)
+
+7. This will generate a pop up with your API token. Copy and store it in a secure location for later use. For security reasons, you will not be able to see or generate the same token again after you click the Close button.
+
+8. Click the **Close** button.
+
+9. Navigate to the main page, click on **Add new app**: 
+
+![](../Manual/Images/AzureDevOpsAppCenterAddNewApp.png)
+
+10. Enter the **App name**, select **Windows** as operating system, select **UWP** platform and click on **Add new app**. Optionally, it is possible to set the application icon and to add an application description:
+
+![](../Manual/Images/AzureDevOpsAppCenterAddNewApp2.png)
+
+11. Take notes of the URL that will be generated. We will need the user name and the App name in the following task.
+
+![](../Manual/Images/AzureDevOpsAppCenterURL.png)
+
+
+### Exercise 6 Task 15 - Create the release pipeline
+
+In this task, we will configure a release pipeline to automate the deployment of the application to App Center.
+
+A release pipeline is one of the fundamental concepts in Azure Pipelines for your DevOps CI/CD processes. It defines the end-to-end release pipeline for an application to be deployed across various stages.
+
+
+1. In the Azure Devops portal, click on **Pipelines** / **Releases** and click on **New pipeline**: 
+
+![](../Manual/Images/AzureDevOpsReleasesStart.png)
+
+
+2. There are many templates to choose from. In this case, select **Empty Job**:
+
+![](../Manual/Images/AzureDevOpsReleasesCreateEmptyJob.png)
+
+You define the release pipeline using **stages**, and restrict deployments into or out of an stage using **approvals**. You define the automation in each stage using **jobs** and **tasks**. You use **variables** to generalize your automation and **triggers** to control when the deployments should be kicked off automatically.
+
+3. Name the stage to **Deploy to App Center** and click on the **close** button:
+
+![](../Manual/Images/AzureDevOpsReleasesStageName.png)
+
+4. In the **Artifacts** region, click on **+ Add** to specify the artifact to deploy:
+
+![](../Manual/Images/AzureDevOpsReleasesAddArtifact.png)
+
+
+5. Choose **Contoso Expenses** project from the build pipeline source and keep the **default settings** to use the latest version every time that I build succeeds. Click on **Add**:
+
+![](../Manual/Images/AzureDevOpsReleasesArtifactSettings.png)
+
+
+6. Again in the **Artifacts** region, click on the **lightning** icon to setup the continuous deployment trigger. 
+
+![](../Manual/Images/AzureDevOpsAppCenterEnableCDTrigger.png)
+
+7. Once the artifact is defined, click on the **Tasks** tab or on the **1 job, 0 task** link to configure the deployment.
+
+![](../Manual/Images/AzureDevOpsReleasesCreateTask.png)
+
+
+8. In the Agent job session, click on **+** button to add a task to the agent job. Locate the **App Center Distribute** item from the tasks templates and click on **Add**:
+
+![](../Manual/Images/AzureDevOpsReleasesAddATasktoAgentJob.png)
+
+
+9. Click on **Deploy to Visual Studio App Center**, that was added to the the Agent job, and click on **New** to create a new App Center service:
+
+![](../Manual/Images/AzureDevOpsReleasesAppCenterAdded.png)
+
+
+10. Enter the **connection name**, inform the App Center **API token** that was created in the previous task and click on **OK**:
+
+![](../Manual/Images/AzureDevOpsAppCenterAddAppCenterAccount.png)
+
+
+11. Enter the app slug in the format of {username}/{app_identifier}. In my case, the app slug value is: **appconsultbuild/Contoso-Expenses**:
+
+![](../Manual/Images/AzureDevOpsAppCenterAppSlug.png)
+
+To locate {username} and {app_identifier} for an app, click on its name from https://appcenter.ms/apps, and the resulting URL is in the format of https://appcenter.ms/users/{username}/apps/{app_identifier}.
+
+
+![](../Manual/Images/AzureDevOpsAppCenterURL2.png)
+
+12. In the **Binary file path** field, click on ... button to add the relative path from the repository root to the APK or IPA file you want to publish:
+
+![](../Manual/Images/AzureDevOpsAppCenterBinaryFilePath.png)
+
+13. Select the **.msixbundle** file and click **OK**:
+
+![](../Manual/Images/AzureDevOpsAppCenterBinaryFilePath2.png)
+
+As the artifacts' build version now is been generated using the build number, we can replace the hard code version number by $(Build.BuildNumber):
+
+```text
+$(System.DefaultWorkingDirectory)/_Contoso Expenses/drop/ContosoExpenses.Package_$(Build.BuildNumber)_Test/ContosoExpenses.Package_$(Build.BuildNumber)_x86_x64.msixbundle
+```
+![](../Manual/Images/AzureDevOpsAppCenterBinaryFilePath3.png)
+
+14. Enter Release in the **Releases notes** field and click on **Save**:
+
+![](../Manual/Images/AzureDevOpsAppCenterBinaryFilePath4.png)
+
+
+15. Click on the **pencil icon**, change the release name to **Contoso Expenses - CD** and click on **Save** button:
+
+![](../Manual/Images/AzureDevOpsAppCenterEditPipelineName.png)
+
+
+At this point, the release pipeline is created and it will be trigger after a successful build.
+
+16. Feel free to start a new build to automatically start the release or click on **Create release** to manually start the deployment to **App Center**. After starting the release, click on the **release name** to see the release progress:
+
+
+![](../Manual/Images/AzureDevOpsAppCentermanuallycreaterelease.png)
+
+Follows the release progress page:
+
+![](../Manual/Images/AzureDevOpsAppCenterReleaseProgress.png)
+
+
+At the end, the status should be **Succeeded**:
+
+![](../Manual/Images/AzureDevOpsAppCenterReleaseDeployed.png)
+
+
+17. Navigate to the **App Center page** that you used in this task, and observe that the App was successfully deployed.
+
+![](../Manual/Images/AzureDevOpsAppCenterReleaseDeployed2.png)
+
+
+### Exercise 6 Task 16 - Sign the package
