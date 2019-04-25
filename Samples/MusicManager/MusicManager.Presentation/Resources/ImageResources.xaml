@@ -1,0 +1,92 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <BitmapSource x:Key="MusicManagerIcon">Images/MusicManager.ico</BitmapSource>
+
+    <Viewbox x:Key="MusicManagerXamlIcon">
+        <Canvas Width="128" Height="128" Clip="F1 M 0,0L 128,0L 128,128L 0,128L 0,0">
+            <Canvas Width="128" Height="128" Canvas.Left="0" Canvas.Top="0">
+                <Path Width="123" Height="87.968" Canvas.Left="2.50002" Canvas.Top="19.9536" Stretch="Fill" StrokeThickness="3" StrokeLineJoin="Round" Stroke="#FF000000" Fill="#FF799754" Data="F1 M 106.431,106.422C 117.286,95.5641 124,80.5661 124,64C 124,47.3703 117.235,32.3208 106.306,21.4536L 64,63.7596L 21.694,21.4536C 10.7654,32.3208 4.00002,47.3703 4.00002,64C 4.00002,80.5661 10.7138,95.5641 21.5688,106.422L 64,63.9904L 106.431,106.422 Z "/>
+                <Ellipse Width="73" Height="73" Canvas.Left="27.5" Canvas.Top="27.5" Stretch="Fill" StrokeThickness="1" StrokeLineJoin="Round" Stroke="#FFFFFFFF" Fill="#FFFFFFFF"/>
+                <Ellipse Width="71" Height="71" Canvas.Left="28.5" Canvas.Top="28.5" Stretch="Fill" StrokeThickness="3" StrokeLineJoin="Round" Stroke="#FF000000" Fill="#FF00BBD6"/>
+            </Canvas>
+        </Canvas>
+    </Viewbox>
+
+    <DrawingImage x:Key="PreviousButtonImage">
+        <DrawingImage.Drawing>
+            <GeometryDrawing>
+                <GeometryDrawing.Geometry>
+                    <RectangleGeometry Rect="0,0,20,20"/>
+                </GeometryDrawing.Geometry>
+                <GeometryDrawing.Brush>
+                    <VisualBrush>
+                        <VisualBrush.Visual>
+                            <Border BorderBrush="Transparent" BorderThickness="0.5">
+                                <TextBlock Text="&#xE100;" FontFamily="Segoe UI Symbol" FontSize="20"/>
+                            </Border>
+                        </VisualBrush.Visual>
+                    </VisualBrush>
+                </GeometryDrawing.Brush>
+            </GeometryDrawing>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+
+    <DrawingImage x:Key="PlayButtonImage">
+        <DrawingImage.Drawing>
+            <GeometryDrawing>
+                <GeometryDrawing.Geometry>
+                    <RectangleGeometry Rect="0,0,20,20"/>
+                </GeometryDrawing.Geometry>
+                <GeometryDrawing.Brush>
+                    <VisualBrush>
+                        <VisualBrush.Visual>
+                            <Border BorderBrush="Transparent" BorderThickness="0.5">
+                                <TextBlock Text="&#xE102;" FontFamily="Segoe UI Symbol" FontSize="20"/>
+                            </Border>
+                        </VisualBrush.Visual>
+                    </VisualBrush>
+                </GeometryDrawing.Brush>
+            </GeometryDrawing>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+
+    <DrawingImage x:Key="PauseButtonImage">
+        <DrawingImage.Drawing>
+            <GeometryDrawing>
+                <GeometryDrawing.Geometry>
+                    <RectangleGeometry Rect="0,0,20,20"/>
+                </GeometryDrawing.Geometry>
+                <GeometryDrawing.Brush>
+                    <VisualBrush>
+                        <VisualBrush.Visual>
+                            <Border BorderBrush="Transparent" BorderThickness="0.5">
+                                <TextBlock Text="&#xE103;" FontFamily="Segoe UI Symbol" FontSize="20"/>
+                            </Border>
+                        </VisualBrush.Visual>
+                    </VisualBrush>
+                </GeometryDrawing.Brush>
+            </GeometryDrawing>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+
+    <DrawingImage x:Key="NextButtonImage">
+        <DrawingImage.Drawing>
+            <GeometryDrawing>
+                <GeometryDrawing.Geometry>
+                    <RectangleGeometry Rect="0,0,20,20"/>
+                </GeometryDrawing.Geometry>
+                <GeometryDrawing.Brush>
+                    <VisualBrush>
+                        <VisualBrush.Visual>
+                            <Border BorderBrush="Transparent" BorderThickness="0.5">
+                                <TextBlock Text="&#xE101;" FontFamily="Segoe UI Symbol" FontSize="20"/>
+                            </Border>
+                        </VisualBrush.Visual>
+                    </VisualBrush>
+                </GeometryDrawing.Brush>
+            </GeometryDrawing>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+
+</ResourceDictionary>

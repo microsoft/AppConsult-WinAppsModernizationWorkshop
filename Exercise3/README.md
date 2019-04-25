@@ -8,26 +8,17 @@ The development team has decide to start modernizing the form to add a new expen
 
 However, it isn't included as a 1st party control in the Windows Community Toolkit, so we'll have to use the generic XAML Host control.
 
-### Exercise 3 Task 1 - Add a reference to the Universal Windows Platform
-In Excercise 2, when we have added the **InkCanvas** control, we didn't need to interact in any way with the Universal Windows Platform. The Windows Community Toolkit, in fact, wraps for us all the relevant properties and types. However, when we start to use the generic XAML host control, we can't use this advantage anymore. We can use this control to host any kind of UWP control, either included in the platform or built by a 3rd party vendor, so we need access to the Universal Windows Platform to interact with it.
+When we have added the **InkCanvas** control in Exercise 2, we didn't need to interact in any way with the Universal Windows Platform. The Windows Community Toolkit, in fact, wraps for us all the relevant properties and types. However, when we start to use the generic XAML host control, we can't use this advantage anymore. We can use this control to host any kind of UWP control, either included in the platform or built by a 3rd party vendor, so we need access to the Universal Windows Platform to interact with it.
 
 In order to start using Universal Windows Platform APIs in a WPF application we need to add a reference to two files:
 
 - **Windows.md**, which contains the metadata that describes all the APIs of the Universal Windows Platform.
 - **System.Runtime.WindowsRuntime** which is a library that contains the infrastructure required to properly support the **IAsyncOperation** type, which is used by the Universal Windows Platform to handle asynchronous operation with the well known async / await pattern. Without this library your options to interact with the Universal Windows Platform would be very limited, since all the APIs which take more than 50 ms to return a result are implemented with this pattern.
 
-In the past this process wasn't really straightforward, because it required to manually dig into the file system and look for the folders where these files are deployed by the Windows 10 SDK. However, the team has recently released a NuGet package which makes the overall process really easy. Let's add it!
-
-1. You can use the output of Exercise 2 as a starting point. In case you haven't completed it, you can open the folder `C:\WinAppsModernizationWorkshop\Lab\Exercise3\01-Start\ContosoExpenses` in the location where you have unzipped the lab and double click on the **ContosoExpenses.sln** file.
-2. Right click on the **ContosoExpenses** project.
-3. Choose **Manage NuGet Packages**.
-4. Look for a package with the following identity: [Microsoft.Windows.SDK.Contracts](https://www.nuget.org/packages/Microsoft.Windows.SDK.Contracts)
-5. Press **Install**
-
-You're all set. Now you're ready to start using APIs from the Universal Windows Platform.
+In the past this process wasn't really straightforward, because it required to manually dig into the file system and look for the folders where these files are deployed by the Windows 10 SDK. However, the team has recently released a NuGet package called **Microsoft.Windows.SDK.Contracts**  that does this job for us. Since it's directly referenced by the Windows Community Toolkit, it's already installed in our project. This means that we're good to go and we can use any UWP control without doing anything special.
 ___ 
 
-### Exercise 3 Task 2 - Add the WindowsXamlHost control
+### Exercise 3 Task 1 - Add the WindowsXamlHost control
 
 1. Regardless of your starting point, the required NuGet package should be already installed. We can verify this by right clicking on the **ContosoExpenses** project in Solution Explorer, choosing **Manage NuGet packages** and moving to the **Installed** tab.
 
