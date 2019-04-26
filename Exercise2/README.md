@@ -150,29 +150,20 @@ Adding it to a WPF application is easy, since it's one of the 1st party controls
     
 5. That's it! Now we can test the application. Press F5 to launch the debugging experience.
 6. Choose an employee from the list, then one of the available expenses.
-7. Ops, this wasn't expected. The application will crash with the following exception:
-
-    ```text
-    WindowsXamlManager and DesktopWindowXamlSource are supported for apps targeting Windows version 10.0.18226.0 and later.  Please check either the application manifest or package manifest and ensure the MaxTestedVersion property is updated.
-    ```
-
-    XAML Islands with .NET Core 3.0 is supported only starting from Windows 10 1903, so we need to declare this requirement. We can do it using an application manifest.
-8. 
-15. Now press F5 and try again to click on an employee, then one of the expenses. Now the exception should be gone.
-16. Notice that, in the expense detail page, there's a new space for the **InkCanvas** control. 
+7. Notice that, in the expense detail page, there's a new space for the **InkCanvas** control. 
 
     ![](../Manual/Images/InkCanvasPenOnly.png)
 
     If you have a device which supports a digital pen, like a Surface, and you're running this lab on a physical machine, go on and try to use it. You will see the digital ink appearing on the screen. However, if you don't have a pen capable device and you try to sign with your mouse, nothing will happen. This is happening because, by default, the **InkCanvas** control is enabled only for digital pens. However, we can change this behavior.
-17. Stop the debugger and double click on the **ExpenseDetail.xaml.cs** file inside the **Views** folder in Solution Explorer.
-18. Add the following namespace declaration at the top of the class:
+8. Stop the debugger and double click on the **ExpenseDetail.xaml.cs** file inside the **Views** folder in Solution Explorer.
+9. Add the following namespace declaration at the top of the class:
 
     ```csharp
     using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
     ```
     
-12. Now locate the **ExpenseDetail()** method, which is the public constructor of the class.
-13. Add the following line of code right after the **InitializeComponent()** method:
+10. Now locate the **ExpenseDetail()** method, which is the public constructor of the class.
+11. Add the following line of code right after the **InitializeComponent()** method:
 
     ```csharp
     Signature.InkPresenter.InputDeviceTypes = CoreInputDeviceTypes.Mouse | CoreInputDeviceTypes.Pen;
@@ -180,8 +171,8 @@ Adding it to a WPF application is easy, since it's one of the 1st party controls
     
     **InkPresenter** is an object exposed by the **InkCanvas** control which we can use to customize the default inking experience. Thanks to the **InputDeviceTypes** we can change which inking devices are supported. By using the values offered by the **CoreInputDeviceTypes** enumerator, we enable pen and mouse.
     
-14. Now let's test the application again. Press F5 to start the debugging, then choose one of the employees followed by one of the expenses.
-15. Try now to draw something in the signature space with the mouse. This time, you'll see the ink appearing on the screen.
+12. Now let's test the application again. Press F5 to start the debugging, then choose one of the employees followed by one of the expenses.
+13. Try now to draw something in the signature space with the mouse. This time, you'll see the ink appearing on the screen.
 
     ![](../Manual/Images/Signature.png)
     
