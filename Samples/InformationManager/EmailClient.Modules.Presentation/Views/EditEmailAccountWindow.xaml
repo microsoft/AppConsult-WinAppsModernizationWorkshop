@@ -1,0 +1,47 @@
+﻿<Window x:Class="Waf.InformationManager.EmailClient.Modules.Presentation.Views.EditEmailAccountWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:waf="http://waf.codeplex.com/schemas"
+    xmlns:dd="clr-namespace:Waf.InformationManager.EmailClient.Modules.Presentation.DesignData"
+    mc:Ignorable="d" d:DataContext="{d:DesignInstance dd:SampleEditEmailAccountViewModel, IsDesignTimeCreatable=True}"
+    Title="Email account" Icon="{StaticResource InformationManagerImageSource}" Height="410" Width="550" ShowInTaskbar="False"
+    waf:ValidationHelper.IsEnabled="true" waf:ValidationHelper.IsValid="{Binding IsValid, Mode=OneWayToSource}">
+
+    <DockPanel>
+        <Border DockPanel.Dock="Bottom" Background="{x:Static SystemColors.ControlBrush}">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="11">
+                <Button Content="&lt; _Back" Command="{Binding BackCommand}" ToolTipService.ShowOnDisabled="True">
+                    <Button.Style>
+                        <Style TargetType="Button" BasedOn="{StaticResource DialogButton}">
+                            <Style.Triggers>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter Property="ToolTip" Value="It's not possible to go back on the first page."/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <Button Command="{Binding NextCommand}" IsDefault="True" ToolTipService.ShowOnDisabled="True" Margin="11,0,0,0">
+                    <Button.Style>
+                        <Style TargetType="Button" BasedOn="{StaticResource DialogButton}">
+                            <Setter Property="Content" Value="_Next &gt;"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter Property="ToolTip" Value="Please correct the invalid fields first."/>
+                                </Trigger>
+                                <DataTrigger Binding="{Binding IsLastPage}" Value="True">
+                                    <Setter Property="Content" Value="_Finish"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <Button Content="_Cancel" IsCancel="True" Style="{StaticResource DialogButton}" Margin="22,0,0,0"/>
+            </StackPanel>
+        </Border>
+
+        <ContentControl Content="{Binding ContentView}" Focusable="False"/>
+    </DockPanel>
+</Window>
