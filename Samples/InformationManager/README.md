@@ -1,4 +1,4 @@
-﻿# Book Library
+﻿# Information Manager
 
 This is an application developed by [jbe2277](https://github.com/jbe2277) as a sample to demonstrate the power of Win Application Framework (WAF), a framework to create well-structured WPF applications. The original sample is part of the following repository [https://github.com/jbe2277/waf](https://github.com/jbe2277/waf).
 
