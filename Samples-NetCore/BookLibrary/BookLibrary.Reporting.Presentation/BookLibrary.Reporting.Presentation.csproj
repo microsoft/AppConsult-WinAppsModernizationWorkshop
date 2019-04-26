@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <RootNamespace>Waf.BookLibrary.Reporting.Presentation</RootNamespace>
+    <AssemblyName>Waf.BookLibrary.Reporting.Presentation</AssemblyName>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NLog" Version="4.6.2" />
+    <PackageReference Include="System.ComponentModel.Composition" Version="4.6.0-preview.19073.11" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BookLibrary.Library.Domain\BookLibrary.Library.Domain.csproj" />
+    <ProjectReference Include="..\BookLibrary.Library.Presentation\BookLibrary.Library.Presentation.csproj" />
+    <ProjectReference Include="..\BookLibrary.Reporting.Applications\BookLibrary.Reporting.Applications.csproj" />
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="xcopy /y $(TargetDir)Waf.BookLibrary.Reporting.Applications.dll $(SolutionDir)BookLibrary.Library.Presentation\bin\Debug\netcoreapp3.0&#xD;&#xA;xcopy /y $(TargetDir)Waf.BookLibrary.Reporting.Presentation.dll $(SolutionDir)BookLibrary.Library.Presentation\bin\Debug\netcoreapp3.0" />
+  </Target>
+</Project>
