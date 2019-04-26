@@ -72,3 +72,5 @@ As a reference, in case you get stuck, you can find below the correct .csproj fi
   </Target>
 </Project>
 ```
+
+Alternatively, you can find the already migrated project at the following link [https://github.com/Microsoft/AppConsult-WinAppsModernizationWorkshop/tree/master/Samples-NetCore/BookLibrary](https://github.com/Microsoft/AppConsult-WinAppsModernizationWorkshop/tree/master/Samples-NetCore/BookLibrary)
