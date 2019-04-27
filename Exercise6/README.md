@@ -711,7 +711,7 @@ In this case, you will see an option to authorize the resources on the failed bu
 
 ![](../Manual/Images/AzureDevOpsCodeSigningExtension6.png)
 
-### Exercise 6 Task 15 - Create the release pipeline
+### Exercise 6 Task 16 - Create the release pipeline
 
 A release pipeline is one of the fundamental concepts in Azure Pipelines for your DevOps CI/CD processes. It defines the end-to-end release pipeline for an application to be deployed across various stages.
 
@@ -827,8 +827,6 @@ At the end, the status should be **Succeeded**:
 
 
 Now, every time a build succeeds the release pipeline will automatically start to deploy the **Contoso Expenses** to App Center.
-
-
 
 
 
