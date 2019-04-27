@@ -1,0 +1,43 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+  <PropertyGroup>
+    <AssemblyName>Waf.DotNetPad.Applications</AssemblyName>
+    <RootNamespace>Waf.DotNetPad.Applications</RootNamespace>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <CodeAnalysisRuleSet>..\DotNetPad.ruleset</CodeAnalysisRuleSet>
+    <UseWpf>true</UseWpf>
+    <OutputType>Library</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Buffers" Version="4.5.0" />
+    <PackageReference Include="System.ComponentModel.Composition" Version="4.6.0-preview4.19212.13" />
+    <PackageReference Include="System.Memory" Version="4.5.1" />
+    <PackageReference Include="System.Waf.Wpf" Version="5.0.0" />
+    <PackageReference Include="System.Waf.Core" Version="5.0.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Features" Version="3.0.0-beta2-final" />
+    <PackageReference Include="Microsoft.CodeAnalysis.VisualBasic.Features" Version="3.0.0-beta2-final" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.6.2" PrivateAssets="All" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DotNetPad.Domain\DotNetPad.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\SharedAssemblyInfo.cs" Link="Properties\SharedAssemblyInfo.cs" />
+
+    <!-- Resources -->
+    <EmbeddedResource Update="Properties\Resources.resx" Generator="ResXFileCodeGenerator" LastGenOutput="Resources.Designer.cs" />
+    <Compile Update="Properties\Resources.Designer.cs" AutoGen="True" DependentUpon="Resources.resx" DesignTime="True" />
+
+    <!-- Samples as Embedded Resource -->
+    <Compile Remove="Samples\*.cs" />
+    <Compile Remove="Samples\*.vb" />
+    <EmbeddedResource Include="Samples\*.cs" />
+    <EmbeddedResource Include="Samples\*.vb" />
+  </ItemGroup>
+</Project>
