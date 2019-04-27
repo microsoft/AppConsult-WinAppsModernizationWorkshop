@@ -576,7 +576,7 @@ In this session we will learn how to create a free **Visual Studio App Center** 
 
 ### Exercise 6 Task 15 - Sign the package
 
-Before distribute the MSIX to users or to install it, you must sign the package with a trusted certificate.
+Before distribute the MSIX to users or to install it, you must sign the package with a trusted certificate and have the certificate installed on your machine.
 
 
 You will receive the following error, if you try to install a MSIX application that is not signed with a trusted certificate:
@@ -584,13 +584,17 @@ You will receive the following error, if you try to install a MSIX application t
 ![](../Manual/Images/AzureDevOpsSignin01.png)
 
 
-In this session, you will learn how to create a task to sign the package.
+In this session, you will learn how to create a task in the yaml file to sign the package.
 
 The first step, we need to have a trusted certificate. In this lab, we will use a self-signed certificate.
 
-1. Run **PowerShell** elevated (as admin) and type the following command to create the self-signed certificate:
+1. Run **PowerShell** elevated (as admin) and type the following command to create the self-signed certificate.
+
+> In my case, I am using below **CN=mpagani** as it is set in the **Package.appxmanifest** of the **ContosoExpense.Package** project. Please double-check in your **Package.appxmanifest** what is the publisher that you are using.
 
 ```powershell
+Set-Location Cert:\LocalMachine\My
+
 New-SelfSignedCertificate -Type Custom -Subject "CN=mpagani" -KeyUsage DigitalSignature -FriendlyName "mpagani" -CertStoreLocation "Cert:\LocalMachine\My"
 ```
 
@@ -602,7 +606,8 @@ When using **Export-PfxCertificate**, you must either create and use a password 
 2. Run the following command on **PowerShell** to export the certificate:
 
 ```powershell
-$cert = Get-ChildItem | Where Subject -eq "CN=mpagani"  
+
+$cert = Get-ChildItem "Cert:\LocalMachine\My" | Where Subject -eq "CN=mpagani"
 
 $pwd = ConvertTo-SecureString -String P@ssw0rd -Force -AsPlainText 
 
@@ -630,7 +635,7 @@ Resources must be authorized before they can be used. A resource owner controls 
 
 ![](../Manual/Images/AzureDevOpsLibraryUploadFile.png)
 
-The certificate will be included in the secure files lists:
+The certificate will be included in the **Secure files** lists:
 
 ![](../Manual/Images/AzureDevOpsLibrarySecureFileAdded.png)
 
