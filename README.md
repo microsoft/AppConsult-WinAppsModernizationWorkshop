@@ -4,7 +4,7 @@
 The **master** branch is locked. Let's have a branch for each one in the AppConsult team for individual work.
 
 The proposed contribution guideline is:
-1. Create a new branch for your work only. If you want, for simplicty name it with your name or alias.
+1. Create a new branch for your work only. If you want, for simplicity name it with your name or alias.
 2. Before you start to work on your branch, get the latest version of the master branch with `git fetch` and `git rebase -i origin/master`. Resolve conflict if any.
 3. Do you work, commit, commit... and push your changes to your branch with `git push`.
 4. When you are ready to merge, get the latest version of master, rebase your branch and resolve conflict with `git fetch` and `git rebase -i origin/master`.
