@@ -541,7 +541,149 @@ Let's start to create a free **Visual Studio App Center** account. If you alread
 
     ![](../Manual/Images/AzureDevOpsAppCenterURL.png)
 
-### Exercise 6 Task 15 - Create the release pipeline
+### Exercise 6 Task 15 - Sign the package
+
+Before distribute the MSIX to users or to install it, you must sign the package with a trusted certificate and have the certificate installed on your machine.
+
+
+You will receive the following error, if you try to install a MSIX application that is not signed with a trusted certificate:
+
+![](../Manual/Images/AzureDevOpsSignin01.png)
+
+
+In this session, you will learn how to create a task in the yaml file to sign the package.
+
+The first step, we need to have a trusted certificate. In this lab, we will use a self-signed certificate.
+
+1. Run **PowerShell** elevated (as admin) and type the following command to create the self-signed certificate.
+
+> In my case, I am using below **CN=mpagani** as it is set in the **Package.appxmanifest** of the **ContosoExpense.Package** project. Please double-check in your **Package.appxmanifest** what is the publisher that you are using.
+
+```powershell
+Set-Location Cert:\LocalMachine\My
+
+New-SelfSignedCertificate -Type Custom -Subject "CN=mpagani" -KeyUsage DigitalSignature -FriendlyName "mpagani" -CertStoreLocation "Cert:\LocalMachine\My"
+```
+
+To generate the certificate, it is necessary to export the certificate in the local store to a Personal Information Exchange (PFX) file through the **Export-PfxCertificate** cmdlet.
+
+When using **Export-PfxCertificate**, you must either create and use a password or use the "-**ProtectTo**" parameter to specify which users or groups can access the file without a password. Note that an error will be displayed if you don't use either the "**-Password**" or "**-ProtectTo**" parameter.
+
+
+2. Run the following command on **PowerShell** to export the certificate:
+
+```powershell
+
+$cert = Get-ChildItem "Cert:\LocalMachine\My" | Where Subject -eq "CN=mpagani"
+
+$pwd = ConvertTo-SecureString -String P@ssw0rd -Force -AsPlainText 
+
+Export-PfxCertificate -cert $cert.Thumbprint -FilePath $("$env:APPDATA\AppConsult.pfx") -Password $pwd
+```
+
+> For more information about SignTool see:
+https://docs.microsoft.com/en-us/windows/uwp/packaging/sign-app-package-using-signtool
+
+Resources must be authorized before they can be used. A resource owner controls the users and pipelines that can access that resource. A resource is anything used by a pipeline that lives outside the pipeline itself. Examples include:
+
+* secure files
+* variable groups
+* service connections
+* agent pools
+* other repositories
+* containers
+
+
+3. Switch back to the **Azure DevOps porta**l, click on **Library**, select the **Security Files** tab and click on **+ Security file** button: 
+
+![](../Manual/Images/AzureDevOpsLibraryAddSecureFile.png)
+
+4. Upload the self-signed certificate created previously:
+
+![](../Manual/Images/AzureDevOpsLibraryUploadFile.png)
+
+The certificate will be included in the **Secure files** lists:
+
+![](../Manual/Images/AzureDevOpsLibrarySecureFileAdded.png)
+
+Now that we have the certificate, the next step will be to add a task to sign the application. The task will use the **Code Signing** extension that is available on Marketplace.
+
+5. Click on the **shop icon** available in the upper right corner of the Azure DevOps portal and click on **Manage extensions**:
+
+![](../Manual/Images/AzureDevOpsExtensionMarketplaceIcon.png)
+
+6. Click on **Browse Marketplace** button:
+
+![](../Manual/Images/AzureDevOpsBrowseMarketplace.png)
+
+7. Search for **Code Signing** extension and click on the **Code Signing** extension to install it:
+
+
+![](../Manual/Images/AzureDevOpsCodeSigningExtension.png)
+
+8. Click on **Get it free** to install the extension:
+
+![](../Manual/Images/AzureDevOpsCodeSigningGetitFree.png)
+
+
+9. Select your **Azure DevOps organization** and click on **Install**:
+
+![](../Manual/Images/AzureDevOpsExtensionInstall2.png)
+
+
+10. Switch back to the build pipeline and **edit** the yam file:
+
+![](../Manual/Images/AzureDevOpsPipelineEdit6.png)
+
+11. Add a line before the last task (**PublishBUildArtifacts@1**), search for **code signing** task and click on the **Code Signing** item:
+
+![](../Manual/Images/AzureDevOpsCodeSigningTask.png)
+
+
+12. Provide the **name of the certificate** that was previously created, enter the **same password used to create the certificate**, change the file to sign to msixbundle and click on **Add** button:
+
+![](../Manual/Images/AzureDevOpsCodeSigningExtension2.png)
+
+The task will be added to the yaml file:
+
+![](../Manual/Images/AzureDevOpsCodeSigningExtension3.png)
+
+```yaml
+- task: codesigning@2
+  inputs:
+    secureFileId: 'AppConsult.pfx'
+    signCertPassword: 'P@ssw0rd'
+    files: '**/*.msixbundle'
+    timeServer: 'http://timestamp.digicert.com'
+    hashingAlgorithm: 'SHA256'
+```
+
+13. Click on **Save** and Save again to commit the changes.
+
+14. Click on **Builds** and click on the **latest build**: 
+
+![](../Manual/Images/AzureDevOpsCodeSigningExtension4.png)
+
+
+When you make changes to the YAML file and add additional resources (assuming that these not authorized for use in all pipelines as explained above), then the build fails with a resource authorization error that is similar to the following:
+
+```text
+Could not find a <resource> with name <resource-name>. The <resource> does not exist or has not been authorized for use.
+```
+
+
+In this case, you will see an option to authorize the resources on the failed build. If you are a member of the User role for the resource, you can select this option. Once the resources are authorized, you can start a new build.
+
+
+15. Click on **Authorize resources** and click on **Queue** to start a new build:
+
+![](../Manual/Images/AzureDevOpsCodeSigningExtension5.png)
+
+16. Click on **Builds** and click on the **latest build**. Note that now the build succeeds:
+
+![](../Manual/Images/AzureDevOpsCodeSigningExtension6.png)
+
+### Exercise 6 Task 16 - Create the release pipeline
 
 A release pipeline is one of the fundamental concepts in Azure Pipelines for your DevOps CI/CD processes. It defines the end-to-end release pipeline for an application to be deployed across various stages.
 
@@ -642,6 +784,5 @@ In this task, we will configure a release pipeline to automate the deployment of
 
     Now, every time a build succeeds the release pipeline will automatically start to deploy the **Contoso Expenses** to App Center.
 
-### Exercise 6 Task 16 - Sign the package
 
 
