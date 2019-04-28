@@ -31,7 +31,7 @@ Visual Studio offers an easy way to package an existing application thanks to a 
     
     For the purpose of our lab make sure to choose the most recent version for both options, as in the following picture:
     
-    ![](https://github.com/Microsoft/Windows-AppConsult-XAMLIslandsLab/raw/master/Manual/Images/TargetSdk.png)
+    ![](../Manual/Images/TargetSdk.png)
     
     Then press OK.
 6. You will see a new project inside your Visual Studio solution, which structure will resemble the one of a Universal Windows Platform project:
@@ -149,97 +149,34 @@ Note that so far the **Contoso Expenses** repository is empty:
 
 ![](../Manual/Images/AzureDevOpsRepositoryEmpty.png)
 
-We need to clone it to our computer. Cloning a repo creates a complete local copy of the repo for you to work with. Cloning also downloads all commits and branches in the repo and sets up a named relationship with the repo on the server. Use this relationship to interact with the existing repo, pushing and pulling changes to share code with your team.
+Now we need to turn the folder which stores our solution into a local repository, so that we can we push it to Azure Repos. 
 
-Clone the repo to your computer:
+1. In Solution Explorer in Visual Studio right click on the solution and choose **Add Solution to Source Control**:
 
-1. Click on **Clone in Visual Studio** to clone this repository:
+    ![](../Manual/Images/AddSolutionToSourceControl.png)
 
-    ![](../Manual/Images/AzureDevOpsRepositoryCloneInVS.png)
-
-
-2. Provide the **local path** for the repository and click on **Clone**:
-
-    ![](../Manual/Images/AzureDevOpsRepositoryVS1.png)
-
-    After finishing to clone the Repository, the Team Explorer tab will be displayed, as follows:
-
-    ![](../Manual/Images/AzureDevOpsRepositoryCloned.png)
-
-    The next step will be to add the Contoso Expenses solution to this repository.
-
-3. Click on the **Show Folder view** option:
-
-    ![](../Manual/Images/AzureDevOpsShowFolderView.png)
-
-4. Right click in the **Contoso Expenses** folder or in a empty area and select **Open Folder in File Explorer**:
-
-    ![](../Manual/Images/AzureDevOpsOpenFolderinFileExplorer.png)
-
-    Note that the local repository folder is empty and that exists only the local .vs folder used by Git tracking:
-
-    ![](../Manual/Images/AzureDevOpsRepositoryLocalEmpty.png)
-
-5. Copy the **Contoso Expenses** solution created in the previous exercise to the local repository.
-
-    ![](../Manual/Images/AzureDevOpsRepositoryAddedSolution.png)
-
-    > If you are using the **Contoso Expenses** solution cloned from <a href="https://github.com/Microsoft/AppConsult-WinAppsModernizationWorkshop" target="_blank">GitHub</a>, please make sure to download the code as ZIP to make sure that Visual Studio is pointing to the right repository.
-
-6. Switch back to Visual Studio and double-click on the **ContosoExpenses.sln**:
-
-    ![](../Manual/Images/AzureDevOpsOpenSolution.png)
-
-    Observe that the solution was added to source-control:
-
-    ![](../Manual/Images/AzureDevOpsSolutionAddedToSourceControl.png)
+    After a few seconds, you will notice a small lock icon appearing near each file, meaning that the repository has been initialized and the files have been committed.
     
-    Before commit the changes, it is important to notice that not every file created or updated in your code should be committed to Git. Temporary files from development environment, test outputs and logs are all examples of files that are created but are not part of the codebase. Throught the gitignore feature it is possible to customize which files Git tracks.
+2. In Visual Studio choose **View -> Team Explorer** and locate the **Sync** icon, then click on it.
 
-7. Click on the **Team Explorer** tab and click on **Settings**:
+    ![](../Manual/Images/TeamExplorerSync.png)
+    
+3. You will see a list of options where to publish your repository. The first one will be Azure DevOps. Click on **Publish Git Repo** under this section:
 
-    ![](../Manual/Images/AzureDevOpsRepositorySettings.png)
+    ![](../Manual/Images/PublishToGitRepo.png)
+    
+4. By default Visual Studio will list all the accounts (Microsoft Account or Office 365 account) which are already linked to Visual Studio. If the account you have used to register on Azure DevOps isn't already linked to Visual Studio, press **Add account** and complete the login.
 
-8. Click on **Repository Settings**:
+    ![](../Manual/Images/AddAccountVisualStudio.png)
+    
+5. Once the right account is enabled in Visual Studio, the **Organization** dropdown will populate with all the organization linked to the account. Choose the one you have created in Task 3.
 
-    ![](../Manual/Images/AzureDevOpsRepositorySettings2.png)
+6. Click **Advanced** to enable the **Project** dropdown. Choose the project you have created in Task 3. Make sure that also the **Repository** field is set with the same name.
 
-9. Click on **Add** to create a default **.gitignore** file:
+    ![](../Manual/Images/PublishToRepository.png)
 
-    ![](../Manual/Images/AzureDevOpsRepositoryGitIgnore.png)
-
-    More information about .gitignore file available at:
-    <a href="https://docs.microsoft.com/en-us/azure/devops/repos/git/ignore-files?view=azure-devops&tabs=command-line" target="_blank">Ignore file changes with Git</a>
-
-10. Click on **Changes** to commit the changes, in this case, to commit all the solution files.
-
-    ![](../Manual/Images/AzureDevOpsCommitChanges.png)
-
-    The commit changes UI will be displayed, asking to enter the commit message.
-
-11. Enter the commit message and click on **Commit Staged** button:
-
-    ![](../Manual/Images/AzureDevOpsCommitChanges.png)
-
-12. Click on **Sync** option to share with the remotely server that there are changes in the local repository.
-
-    ![](../Manual/Images/AzureDevOpsSync.png)
-
-    It is important to observe that so far, the commit and the changes exist only locally.
-
-13. Click on **Push** to upload the changes to the server:
-
-    ![](../Manual/Images/AzureDevOpsPush0.png)
-
-    Visual Studio will push your changes to the Azure DevOps repository:
-
-    ![](../Manual/Images/AzureDevOpsPush.png)
-
-    At the end, the following message will be displayed to inform that the changes were successfully pushed to the server:
-
-    ![](../Manual/Images/AzureDevOpsPush2.png)
-
-14. Switch back to the Azure DevOps portal and click on Repos/Files to double-check that the files were upload to the server:
+    Click on the **Publish repository** button.
+7. Switch back to the Azure DevOps portal and click on Repos/Files to double-check that the files have been uploaded to the server:
 
     ![](../Manual/Images/AzureDevOpsAddRepoFiles.png)
 
@@ -248,7 +185,7 @@ Azure Pipelines helps you to implement a build, test, and deployment pipeline fo
 
 In this session, you will learn how to use Azure Pipelines to automatically build the **Contoso Expenses** application every time that the changes are pushed to the repository.
 
-1. In the Azure DevOps portal, navigate to the **Pipelines** page. Then choose **New**, **New build pipeline**.
+1. In the Azure DevOps portal, navigate to the **Pipelines** page. Then choose press the **New pipeline** button at the center of the page.
 
     ![](../Manual/Images/AzureDevOpsNewPipeline.png)
 
@@ -268,7 +205,7 @@ In this session, you will learn how to use Azure Pipelines to automatically buil
 
     ![](../Manual/Images/AzureDevOpsPipelineConfigure.png)
 
-    Azure Pipelines leverages an approach called **Infrastructure as code**, where the pipeline is created through a definition file rather than manual processes. Thanks to this approach, you're able to define the tasks that must be executed using a markup language called YAML. This way, the definition of the pipeline can be treated like any other file of the project and incldued in the repository.
+    Azure Pipelines leverages an approach called **Infrastructure as code**, where the pipeline is created through a definition file rather than manual processes. Thanks to this approach, you're able to define the tasks that must be executed using a markup language called YAML. This way, the definition of the pipeline can be treated like any other file of the project and included in the repository.
     
     >  More information about the YAML file available at <a href="https://docs.microsoft.com/en-us/azure/devops/pipelines/yaml-schema?view=azure-devops&tabs=schema" target="_blank">YAML schema reference</a>.
 
@@ -314,18 +251,21 @@ C:\Program Files\dotnet\sdk\2.2.105\Sdks\Microsoft.NET.Sdk.WindowsDesktop\Sdk no
         version: '3.0.100-preview4-011223'
     ```
     
-### Exercise 6 Task 9 - Use the most recent NuGet version
-Now that the task to install .NET Core 3.0 SDK is defined, we need to use the most recent NuGet version which fully supports the new runtime.
+### Exercise 6 Task 9 - Remove the NuGet tasks
+By default, the standard YAML template includes two tasks to install NuGet on the hosted agent and then restore all the packages referenced by the various projects in the solution.
+However, they aren't needed, since the most recent version of MSBuild is able to automatically restore the NuGet packages with a special parameter. We're going to add it in the next task, for the moment we're just going to remove the steps which aren't needed.
 
-1. Locate the **task: NuGetToolInstaller@0** line
-2. Add the NuGet version, as follows:
+1. Locate the following tasks in the YAML file:
 
     ```yaml
     - task: NuGetToolInstaller@0
-      displayName: 'Use NuGet 5.0.0'
+    
+    - task: NuGetCommand@2
       inputs:
-        versionSpec: 5.0.0
+        restoreSolution: '$(solution)'
     ```
+
+2. Delete them.
 
 ### Exercise 6 Task 10 - Configure the build
 The default parameters used by MSBuild are good enough to produce a valid MSIX package. However, there are a couple of tweaks we need to apply for our scenario:
@@ -344,6 +284,18 @@ The default parameters used by MSBuild are good enough to produce a valid MSIX p
         solution: '$(solution)'
         configuration: '$(buildConfiguration)'
         msbuildArgs: '/p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=StoreUpload /p:AppxPackageSigningEnabled=false'
+    ```
+    
+4. The last step is to make sure that MSBuild will restore the NuGet packages. If you remember, in the previous task we have removed the NuGet installation since MSBuild can take care of this process for us. It's enough to add a new parameter called **/restore**.
+5. Include the **/restore** parameter in the **msbuildArgs** section, as follows:
+
+    ```yaml
+    - task: VSBuild@1
+      inputs:
+        platform: 'x86'
+        solution: '$(solution)'
+        configuration: '$(buildConfiguration)'
+        msbuildArgs: '/p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=StoreUpload /p:AppxPackageSigningEnabled=false /restore'
     ```
     
 ### Exercise 6 Task 11 - Upload the artifact
@@ -430,11 +382,7 @@ Now that we have made all the required changes, we are ready to test the build p
 
     Probably you are wondering where is the build output. :)
    
-11. Click on **Pipelines** and select the latest build:
-
-    ![](../Manual/Images/AzureDevOpsPipelineBuildList.png)
-
-    Observe that the **Artifacts** button is available.  
+11. In the same build detail page, look at the header with the build number and the description of the commit which triggered it. Observe that the **Artifacts** button is available on the right.  
 
     ![](../Manual/Images/AzureDevOpsPipelinePublishArtifacts4.png)
 
@@ -454,7 +402,9 @@ Before proceeding to the next session, observe that the artifacts were generated
 
 ![](../Manual/Images/AppManifestVersion.png)
 
-By default, however, the version number will not change for future builds, as the build environment are not persistent between the builds. It would be our duty to manually update the manifest every time we push some code to the repository. However, this approach can lead to many problem. If we forget to update the number and we generate an update with the same version number of the prevision one, we will break the update chain.
+> The last digit of the version number must always be a 0. This is why the version number of our build is 1.0.0.0, but in the manifest we can customize only the values 1.0.0.
+
+By default, however, the version number will not change for future builds, as the build environment are not persistent between the builds. It's our duty to manually update the manifest every time we push some code to the repository. However, this approach can lead to many problems. If we forget to update the number and we generate an update with the same version number of the prevision one, we will break the update chain.
 
 In this task, you will learn how to automatically generate different version numbers for the artifacts by using an extension from Marketplace, provided by a 3rd party developer.
 
