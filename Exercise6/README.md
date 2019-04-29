@@ -4,10 +4,8 @@ MSIX brings many advantages to the table both for IT Pros and developers, like:
 
 - Optimized network usage and storage space
 - Complete clean uninstall, thanks to a lightweight container where the app is executed. No registry keys and temporary files are left on the system.
-- It empowers a modern IT environment, by decoupling OS updates, application updates and customization
+- It empowers a modern IT environment, by decoupling OS updates, application updates and customizations.
 - Simplifies the install, update and uninstall process. All these tasks are performed by Windows, so as a developer you can focus on building your application rather than maintaining the installer technology.
-
-Additionally, thanks to a feature called AppInstaller it's easy to deploy applications on a website or a file share and offer automatic updates.
 
 In this exercise we're going to learn how to package our WPF application as MSIX and how we can improve the deployment story thanks to Azure DevOps.
 
@@ -117,7 +115,7 @@ Azure DevOps Projects presents a simplified experience where you bring your exis
 
 DevOps Projects sets up everything you need for developing, deploying, and monitoring your application. You can use the DevOps Projects dashboard to monitor code commits, builds, and deployments, all from a single view in the Azure portal.
 
-If you already have an Azure DevOps account, feel free to jump to Task 2. Otherwise, continue with the following steps to create a free account, which includes unlimited repositories, up to 5 users and 1.800 minutes per month for CI/CD pipelines (which become unlimited if your project is open source). You can compare the various plans [here](https://azure.microsoft.com/en-us/pricing/details/devops/azure-devops-services/).
+If you already have an Azure DevOps account, feel free to jump to step 5. Otherwise, continue with the following steps to create a free account, which includes unlimited repositories, up to 5 users and 1.800 minutes per month for CI/CD pipelines (which become unlimited if your project is open source). You can compare the various plans [here](https://azure.microsoft.com/en-us/pricing/details/devops/azure-devops-services/).
 
 1. Open the <a href="https://dev.azure.com/" target="_blank">Azure DevOps portal</a>.
 
@@ -133,7 +131,7 @@ If you already have an Azure DevOps account, feel free to jump to Task 2. Otherw
 
     ![](../Manual/Images/GetStartedAzureDevOps.jpg)
 
-5. Enter the **Contoso Expenses** name for your project and select the visibility. The name can't contain special characters (such as / : \ ~ & % ; @ ' " ? < > | # $ * } { , + = [  ]), can't begin with an underscore, can't begin or end with a period, and must be 64 characters or less. Visibility can be either public or private. With public visibility, anyone on the internet can view your project. With private visibility, only people who you give access to can view your project. Select **Create project**.
+5. Choose the option to create a new project. Enter the **Contoso Expenses** name for your project and select the visibility. The name can't contain special characters (such as / : \ ~ & % ; @ ' " ? < > | # $ * } { , + = [  ]), can't begin with an underscore, can't begin or end with a period, and must be 64 characters or less. Visibility can be either public or private. With public visibility, anyone on the internet can view your project. With private visibility, only people who you give access to can view your project. Select **Create project**.
 
     ![](../Manual/Images/AzureDevOpsCreateProject.jpg)
 
@@ -185,7 +183,7 @@ Azure Pipelines helps you to implement a build, test, and deployment pipeline fo
 
 In this session, you will learn how to use Azure Pipelines to automatically build the **Contoso Expenses** application every time that the changes are pushed to the repository.
 
-1. In the Azure DevOps portal, navigate to the **Pipelines** page. Then choose press the **New pipeline** button at the center of the page.
+1. In the Azure DevOps portal, navigate to the **Pipelines** page. Then press the **New pipeline** button at the center of the page.
 
     ![](../Manual/Images/AzureDevOpsNewPipeline.png)
 
@@ -295,10 +293,10 @@ The default parameters used by MSBuild are good enough to produce a valid MSIX p
     ```
     
 ### Exercise 6 Task 11 - Upload the artifact
-You can think to the hosted agent as a sort of virtual machine. Every time a new build is triggered, a new instance is created, which takes care of executing all the tasks one after the other and then it's deleted at the end. This is why we need to repeat all these tasks (like installing the .NET Core 3.0 SDK) every time. Every build will be executed on a fresh instance of a hosted agent.
+You can think to the hosted agent as a sort of virtual machine. Every time a new build is triggered, a new instance is created, which takes care of executing all the tasks one after the other and then it's disposed at the end. This is why we need to repeat all these tasks (like installing the .NET Core 3.0 SDK) every time. Every build will be executed on a fresh instance of a hosted agent.
 
 The consequence is also that, if we don't store somewhere the output of the build, it will be lost as soon as the hosted agent is disposed.
-Azure DevOps offers its own cloud storage where to store the artifacts. Other than being available to the developer for manual download, artifacts are important to build a release pipeline. In a CD pipeline, in fact, the process is typically kicked off when a new artifact is available as a consequence of a CI pipeline that completed successfully.
+Azure DevOps offers its own cloud storage where to store the artifacts. Other than being available to the developer for manual download, artifacts are important to build a release pipeline. In a CD pipeline, in fact, the deployment is typically kicked off when a new artifact is available as a consequence of a CI pipeline that completed successfully.
 
 To achieve this goal we can use a task called **PublishBuildArtifacts**:
 
