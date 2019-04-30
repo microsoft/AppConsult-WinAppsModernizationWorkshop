@@ -217,22 +217,40 @@ Oupss...
 
 ![](../Manual/Images/NETCORE3BuildNewErrors.png)
 
-The Preview version of .NET Core 3 and Visual Studio 2019 causes some errors. It is not interesting to give explanations here: It is only 'piping' we have to resolve by either removing the mentioned lines in the `AssemblyInfo.cs` file or just delete the file. We go for the simpliest. 
+This problem is happening because, with the new .csproj format introduce with .NET Core 3.0, the assembly info are now stored in the project file itself and not anymore in a separate class (the **AssemblyInfo.cs** file stored in the **Properties** folder).
+If you want to retain your own original information, you can disable this behavior and let the project continue to use the **AssemblyInfo.cs** file:
 
-1.  In the **Solution Explorer** window / Under the **ContosoExpenses** project, expand the **Properties** node and right click on the **AssemblyInfo.cs** file ; Click on **Delete**.
-    
-    ![AssemblyInfo cs file](../Manual/Images/AssemblyInfoFile.png)
-    
-2. Do the same for the **ContosoExpenses.Data** project.
+1. Right click on the **ContosoExpenses** project and choose **Edit ContosoExpenses.csproj**.
+2. Add the following entry in the **PropertyGroup** section:
 
-3.  Just rebuild the project (for example using CTRL+SHIFT+B). Yeah!
+    ```xml
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    ```
+    
+    This is how the section should look like:
+    
+    ```xml
+    <Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+    
+      <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>netcoreapp3.0</TargetFramework>
+        <UseWPF>true</UseWPF>
+        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+      </PropertyGroup>
+    
+    </Project>
+    ```
+    
+3. Do the same for the **ContosoExpenses.Data** project.
+
+4. Just rebuild the solution (for example using CTRL+SHIFT+B). Yeah!
 
     ```dos
     1>------ Build started: Project: ContosoExpenses.Data, Configuration: Debug Any CPU ------
     1>C:\Program Files\dotnet\sdk\3.0.100-preview4-011033\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.RuntimeIdentifierInference.targets(151,5): message NETSDK1057: You are using a preview version of .NET Core. See: https://aka.ms/dotnet-core-preview
     1>ContosoExpenses.Data -> C:\WinAppsModernizationWorkshop\Lab\Exercise1\01-Start\ContosoExpenses.Data\bin\Debug\netstandard2.0\ContosoExpenses.Data.dll
     2>------ Build started: Project: ContosoExpenses, Configuration: Debug Any CPU ------
-    2>C:\WinAppsModernizationWorkshop\Lab\Exercise1\01-Start\ContosoExpenses\ContosoExpenses.csproj : warning NU1701: Package 'MvvmLightLibs 5.4.1.1' was restored using '.NETFramework,Version=v4.6.1' instead of the project target framework '.NETCoreApp,Version=v3.0'. This package may not be fully compatible with your project.
     2>ContosoExpenses -> C:\WinAppsModernizationWorkshop\Lab\Exercise1\01-Start\ContosoExpenses\bin\Debug\netcoreapp3.0\ContosoExpenses.dll
     2>Done building project "ContosoExpenses.csproj".
     ========== Build: 2 succeeded, 0 failed, 0 up-to-date, 0 skipped ==========
