@@ -6,9 +6,6 @@ Windows has introduced many great features to build modern applications: the Uni
 In this lab we'll explore many of the technologies that will allow you to leverage all these enhancements in your existing WPF and Windows Forms application. You'll be able to enhance your .NET application with lot of new features without rewriting it from scratch, thanks to .NET Core 3.0, XAML Islands and MSIX.
 
 
-### Estimated time
-90 minutes
-
 ### Objectives
 - Learn why .NET Core 3.0 is important also for Windows desktop developers and how you can migrate your applications
 - Learn how to modernize the user experience and the features of a desktop WPF application
@@ -177,13 +174,11 @@ Let's first be sure we can run and debug the Contoso Expenses solution locally.
 
 2.  When ready, click on the downloaded file in your browser to open it.
 
-    ![Downloaded file](TODO:IMAGEFORTHEDOWNLOADEDFILE)
-
 3.  Open the zip file and extract all the content to `C:\`. It will create a folder named `C:\WinAppsModernizationWorkshop`
 
 4.  Launch Visual Studio 2019, and double click on the `C:\WinAppsModernizationWorkshop\Lab\Exercise1\01-Start\ContosoExpenses\ContosoExpenses.sln` file to open the solution.
 
-    ![ContosoExpenses solution in Windows Explorer](ttps://github.com/Microsoft/AppConsult-WinAppsModernizationWorkshop/raw/master/Manual/Images/ContosoExpensesSolution.png)
+    ![ContosoExpenses solution in Windows Explorer](https://github.com/Microsoft/AppConsult-WinAppsModernizationWorkshop/raw/master/Manual/Images/ContosoExpensesSolution.png)
 
 5.  Verify that you can debug the Contoso Expenses WPF project by pressing the **Start** button or CTRL+F5.
 
@@ -191,9 +186,9 @@ ___
 
 Here are all exercises illustrating the modernization journey for an application:
 
-* <a href="https://github.com/Microsoft/AppConsult-WinAppsModernizationWorkshop/tree/master/Exercise1" target="_blank">Exercise1 - Start with a full .NET WPF application and migrate it to .NET Core 3</a>
-* <a href="https://github.com/Microsoft/AppConsult-WinAppsModernizationWorkshop/tree/master/Exercise2" target="_blank">Exercise2 - Use a 1st party UWP control with XAML Islands</a>
-* <a href="https://github.com/Microsoft/AppConsult-WinAppsModernizationWorkshop/tree/master/Exercise3" target="_blank">Exercise3 - Integrate a custom UWP XAML component</a>
-* <a href="https://github.com/Microsoft/AppConsult-WinAppsModernizationWorkshop/tree/master/Exercise4" target="_blank">Exercise4 - Create a XAML Islands wrapper</a>
-* Exercise5 - 
-* Exercise6 - 
+* <a href="https://github.com/Microsoft/AppConsult-WinAppsModernizationWorkshop/tree/master/Exercise1" target="_blank">Exercise 1 - Start with a full .NET WPF application and migrate it to .NET Core 3</a>
+* <a href="https://github.com/Microsoft/AppConsult-WinAppsModernizationWorkshop/tree/master/Exercise2" target="_blank">Exercise 2 - Use a 1st party UWP control with XAML Islands</a>
+* <a href="https://github.com/Microsoft/AppConsult-WinAppsModernizationWorkshop/tree/master/Exercise3" target="_blank">Exercise 3 - Integrate a custom UWP XAML component</a>
+* <a href="https://github.com/Microsoft/AppConsult-WinAppsModernizationWorkshop/tree/master/Exercise4" target="_blank">Exercise 4 - Create a XAML Islands wrapper</a>
+* <a href="https://github.com/Microsoft/AppConsult-WinAppsModernizationWorkshop/tree/master/Exercise5" target="_blank">Exercise 5 - Adding Windows 10 features to the application</a> 
+* <a href="https://github.com/Microsoft/AppConsult-WinAppsModernizationWorkshop/tree/master/Exercise6" target="_blank">Exercise 6 - Package and deploy your application with MSIX</a> 
