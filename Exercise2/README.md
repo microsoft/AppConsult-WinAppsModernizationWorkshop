@@ -7,7 +7,6 @@ So in our Contoso Expenses application we will bring a modern touch by using Ink
 In order for our WPF application to host UWP controls through XAML Islands we need to do a bit of setup, like installing a NuGet package and adding an application manifest.
 Let's start!
 
-
 1.  If the Contoso Expenses solution is not opened in Visual Studio, double click on `C:\WinAppsModernizationWorkshop\Lab\Exercise2\01-Start\ContosoExpenses\ContosoExpenses.sln` (the folder where you have extracted the zipped file).
 2.  Right click on the **ContosoExpenses** project in the Solution Explorer window on the left and choose **Manage NuGet Packages...**.
 
@@ -52,11 +51,13 @@ Let's start!
 10. Below you will find another section called **application/windowsSettings**, which will be commented:
 
     ```xml
+    <!--
     <application xmlns="urn:schemas-microsoft-com:asm.v3">
       <windowsSettings>
         <dpiAware xmlns="http://schemas.microsoft.com/SMI/2005/WindowsSettings">true</dpiAware>
       </windowsSettings>
     </application>
+    -->
     ```
 
     Delete it and replace it with the following one:
@@ -126,19 +127,20 @@ Adding it to a WPF application is easy, since it's one of the 1st party controls
     This is how the complete definition should look like:
     
     ```xml
-    <Window x:Class="ContosoExpenses.ExpenseDetail"
+    <Window x:Class="ContosoExpenses.Views.ExpenseDetail"
             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
             xmlns:toolkit="clr-namespace:Microsoft.Toolkit.Wpf.UI.Controls;assembly=Microsoft.Toolkit.Wpf.UI.Controls"
+            xmlns:converters="clr-namespace:ContosoExpenses.Converters"
             DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=ExpensesDetailViewModel}"
             xmlns:local="clr-namespace:ContosoExpenses"
             mc:Ignorable="d"
             Title="Expense Detail" Height="500" Width="800"
             Background="{StaticResource HorizontalBackground}">
     ```
-4. Now we can add the **InkCanvas** control to the page. Move to the bottom of the XAML file and, inside the **Grid** control before the `</Grid>` and `<-- Chart -->` lines, add the following code:
+4. Now we can add the **InkCanvas** control to the page. Scroll down the XAML file and, as last elements inside the **Grid** control before the `</Grid>` and `<-- Chart -->` lines, add the following code:
 
     ```xml
     <TextBlock Text="Signature:" FontSize="16" FontWeight="Bold" Grid.Row="5" />
@@ -147,6 +149,7 @@ Adding it to a WPF application is easy, since it's one of the 1st party controls
     ```
 
     The first control is a simple **TextBlock**, used as a header. The second one is real **InkCanvas** control, which is prefixed by the **toolkit** keyword we have defined as namespace, being a 3rd party control.
+
     
 5. That's it! Now we can test the application. Press F5 to launch the debugging experience.
 6. Choose an employee from the list, then one of the available expenses.

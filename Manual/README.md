@@ -27,23 +27,25 @@ We're going to start from an existing LOB application and we're going to enhance
 The lab consists of five exercises:
 1. In the first exercise you're going to migrate the WPF application to .NET Core 3.0, which will open up new and important scenarios in the future.
 2. In the second exercise you're going to start modernizing the application by adding a UWP control which enables to digitally sign a document.
-4. In the third exercise you're going to learn how you can add any native UWP control and interact with it.
-5. In the fourth exercise you're going to leverage some APIs from the Universal Windows Platform in your application.
-5. In the last exercise you're going to package your application with MSIX and to setup a CI/CD pipeline on Azure DevOps so that you can automatically deliver new versions of your app to your testers and users as soon as they comes out.
+3. In the third exercise you're going to learn how you can add any native UWP control and interact with it.
+4. In the fourth exercise you'll learn how to create a wrapper for a UWP control, so that it will be easier to leverage it in a WPF or Windows Forms application.
+5. In the fitfth exercise you're going to leverage some APIs from the Universal Windows Platform in your application.
+6. In the last exercise you're going to package your application with MSIX and to setup a CI/CD pipeline on Azure DevOps so that you can automatically deliver new versions of your app to your testers and users as soon as they comes out.
 
-### Computers in this lab
-This lab uses a single Virtual Machine to provide you with the development environment.
+### Technical requirements
+- Windows 10 1903 (build 18362)
+- [Visual Studio 2019] (https://www.visualstudio.com)
+- [.NET Core 3 Preview SDK](https://dotnet.microsoft.com/download/dotnet-core/3.0)) 
 
-The virtual machine is based on Windows 10 1903 and it includes:
-
-- Visual Studio 2019
-- Windows 10 SDK version 10.0.18362
-- .NET Core 3 Preview SDK
-
-If you already have these tools on your computer, feel free to directly use it for the lab instead of the virtual machine. Be aware that the following Visual Studio workloads have to be installed: 
+Be aware that the following Visual Studio workloads have to be installed: 
 
 - .NET desktop development
 - Universal Windows Platform development
+
+Make sure to check the option to install the 18362 SDK, as part of the Universal Windows Platform development workload:
+
+![](Images/Windows10SDK.png)
+
 
 ### Scenario
 Contoso Expenses is an internal application used by managers of Contoso Corporation to keep track of the expenses submitted by their reports. Modernizing this application is necessary in order to enhance employee efficiency when creating expenses reports. Many of the requested features could be easily implemented with the Universal Windows Platform. However, the application is complex and it's the outcome of many years of development by different teams. As such, rewriting it from scratch with a new technology isn't an option on the table. The team is looking for the best approach to add these features but, at the same time, reusing the existing codebase.

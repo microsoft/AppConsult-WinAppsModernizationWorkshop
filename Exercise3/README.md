@@ -50,7 +50,7 @@ ___
     This is how the full definition should look like:
     
     ```xml
-    <Window x:Class="ContosoExpenses.AddNewExpense"
+    <Window x:Class="ContosoExpenses.Views.AddNewExpense"
             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"

@@ -684,6 +684,35 @@ In this task, we will configure a release pipeline to automate the deployment of
 
     ![](../Manual/Images/HidePasswordPipeline.png)
     
+### Exercise 6 Task 17 - Create the release pipeline - Deploy to a website with AppInstaller
+App Installer is the technology built-in in Windows to handle the installation of MSIX packages. However, App Installer can do more than that: it enables developers to publish a MSIX package on a web location or a file share, together with a special XML file, and let users to install the application from there.
+The App Installer file can be linked on a web page using the **ms-appinstaller** protocol. Thanks to it, users won't have to manually download and install the MSIX package. It's enough for the user to click on the link in the web page to start the installation.
+Additionally, the App Installer file can be configured to support automatic updates. As a developer, you just need to deploy an updated MSIX package and App Installer file to the same web location or file share. Automatically, all the users who have installed the application from that location will receive the update.
+
+In this task we're going to include the generation of an App Installer file as part of our build process. In the end, we're going to deploy all the artifacts (the MSIX package, the App Installer file and a web page to trigger the installation) on Azure Storage.
+
+1. The first step is to create an Azure Storage where to host our files. Open the [Azure Portal](https://portal.azure.com) and login with your Azure account.
+2. Press the **Create a resource** button in the left menu and choose **Storage Account** from the list.
+
+    ![](../Manual/Images/AzureNewResource.png)
+    
+3. Fill all the required information as follow:
+
+    ![](../Manual/Images/AzureNewStorageAccount.png)
+    
+    - **Subscription**: choose the Azure subscription you want to use to host the storage account.
+    - **Resource group**: you can link this new storage account to an existing resource group or create a new dedicated one using the **Create new** option.
+    - **Storage account name**: this is the unique name of the storage account, which will be used also as a URL to access to it. For example, if you choose **contosoexpenses**, the full URL of the storage account will be **https://contosoexpenses.blob.core.windows.net/**. Name it the way you prefer, but take note of it because you're going to need it later.
+    - **Location**: choose an Azure region which is closer to your location for lower latency.
+    - **Performance**: choose **Standard**.
+    - **Account kind**: choose **StorageV2**.
+    - **Replication**: choose **Locally-redundant storage (LRS)**.
+    - **Access tier (default)**: choose **Hot**.
+    
+4. Press the **Review+create** at the bottom of the page.
+5. 
+
+    
 ### Exercise 6 Task 17 - Create the release pipeline - Deploy to Visual Studio App Center
 Now that we have signed the package, we are ready to deploy it so that our users will be able to get it.
 
