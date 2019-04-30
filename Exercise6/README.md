@@ -484,56 +484,7 @@ In this task, you will learn how to automatically generate different version num
     ![](../Manual/Images/AzureDevOpsExtensionAddVersionAppx4.png)
 
 
-### Exercise 6 Task 14 - Create a Visual Studio App Center account
-There are multiple ways to deploy a MSIX package so that other users can get and install it:
 
-1. You can upload it on a website or on a file share and, through a Windows 10 feature called [App Installer](https://docs.microsoft.com/en-us/windows/msix/app-installer/app-installer-root), let Windows handle all the deployment process for you, including automatic updates support. This approach is great for internal distribution, like for an enterprise or for a set of testers.
-2. You can use the Microsoft Store. It's a great option for consumer apps, since the Store is already integrated in every Windows 10 PC and it takes care of all the deployment infrastructure (automatic updates, package signing, etc.)
-3. You can use Visual Studio App Center, which is a platform provided by Microsoft to automate the life cycle of applications, including the deployment phase.
-
-In this task we're going to use the last approach. We're going to setup an application on the platform and a list of testers. Every time we will push new code to the repository, Azure Pipeline will build a new MSIX package and it will upload it to App Center. Every tester will then receive a mail with a link where to download the new update from.
-
-Let's start to create a free **Visual Studio App Center** account. If you already have one, feel free to jump to step 4.
-
-1. Navigate to <a href="https://appcenter.ms/" target="_blank">Visual Studio App Center</a> web page and click on Get Start button to create an account.
-
-    ![](../Manual/Images/AzureDevOpsCreateAccount.png)
- 
-2. Choose the provider that you want to use to login using your account credentials:
- 
-    ![](../Manual/Images/AzureDevOpsChooseProviderTologin.png)
- 
-3.  After login, choose a username available and click on **Choose username** button:
-
-    ![](../Manual/Images/AzureDevOpsAppCenterChooseusername.png)
-
-4. On the top right corner of the App Center portal, click your account avatar, then select **Account Settings**.
-
-    ![](../Manual/Images/AzureDevOpsAppCenterAccountSettings.png)
-
-5. In the middle panel, select **API Tokens** from the menu list. On the top right corner, click **New API token**. 
-
-    ![](../Manual/Images/AzureDevOpsAppCenterNewApiToken.png)
-
-6. In the text field, **enter a descriptive name** for your token, select the type of access **Full Access** for your API token and click on **Add new APIToken**:
-
-    ![](../Manual/Images/AzureDevOpsAppCenterFillNewApiToken.png)
-
-7. This will generate a pop up with your API token. Copy and store it in a secure location for later use. For security reasons, you will not be able to see or generate the same token again after you click the Close button.
-
-8. Click the **Close** button.
-
-9. Navigate to the main page, click on **Add new app**: 
-
-    ![](../Manual/Images/AzureDevOpsAppCenterAddNewApp.png)
-
-10. Enter the **App name**, select **Windows** as operating system, select **UWP** platform and click on **Add new app**. Optionally, it is possible to set the application icon and to add an application description:
-
-    ![](../Manual/Images/AzureDevOpsAppCenterAddNewApp2.png)    
-
-11. Take notes of the URL that will be generated. We will need the user name and the App name in the following task.
-
-    ![](../Manual/Images/AzureDevOpsAppCenterURL.png)
 
 ### Exercise 6 Task 15 - Create a signing certificate
 
@@ -579,7 +530,6 @@ Before we start, however, we need to have a trusted certificate. In this lab, we
     Export-PfxCertificate -cert $cert -FilePath $filePath -Password $pwd
     ```
 
-    
     This is the meaning of the four lines of code:
     
     - The first line retrieves a reference to the certificate we have just created. Make sure to replace, in the **Where** clause, **CN=AppConsult** with the correct publisher of your manifest. 
@@ -684,9 +634,19 @@ In this task, we will configure a release pipeline to automate the deployment of
 
     ![](../Manual/Images/HidePasswordPipeline.png)
     
+### The package deployment
+There are multiple ways to deploy a MSIX package so that other users can get and install it:
+
+1. You can upload it on a website or on a file share and, through a Windows 10 feature called [App Installer](https://docs.microsoft.com/en-us/windows/msix/app-installer/app-installer-root), let Windows handle all the deployment process for you, including automatic updates support. This approach is great for internal distribution, like for an enterprise or for a set of testers.
+2. You can use the Microsoft Store. It's a great option for consumer apps, since the Store is already integrated in every Windows 10 PC and it takes care of all the deployment infrastructure (automatic updates, package signing, etc.)
+3. You can use Visual Studio App Center, which is a platform provided by Microsoft to automate the life cycle of applications, including the deployment phase.
+    
+If you have an Azure subscription or you're willing [to open a trial](https://azure.microsoft.com/en-us/free/), continue to Task 17, which will show you the best deployment experience for MSIX packages through web deployment and App Installer.
+
+However, in case you don't have one, you can skip to Task 18, which will guide you to deploy the MSIX package to Visual Studio App Center, which doesn't require an Azure subscription.
+    
 ### Exercise 6 Task 17 - Create the release pipeline - Deploy to a website with AppInstaller
-App Installer is the technology built-in in Windows to handle the installation of MSIX packages. However, App Installer can do more than that: it enables developers to publish a MSIX package on a web location or a file share, together with a special XML file, and let users to install the application from there.
-The App Installer file can be linked on a web page using the **ms-appinstaller** protocol. Thanks to it, users won't have to manually download and install the MSIX package. It's enough for the user to click on the link in the web page to start the installation.
+App Installer is the technology built-in in Windows to handle the installation of MSIX packages. Thanks to it, users can install a package just by double clicking on it, without the need (like it was in the past on Windows 8) to use PowerShell scripts or developer tools. However, App Installer isn't only about local packages, but it enables users to install a package also from a remote source, like a website or a file share. This is made possible by a special XML file, with **.appinstaller** extension, and the **ms-appinstaller** protocol. Thanks to it, users won't have to manually download and install the MSIX package. It's enough for the user to click on a link which uses this protocol (for example, in a web page) to start the installation.
 Additionally, the App Installer file can be configured to support automatic updates. As a developer, you just need to deploy an updated MSIX package and App Installer file to the same web location or file share. Automatically, all the users who have installed the application from that location will receive the update.
 
 In this task we're going to include the generation of an App Installer file as part of our build process. In the end, we're going to deploy all the artifacts (the MSIX package, the App Installer file and a web page to trigger the installation) on Azure Storage.
@@ -702,18 +662,161 @@ In this task we're going to include the generation of an App Installer file as p
     
     - **Subscription**: choose the Azure subscription you want to use to host the storage account.
     - **Resource group**: you can link this new storage account to an existing resource group or create a new dedicated one using the **Create new** option.
-    - **Storage account name**: this is the unique name of the storage account, which will be used also as a URL to access to it. For example, if you choose **contosoexpenses**, the full URL of the storage account will be **https://contosoexpenses.blob.core.windows.net/**. Name it the way you prefer, but take note of it because you're going to need it later.
-    - **Location**: choose an Azure region which is closer to your location for lower latency.
+    - **Storage account name**: this is the unique name of the storage account, which will be used also as a URL to access to it. For example, if you choose **contosoexpenses**, the full URL of the storage account will be **https://contosoexpenses.blob.core.windows.net/**.
+    - **Location**: choose an Azure region which is close to your location for lower latency.
     - **Performance**: choose **Standard**.
     - **Account kind**: choose **StorageV2**.
     - **Replication**: choose **Locally-redundant storage (LRS)**.
     - **Access tier (default)**: choose **Hot**.
     
 4. Press the **Review+create** at the bottom of the page.
-5. 
+5. In the next page press the **Create** button to kick-off the creation of the account. 
+6. Once it's finished, click on the **Go to resource** button. You'll be redirected to the main page of your new storage account.
+7. Storage Account supports a feature called **Static websites**, which allows to use a blob storage as a web server to host static websites (so HTML, CSS, JavaScript, etc. but no ASP.NET Core for example). It's the perfect feature for our scenario, since we just need to host the MSIX package, the .appinstaller file and the web page to install the application.
+8. To enable it, just choose **Static website** from the settings and set the option to **Enabled**. Then, in the **Index document name** field, set **index.html**. Once you save it, a new field called **Primary endpoint** will appear with the full URL of your new static website.
 
+    ![](../Manual/Images/AzureStaticWebsite.png)
     
-### Exercise 6 Task 17 - Create the release pipeline - Deploy to Visual Studio App Center
+    Turning on this feature will automatically create a container to host the website's files called **$web.**. This is the place where we need to deploy the artifacts of the build executed by Azure DevOps.
+    
+9. Now go back to Azure DevOps, choose **Pipelines -> Releases**. Identity the release pipeline you have started to build in the previous task and press **Edit**.
+10. Click on the stage you have previously created, which should contain only one task to sign the package.
+11. Click the **+** symbol near **Agent job**.
+12. Using the search engine, look for a task called **Azure File Copy** and press **Add**.
+
+    ![](../Manual/Images/AzureFileCopy.png)
+
+13. Now let's configure the task. In the **Source**  you must choose the files you want to copy over the blob storage. In our case, we don't have a single file, but we want to deploy all the artifacts generated by Visual Studio, including the .appinstaller file and the web page. As such, just press the ... button near the field and, using the UI, choose the **drop** folder.
+
+    ![](../Manual/Images/DropFolder.png)
+    
+14. As **Azure Connection Type**, leave **Azure Resource Manager**.
+15. In the **Azure Subscription** dropdown you will see all the subscriptions connected to the same account you're using for Azure DevOps. If you don't see any, click on the **Manage** link, then choose **New service connection -> Azure Resource Manager** and complete the required steps to link your Azure account with your Azure DevOps one. Once everything is setup, choose in the dropdown the subscription you have used to create the Storage Account in the previous steps.
+16. As **Destination Type**, choose **Azure Blob**.
+17. The dropdown **RM Storage Account** will be populated with the list of all the storage accounts linked to your subscription. Choose the one you have created at the beginning of the exercise.
+18. As **Container name** set **$web**, which is the default container created when we have chosen to use our Storage Account to host a static website.
+
+    ![](../Manual/Images/AzureCopyConfiguration.png)
+
+19. That's it! Now save the pipeline. 
+20. Now we need to configure our solution to generate for us an .appinstaller file with a corresponding web page. Visual Studio is able to generate an .appinstaller file for us, thanks to a set of options that can be enabled when you generate a package.
+In our case, since we don't need to build the package locally thanks to Azure DevOps, we're going to manually add the relevant entries in the project instead of using the **Store -> Create App Packages** wizard.
+21. In Visual Studio, right click on the **ContosoExpenses.Package** project and choose **Edit ContosoExpenses.Package.csproj**.
+22. Identify the **PropertyGroup** block which contains the main information about the project, like **EntryProjectUniqueName** and **TargetPlatformVersion**.
+23. Inside the **PropertyGroup**, add the following entries:
+
+    ```xml
+    <AppInstallerUpdateFrequency>1</AppInstallerUpdateFrequency>
+    <AppInstallerCheckForUpdateFrequency>OnApplicationRun</AppInstallerCheckForUpdateFrequency>
+    <AppInstallerUri>https://contosoexpenses.z6.web.core.windows.net</AppInstallerUri>
+    ```
+    
+    **AppInstallerUpdateFrequency** is used to set the frequency Windows will check for updates. In this case it's set to 1 and, in combination with the **AppInstallerCheckForUpdateFrequency** property set to **OnApplicationRun**, it makes sure that Windows will check for updates every time you open the application.
+    **AppInstallerUri**, instead, is the URL of the location where you're going to publish the package. In our case, it's the URL of the blob storage assigned by Azure when we have enabled the static website feature.
+    
+24. Now save the file.
+25. Right click on the **ContosoExpenses** solution and choose **Commit**.
+26. Add a description, then press the arrow near the **Commit all** button and choose **Commit All and Sync**.
+27. The commit will trigger the execution of the build pipeline, followed by the release pipeline. 
+28. Go back to the Azure DevOps portal and click on **Azure Pipelines -> Builds**. The build should be already started.
+29. Wait for it to end, then click on the **Artifacts** button at the top and open the **drop** folder.
+30. Notice how the new artifact includes not only the .msixbundle file, but also a web page and an .appinstaller file:
+
+    ![](../Manual/Images/AppInstallerGenerated.png)
+
+31. When the build is completed, the release pipeline should kick in. You can verify this under **Azure Pipelines -> Releases**.
+32. Once the release pipeline has completed, open the URL associated to the static website with your browser once the pipeline has completed. 
+
+    ![](../Manual/Images/AppInstallerWebsite.png)
+    
+33. Press the **Get the app** button, which links to the App Installer file using the **ms-appinstaller** protocol.
+34. You will be prompted to install and launch the application at the end of the deployment.
+
+Congratulations! You have successfully deployed your MSIX package!
+
+### Exercise 6 Task 18 - Test automatic updates
+Now that you have deployed your application on a website and you have installed it, we can test the automatic updates feature we have enabled through the App Installer file.
+
+1. In Visual Studio open the **App.xaml** file in Solution Explorer
+2. Locate, towards the end of the file, the definition of a resource called **SemiTransparentBackground**:
+
+    ```xml
+    <SolidColorBrush x:Key="SemiTransparentBackground" 
+                     Color="#0073CF"
+                     Opacity=".6" />
+    ```
+
+    This is the resource which defines the background of the table with the list of employees and expenses:
+    
+    ![](../Manual/Images/ContosoExpensesMainWindow.png)
+    
+3. Let's change the color from the current on to Red, by setting the **Color** property:
+
+    ```xml
+    <SolidColorBrush x:Key="SemiTransparentBackground" 
+                     Color="Red"
+                     Opacity=".6" />
+    ```
+4. Save the file.
+5. Right click on the **ContosoExpenses** solution in Solution Explorer.
+6. Choose **Commit**.
+7. Add a description, then press the arrow near the **Commit all** button and choose **Commit All and Sync**.
+8. The commit will trigger the execution of the build pipeline, followed by the release pipeline. Wait for both of them to finish their job.
+9. Now press the Start menu on your PC, locate the **ContosoExpenses** application and launch it. Notice the blue background.
+10. Now close the application. If you quickly reopen the Start menu, you will notice a progress bar appearing below the Contoso Expenses icon. When we have launched the application, Windows has detected that the website from where we have downloaded it contains a newer version. To avoid data loss, Windows has downloaded the update immediately, but it's actually installing it only after we have closed the app.
+11. Now launch again the Contoso Expenses application.
+12. Notice that, this time, the background of the table will be red. The new version has been automatically built by Azure DevOps and deployed on our machine thanks to App Installer.
+
+    ![](../Manual/Images/ContosoExpensesMainWindowRed.png)
+
+### Exercise 6 Task 19 - Create a Visual Studio App Center account
+
+
+In this task we're going to use the last approach. We're going to setup an application on the platform and a list of testers. Every time we will push new code to the repository, Azure Pipeline will build a new MSIX package and it will upload it to App Center. Every tester will then receive a mail with a link where to download the new update from.
+
+Let's start to create a free **Visual Studio App Center** account. If you already have one, feel free to jump to step 4.
+
+1. Navigate to <a href="https://appcenter.ms/" target="_blank">Visual Studio App Center</a> web page and click on Get Start button to create an account.
+
+    ![](../Manual/Images/AzureDevOpsCreateAccount.png)
+ 
+2. Choose the provider that you want to use to login using your account credentials:
+ 
+    ![](../Manual/Images/AzureDevOpsChooseProviderTologin.png)
+ 
+3.  After login, choose a username available and click on **Choose username** button:
+
+    ![](../Manual/Images/AzureDevOpsAppCenterChooseusername.png)
+
+4. On the top right corner of the App Center portal, click your account avatar, then select **Account Settings**.
+
+    ![](../Manual/Images/AzureDevOpsAppCenterAccountSettings.png)
+
+5. In the middle panel, select **API Tokens** from the menu list. On the top right corner, click **New API token**. 
+
+    ![](../Manual/Images/AzureDevOpsAppCenterNewApiToken.png)
+
+6. In the text field, **enter a descriptive name** for your token, select the type of access **Full Access** for your API token and click on **Add new APIToken**:
+
+    ![](../Manual/Images/AzureDevOpsAppCenterFillNewApiToken.png)
+
+7. This will generate a pop up with your API token. Copy and store it in a secure location for later use. For security reasons, you will not be able to see or generate the same token again after you click the Close button.
+
+8. Click the **Close** button.
+
+9. Navigate to the main page, click on **Add new app**: 
+
+    ![](../Manual/Images/AzureDevOpsAppCenterAddNewApp.png)
+
+10. Enter the **App name**, select **Windows** as operating system, select **UWP** platform and click on **Add new app**. Optionally, it is possible to set the application icon and to add an application description:
+
+    ![](../Manual/Images/AzureDevOpsAppCenterAddNewApp2.png)    
+
+11. Take notes of the URL that will be generated. We will need the user name and the App name in the following task.
+
+    ![](../Manual/Images/AzureDevOpsAppCenterURL.png)
+    
+### Exercise 6 Task 20 - Create the release pipeline - Deploy to Visual Studio App Center
 Now that we have signed the package, we are ready to deploy it so that our users will be able to get it.
 
 1. Select the **App Center Distribute** item from the tasks templates and click on **Add**:
