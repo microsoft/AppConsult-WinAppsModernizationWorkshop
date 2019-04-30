@@ -96,7 +96,7 @@ Let's see how to migrate the project to .NET Standard:
 
 2. Right click again on the project in the Solution Explorer; click **Edit ContosoExpenses.Data.csproj**.
 
-3. Remove all the content of the file by doing **CTRL+A** and then **CANC**.
+3. Delete the whole content of file, by pressing **CTRL+A** to select everything and then delete it.
     
 4. Copy and paste the following content and save the file. It's the same project structure we have used for our .NET Core 3.0 project:
 
