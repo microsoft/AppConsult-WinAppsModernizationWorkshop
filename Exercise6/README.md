@@ -554,7 +554,7 @@ In this task, we will configure a release pipeline to automate the deployment of
 
     You define the release pipeline using **stages**, and restrict deployments into or out of an stage using **approvals**. You define the automation in each stage using **jobs** and **tasks**. You use **variables** to generalize your automation and **triggers** to control when the deployments should be kicked off automatically.
 
-3. Name the stage to **Deploy to App Center** and click on the **close** button:
+3. Name the stage to **Deploy to testers** and click on the **close** button:
 
     ![](../Manual/Images/AzureDevOpsReleasesStageName.png)
 
@@ -673,11 +673,11 @@ In this task we're going to include the generation of an App Installer file as p
 5. In the next page press the **Create** button to kick-off the creation of the account. 
 6. Once it's finished, click on the **Go to resource** button. You'll be redirected to the main page of your new storage account.
 7. Storage Account supports a feature called **Static websites**, which allows to use a blob storage as a web server to host static websites (so HTML, CSS, JavaScript, etc. but no ASP.NET Core for example). It's the perfect feature for our scenario, since we just need to host the MSIX package, the .appinstaller file and the web page to install the application.
-8. To enable it, just choose **Static website** from the settings and set the option to **Enabled**. Then, in the **Index document name** field, set **index.html**. Once you save it, a new field called **Primary endpoint** will appear with the full URL of your new static website.
+8. To enable it, just choose **Static website** from the settings and set the option to **Enabled**. Then, in the **Index document name** field, set **index.html**. Once you save it, a new field called **Primary endpoint** will appear with the full URL of your new static website. Take note of it.
 
     ![](../Manual/Images/AzureStaticWebsite.png)
     
-    Turning on this feature will automatically create a container to host the website's files called **$web.**. This is the place where we need to deploy the artifacts of the build executed by Azure DevOps.
+    Turning on this feature will automatically create a container to host the website's files called **$web**. This is the place where we need to deploy the artifacts of the build executed by Azure DevOps.
     
 9. Now go back to Azure DevOps, choose **Pipelines -> Releases**. Identity the release pipeline you have started to build in the previous task and press **Edit**.
 10. Click on the stage you have previously created, which should contain only one task to sign the package.
@@ -711,7 +711,7 @@ In our case, since we don't need to build the package locally thanks to Azure De
     <AppInstallerUri>https://contosoexpenses.z6.web.core.windows.net</AppInstallerUri>
     ```
     
-    **AppInstallerUpdateFrequency** is used to set the frequency Windows will check for updates. In this case it's set to 1 and, in combination with the **AppInstallerCheckForUpdateFrequency** property set to **OnApplicationRun**, it makes sure that Windows will check for updates every time you open the application.
+    **AppInstallerUpdateFrequency** is used to set how frequently Windows will check for updates. In this case it's set to 1 and, in combination with the **AppInstallerCheckForUpdateFrequency** property set to **OnApplicationRun**, it makes sure that Windows will check for updates every time you open the application.
     **AppInstallerUri**, instead, is the URL of the location where you're going to publish the package. In our case, it's the URL of the blob storage assigned by Azure when we have enabled the static website feature.
     
 24. Now save the file.
@@ -725,7 +725,7 @@ In our case, since we don't need to build the package locally thanks to Azure De
     ![](../Manual/Images/AppInstallerGenerated.png)
 
 31. When the build is completed, the release pipeline should kick in. You can verify this under **Azure Pipelines -> Releases**.
-32. Once the release pipeline has completed, open the URL associated to the static website with your browser once the pipeline has completed. 
+32. Once the release pipeline has completed, open the URL associated to the static website with your browser. 
 
     ![](../Manual/Images/AppInstallerWebsite.png)
     
@@ -750,7 +750,7 @@ Now that you have deployed your application on a website and you have installed 
     
     ![](../Manual/Images/ContosoExpensesMainWindow.png)
     
-3. Let's change the color from the current on to Red, by setting the **Color** property:
+3. Let's change the color from the current blue one to red, by setting the **Color** property:
 
     ```xml
     <SolidColorBrush x:Key="SemiTransparentBackground" 
@@ -770,9 +770,7 @@ Now that you have deployed your application on a website and you have installed 
     ![](../Manual/Images/ContosoExpensesMainWindowRed.png)
 
 ### Exercise 6 Task 19 - Create a Visual Studio App Center account
-
-
-In this task we're going to use the last approach. We're going to setup an application on the platform and a list of testers. Every time we will push new code to the repository, Azure Pipeline will build a new MSIX package and it will upload it to App Center. Every tester will then receive a mail with a link where to download the new update from.
+In this task we're going to deploy our MSIX package to Visual studio App Center. We're going to setup an application on the platform and a list of testers. Every time we will push new code to the repository, Azure Pipeline will build a new MSIX package and it will upload it to App Center. Every tester will then receive a mail with a link where to download the new update from.
 
 Let's start to create a free **Visual Studio App Center** account. If you already have one, feel free to jump to step 4.
 
