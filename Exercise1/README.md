@@ -287,5 +287,6 @@ In fact, it is simple. Again, as we hardly deleted all the content of the csproj
 
 
 We are done! Test the app in debug with F5 and it should work... Everything running using .NET Core 3!
+You may notice, if you have a PC with a high resolution screen, that the application will look very small. Don't worry, we're going to fix this problem in the next exercise!
 
 We are now ready to go further and use all the power of the full UWP ecosystem controls, packages, dlls.
