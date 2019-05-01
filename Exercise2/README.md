@@ -15,6 +15,8 @@ Let's start!
 3. Search for `Microsoft.Toolkit.Wpf.UI.Controls`. The NuGet package from Microsoft.Toolkit will be displayed. Make sure to check the **Include prerelease** option. The current stable release (5.x), in fact, supports only the full .NET Framework, while the upcoming 6.x release (now in preview) includes support for .NET Core 3.0 as well.
 
     ![Microsoft.Toolkit.Wpf.UI.Controls NuGet package](../Manual/Images//Microsoft.Toolkit.Wpf.UI.Controls.png)
+    
+> For the moment, make sure to install version 6.0.0-preview4 and not 6.0.0-preview4.1, since it would prevent the correct execution of Exercise 6.
 
 4.  Click on the **Install** button on the right.
 

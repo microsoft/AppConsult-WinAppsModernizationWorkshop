@@ -34,7 +34,7 @@ The lab consists of five exercises:
 
 ### Technical requirements
 - Windows 10 1903 (build 18362)
-- [Visual Studio 2019] (https://www.visualstudio.com)
+- [Visual Studio 2019](https://www.visualstudio.com)
 - [.NET Core 3 Preview SDK](https://dotnet.microsoft.com/download/dotnet-core/3.0)) 
 
 Be aware that the following Visual Studio workloads have to be installed: 

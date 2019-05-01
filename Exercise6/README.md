@@ -27,7 +27,7 @@ Visual Studio offers an easy way to package an existing application thanks to a 
     - **Target SDK** defines which APIs of the Universal Windows Platform you'll be able to use in your application. Choosing the most recent version will allow you to leverage all the latest and greates features offered by the platform.
     - **Minimum SDK** defines which is the minimum Windows 10 version you support. Lower versions won't be able to install this package. In case of a packaged Win32 application, the minimum supported version is Windows 10 Anniversary Update, since it was the first release to support the Desktop Bridge.
     
-    For the purpose of our lab make sure to choose the most recent version for both options, as in the following picture:
+    For the purpose of our lab choose Windows 10, version 1809 (build 17763) as in the following picture:
     
     ![](../Manual/Images/TargetSdk.png)
     
