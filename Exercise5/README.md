@@ -136,6 +136,7 @@ A great way to brainstorm the design of an Adaptive Card is using [the online de
 
     ```csharp
     using AdaptiveCards;
+    using ContosoExpenses.Data.Models;
     ```
 
 5. Copy and paste inside the class the following method:
