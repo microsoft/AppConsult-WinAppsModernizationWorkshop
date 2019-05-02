@@ -81,8 +81,8 @@ namespace ContosoExpenses.ViewModels
             }
         }
 
-        private DateTime _date;
-        public DateTime Date
+        private DateTimeOffset _date;
+        public DateTimeOffset Date
         {
             get { return _date; }
             set { Set(ref _date, value); }
@@ -110,7 +110,7 @@ namespace ContosoExpenses.ViewModels
                             Address = Address,
                             City = City,
                             Cost = Cost,
-                            Date = Date,
+                            Date = Date.DateTime,
                             Description = Description,
                             EmployeeId = storageService.SelectedEmployeeId,
                             Type = ExpenseType
