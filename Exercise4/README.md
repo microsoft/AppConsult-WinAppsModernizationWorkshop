@@ -148,5 +148,28 @@ Since now we have a wrapper that can be used directly in our ViewModel thanks to
     });
     ```
 7. We can now safely delete also the class we have used as a message to store the selected date. Expand the **Messages** folder in Solution Explorer, right click on the **SelectedDateMessage.cs** file and choose **Delete**.
+8. Lastly we can delete the **ChildChanged** event handler that we have defined in the **AddNewExpense.xaml.cs** file to work with the **WindowsXamlHost** control. We don't need it anymore, since now everything is handled by our wrapper.
+9. Double click on the **AddNewExpense.xaml.cs** file in the **Views** folder in Solution Explorer.
+10. Delete the following code block:
 
+    ```csharp
+    private void CalendarUwp_ChildChanged(object sender, System.EventArgs e)
+    {
+        WindowsXamlHost windowsXamlHost = (WindowsXamlHost)sender;
+    
+        Windows.UI.Xaml.Controls.CalendarView calendarView =
+            (Windows.UI.Xaml.Controls.CalendarView)windowsXamlHost.Child;
+    
+        if (calendarView != null)
+        {
+            calendarView.SelectedDatesChanged += (obj, args) =>
+            {
+                if (args.AddedDates.Count > 0)
+                {
+                    Messenger.Default.Send<SelectedDateMessage>(new SelectedDateMessage(args.AddedDates[0].DateTime));
+                }
+            };
+        }
+    }
+    
 That's it. Now our project should continue to compile just fine and still retain all the features we have implemented in Task 2.
