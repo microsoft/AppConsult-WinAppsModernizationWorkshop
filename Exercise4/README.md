@@ -96,20 +96,29 @@ Let's start by adding some properties to our wrapped control. For our scenario, 
     
     The control which is hosted by the wrapper is exposed through the **ChildInternal** property. As such, we can cast it to the control we're hosting (**CalendarView**) and we can access to its properties and events. In this case, we just subscribe to the **SelectedDatesChanged** event.
     
-3. Now we can implement an event handler for this event. Copy and paste the following code at the end of the class:
+3. Now we can implement an event handler for this event. Add first the following namespace in the class header:
+
+    ```csharp
+    using System.Linq;
+    ```
+
+4. Now copy and paste the following code at the end of the class:
 
     ```csharp
     private void CalendarView_SelectedDatesChanged(Windows.UI.Xaml.Controls.CalendarView sender, Windows.UI.Xaml.Controls.CalendarViewSelectedDatesChangedEventArgs args)
     {
-        SelectedDate = args.AddedDates[0];
+        if (args.AddedDates.Any())
+        {
+            SelectedDate = args.AddedDates[0];
+        }
     }
     ```
 
     We're simply setting the dependency property we have just defined with the first value of the **AddedDates** collection. Remember that, since we're using the control in single selection mode, the collection will always include only a single element.
 
-4. Now that the selected date is exposed through a dependency property, we don't need any more to handle the date selection in code behind. We can just bind the **SelectedDate** property exposed by our wrapper to the **Date** property of the ViewModel.
-5. Double click on the **AddNewExpense.xaml** file inside the **Views** folder in Solution Explorer.
-6. Locate the wrapper you have previously added towards the end of the file and set the **SelectedDate** property as in the following sample:
+5. Now that the selected date is exposed through a dependency property, we don't need any more to handle the date selection in code behind. We can just bind the **SelectedDate** property exposed by our wrapper to the **Date** property of the ViewModel.
+6. Double click on the **AddNewExpense.xaml** file inside the **Views** folder in Solution Explorer.
+7. Locate the wrapper you have previously added towards the end of the file and set the **SelectedDate** property as in the following sample:
 
 ```xml
 <local:CalendarViewWrapper Grid.Column="1" Grid.Row="6" Margin="5, 0, 0, 0" SelectedDate="{Binding Path=Date, Mode=TwoWay}" />

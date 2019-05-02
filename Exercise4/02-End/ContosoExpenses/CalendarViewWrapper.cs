@@ -1,6 +1,7 @@
 ﻿using Microsoft.Toolkit.Win32.UI.XamlHost;
 using Microsoft.Toolkit.Wpf.UI.XamlHost;
 using System;
+using System.Linq;
 using System.Windows;
 
 namespace ContosoExpenses
@@ -29,7 +30,10 @@ namespace ContosoExpenses
 
         private void CalendarView_SelectedDatesChanged(Windows.UI.Xaml.Controls.CalendarView sender, Windows.UI.Xaml.Controls.CalendarViewSelectedDatesChangedEventArgs args)
         {
-            SelectedDate = args.AddedDates[0];
+            if (args.AddedDates.Any())
+            {
+                SelectedDate = args.AddedDates[0];
+            }
         }
     }
 }
