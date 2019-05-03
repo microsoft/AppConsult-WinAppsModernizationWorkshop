@@ -258,7 +258,7 @@ Now that our Adaptive Card is ready, we need a method to create a user activity 
     - If you want to always update the same activity so that Timeline will only show the most recent one, you can use a fixed identifier (like **Expenses**).
     - If you want to track every activity as a different one, so that Timeline will display all of them, you can use a dynamc identifier.
     
-    In our scenario we want to track as a different user activy each expense which gets opened, so we use as identifier the keyword **Expense-** followed by its unique identifier.
+    In our scenario we want to track as a different user activity each expense which gets opened, so we use as identifier the keyword **Expense-** followed by its unique identifier.
     
     Once we have the **UserActivity** object, we can start to populate it with:
     
