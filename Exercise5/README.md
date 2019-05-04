@@ -189,7 +189,7 @@ In this session, you will learn how to use Azure Pipelines to automatically buil
 
 2.  In the **Where is your code?** page, you can select your source code from different repository sources. Click on **Azure Repos Git** as we made the source code available in the Azure DevOps portal:
 
-    ![](../Manual/Images/AzureDevOpsWhereIsYourpage2.png)
+    ![](../Manual/Images/AzureDevOpsWhereIsYourPage2.png)
 
 3. The following page will be displayed asking to select the **Contoso Expenses** repository:
 
