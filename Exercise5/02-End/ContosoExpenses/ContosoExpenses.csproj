@@ -4,9 +4,9 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.0</TargetFramework>
     <UseWPF>true</UseWPF>
+    <RuntimeIdentifiers>win-x86;win-x64</RuntimeIdentifiers>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <ApplicationIcon>Images\contoso.ico</ApplicationIcon>
-    <SignAssembly>false</SignAssembly>
     <StartupObject>ContosoExpenses.Program</StartupObject>
   </PropertyGroup>
 

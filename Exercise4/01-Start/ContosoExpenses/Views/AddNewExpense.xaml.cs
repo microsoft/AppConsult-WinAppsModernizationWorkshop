@@ -16,6 +16,7 @@ using System.Windows;
 using GalaSoft.MvvmLight.Messaging;
 using ContosoExpenses.Messages;
 using Microsoft.Toolkit.Wpf.UI.XamlHost;
+using System.Linq;
 using System;
 
 namespace ContosoExpenses.Views
@@ -34,7 +35,7 @@ namespace ContosoExpenses.Views
             });
         }
 
-        private void CalendarUwp_ChildChanged(object sender, System.EventArgs e)
+        private void CalendarUwp_ChildChanged(object sender, EventArgs e)
         {
             WindowsXamlHost windowsXamlHost = (WindowsXamlHost)sender;
 

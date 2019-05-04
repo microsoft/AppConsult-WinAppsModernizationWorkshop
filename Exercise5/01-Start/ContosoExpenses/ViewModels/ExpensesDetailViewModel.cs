@@ -41,6 +41,9 @@ namespace ContosoExpenses.ViewModels
             Description = expense.Description;
             Location = expense.Address;
             Amount = expense.Cost;
+
+            TimelineService timeline = new TimelineService();
+            timeline.AddToTimeline(expense);
         }
     }
 }

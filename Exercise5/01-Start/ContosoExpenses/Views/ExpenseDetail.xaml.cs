@@ -13,6 +13,8 @@
 // ******************************************************************
 
 using System.Windows;
+using ContosoExpenses.Messages;
+using GalaSoft.MvvmLight.Messaging;
 using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
 
 namespace ContosoExpenses.Views

@@ -10,7 +10,7 @@ namespace ContosoExpenses.Data.Models
         public double Cost { get; set; }
         public string Address { get; set; }
         public string City { get; set; }
-        public DateTime Date { get; set; }
+        public DateTimeOffset Date { get; set; }
         public int EmployeeId { get; set; }
     }
 }

@@ -13,6 +13,19 @@ namespace ContosoExpenses.ViewModels
         private readonly IDatabaseService databaseService;
         private readonly IStorageService storageService;
 
+        public AddNewExpenseViewModel(IDatabaseService databaseService, IStorageService storageService)
+        {
+            this.databaseService = databaseService;
+            this.storageService = storageService;
+
+            Date = DateTimeOffset.Now;
+
+            Messenger.Default.Register<SelectedDateMessage>(this, message =>
+            {
+                Date = message.SelectedDate;
+            });
+        }
+
         private string _address;
         public string Address
         {
@@ -76,13 +89,7 @@ namespace ContosoExpenses.ViewModels
         }
 
 
-        public AddNewExpenseViewModel(IDatabaseService databaseService, IStorageService storageService)
-        {
-            this.databaseService = databaseService;
-            this.storageService = storageService;
-
-            Date = DateTimeOffset.Now;
-        }
+    
 
         private bool IsFormFilled
         {
@@ -113,6 +120,10 @@ namespace ContosoExpenses.ViewModels
                         };
 
                         databaseService.SaveExpense(expense);
+
+                        NotificationService notificationService = new NotificationService();
+                        notificationService.ShowNotification(expense.Description, expense.Cost);
+
                         Messenger.Default.Send<UpdateExpensesListMessage>(new UpdateExpensesListMessage());
                         Messenger.Default.Send<CloseWindowMessage>(new CloseWindowMessage());
                     }, () => IsFormFilled

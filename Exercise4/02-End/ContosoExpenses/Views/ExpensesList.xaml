@@ -21,6 +21,7 @@
         xmlns:local="clr-namespace:ContosoExpenses"
         mc:Ignorable="d"
         Title="Expenses List" Height="450" Width="800"
+        Closed="Window_Closed"
         DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=ExpensesListViewModel}"
         Background="{StaticResource ExpensesListBackground}">
 

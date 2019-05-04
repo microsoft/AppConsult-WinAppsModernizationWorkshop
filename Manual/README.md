@@ -28,9 +28,8 @@ The lab consists of five exercises:
 1. In the first exercise you're going to migrate the WPF application to .NET Core 3.0, which will open up new and important scenarios in the future.
 2. In the second exercise you're going to start modernizing the application by adding a UWP control which enables to digitally sign a document.
 3. In the third exercise you're going to learn how you can add any native UWP control and interact with it.
-4. In the fourth exercise you'll learn how to create a wrapper for a UWP control, so that it will be easier to leverage it in a WPF or Windows Forms application.
-5. In the fitfth exercise you're going to leverage some APIs from the Universal Windows Platform in your application.
-6. In the last exercise you're going to package your application with MSIX and to setup a CI/CD pipeline on Azure DevOps so that you can automatically deliver new versions of your app to your testers and users as soon as they comes out.
+4. In the fourth exercise you're going to leverage some APIs from the Universal Windows Platform in your application.
+5. In the last exercise you're going to package your application with MSIX and to setup a CI/CD pipeline on Azure DevOps so that you can automatically deliver new versions of your app to your testers and users as soon as they comes out.
 
 ### Technical requirements
 - Windows 10 1903 (build 18362)
@@ -191,6 +190,5 @@ Here are all exercises illustrating the modernization journey for an application
 * <a href="https://github.com/Microsoft/AppConsult-WinAppsModernizationWorkshop/tree/master/Exercise1" target="_blank">Exercise 1 - Start with a full .NET WPF application and migrate it to .NET Core 3</a>
 * <a href="https://github.com/Microsoft/AppConsult-WinAppsModernizationWorkshop/tree/master/Exercise2" target="_blank">Exercise 2 - Use a 1st party UWP control with XAML Islands</a>
 * <a href="https://github.com/Microsoft/AppConsult-WinAppsModernizationWorkshop/tree/master/Exercise3" target="_blank">Exercise 3 - Integrate a custom UWP XAML component</a>
-* <a href="https://github.com/Microsoft/AppConsult-WinAppsModernizationWorkshop/tree/master/Exercise4" target="_blank">Exercise 4 - Create a XAML Islands wrapper</a>
-* <a href="https://github.com/Microsoft/AppConsult-WinAppsModernizationWorkshop/tree/master/Exercise5" target="_blank">Exercise 5 - Adding Windows 10 features to the application</a> 
-* <a href="https://github.com/Microsoft/AppConsult-WinAppsModernizationWorkshop/tree/master/Exercise6" target="_blank">Exercise 6 - Package and deploy your application with MSIX</a> 
+* <a href="https://github.com/Microsoft/AppConsult-WinAppsModernizationWorkshop/tree/master/Exercise5" target="_blank">Exercise 4 - Adding Windows 10 features to the application</a> 
+* <a href="https://github.com/Microsoft/AppConsult-WinAppsModernizationWorkshop/tree/master/Exercise6" target="_blank">Exercise 5 - Package and deploy your application with MSIX</a> 
