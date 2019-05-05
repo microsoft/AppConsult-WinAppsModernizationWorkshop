@@ -28,7 +28,5 @@ namespace ContosoExpenses
         public ExpensesDetailViewModel ExpensesDetailViewModel => _container.Resolve<ExpensesDetailViewModel>();
 
         public AddNewExpenseViewModel AddNewExpenseViewModel => _container.Resolve<AddNewExpenseViewModel>();
-
-
     }
 }

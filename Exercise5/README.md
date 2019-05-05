@@ -646,6 +646,20 @@ However, in case you don't have one, you can skip to Task 18, which will guide y
 App Installer is the technology built-in in Windows to handle the installation of MSIX packages. Thanks to it, users can install a package just by double clicking on it, without the need (like it was in the past on Windows 8) to use PowerShell scripts or developer tools. However, App Installer isn't only about local packages, but it enables users to install a package also from a remote source, like a website or a file share. This is made possible by a special XML file, with **.appinstaller** extension, and the **ms-appinstaller** protocol. Thanks to it, users won't have to manually download and install the MSIX package. It's enough for the user to click on a link which uses this protocol (for example, in a web page) to start the installation.
 Additionally, the App Installer file can be configured to support automatic updates. As a developer, you just need to deploy an updated MSIX package and App Installer file to the same web location or file share. Automatically, all the users who have installed the application from that location will receive the update.
 
+This is how an App Intaller file looks like:
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<AppInstaller Uri="https://contosoexpenses.z6.web.core.windows.net/ContosoExpenses.Package.appinstaller" Version="2019.5.13.0" xmlns="http://schemas.microsoft.com/appx/appinstaller/2017/2">
+  <MainBundle Name="ContosoExpenses" Version="2019.5.13.0" Publisher="CN=MicrosoftAppConsult" Uri="https://contosoexpenses.z6.web.core.windows.net/ContosoExpenses.Package_2019.5.13.0_Test/ContosoExpenses.Package_2019.5.13.0_x86.msixbundle" />
+  <UpdateSettings>
+    <OnLaunch HoursBetweenUpdateChecks="0" />
+  </UpdateSettings>
+</AppInstaller>
+```
+
+Other than including a reference to the version number and the URL of the MSIX file, you can see also an entry called **UpdateSettings**, which enables the auto-update feature. The sample configuration enables the application to automatically check for updates every time it starts.
+
 In this task we're going to include the generation of an App Installer file as part of our build process. In the end, we're going to deploy all the artifacts (the MSIX package, the App Installer file and a web page to trigger the installation) on Azure Storage.
 
 1. The first step is to create an Azure Storage where to host our files. Open the [Azure Portal](https://portal.azure.com) and login with your Azure account.
@@ -715,7 +729,7 @@ In our case, since we don't need to build the package locally thanks to Azure De
 25. Right click on the **ContosoExpenses** solution and choose **Commit**.
 26. Add a description, then press the arrow near the **Commit all** button and choose **Commit All and Sync**.
 27. The commit will trigger the execution of the build pipeline, followed by the release pipeline. 
-28. Go back to the Azure DevOps portal and click on **Azure Pipelines -> Builds**. The build should be already started.
+28. Go back to the Azure DevOps portal and click on **Azure Pipelines -> Builds**. The build should be already started. Click on it to see the details.
 29. Wait for it to end, then click on the **Artifacts** button at the top and open the **drop** folder.
 30. Notice how the new artifact includes not only the .msixbundle file, but also a web page and an .appinstaller file:
 

@@ -6,7 +6,6 @@ ___
 ### Exercise 1 Task 1 - Setup for using .NET Core 3
 At the moment of writing .NET Core is still in Preview. Nevertheless, it is enough stable to play with it. You will need to install the **.NET Core 3 SDK**, which is available at [https://dotnet.microsoft.com/download/dotnet-core/3.0](https://dotnet.microsoft.com/download/dotnet-core/3.0). Make sure to download the most recent Preview version.
 
-
 ![](../Manual/Images/NetCoreDownload.png)
 
 ___ 
@@ -15,7 +14,7 @@ ___
 As mentioned, .NET Core is in the Preview state. Visual Studio 2019 has been released. If you need to install it on your own box, here is the link: [https://visualstudio.microsoft.com/downloads/](https://visualstudio.microsoft.com/downloads/).
 
 Let's open the solution using Visual Studio 2019:
-1.  In Windows Explorer, navigate to `C:\WinAppsModernizationWorkshop\Lab\Exercise1\01-Start\ContosoExpenses` and double click on the `ContosoExpenses.sln` solution.
+1. In Windows Explorer, navigate to `C:\WinAppsModernizationWorkshop\Lab\Exercise1\01-Start\` and double click on the `ContosoExpenses.sln` solution.
     
     The project ContosoExpenses is now open in Visual Studio but nothing has changed. The application still uses the Full .NET 4.7.2. To verify this, just right click on the project in the Solution Explorer Windows and **Properties**.
     
@@ -25,23 +24,10 @@ Let's open the solution using Visual Studio 2019:
     
     ![.NET Framework version 4.7.2 for the project](../Manual/Images/NETFramework472.png)
 
-2.  Right click on the project in the solution explorer and choose **Unload Project**.
-
-    ![Unload project](../Manual/Images/UnloadProject.png)
-
-3.  Right click again on the project in the solution explorer ; click **Edit ContosoExpenses.csproj**.
-
-    ![Edit ContosoExpenses csproj](../Manual/Images/EditContosoExpensesCSPROJ.png)
-
-4.  The content of the .csproj file looks like
-
-    ![csproj file content](../Manual/Images/CSPROJFile.png)
-
-    Do not be afraid, it is not the time to understand the whole csproj structure. You will see that the migration will be done easily, just remove all the content of the file by pressing **CTRL+A** and then press **CANC**.
-    
-    ![Empty csproj file](../Manual/Images/EmptyCSPROJ.png)
-    
-5.  Start writing the new csproj file content by typing `<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop"> </Project>` in the ContosoExpense.csproj. Microsoft.NET.Sdk.WindowsDesktop is the .NET Core 3 SDK for applications on Windows Desktop. It includes WPF and Windows Forms.
+2. We're going to create a new .csproj file inside our solution for the .NET Core 3.0 project. This will allow us to keep a single solution with both versions of our app: the .NET Framework and the .NET Core one. Open the folder `C:\WinAppsModernizationWorkshop\Lab\Exercise1\01-Start\ContosoExpenses\`, then right click on an empty area and right click on it. Choose **New -> Text Document**.
+3. Name the file **ContosoExpenses.Core.csproj** and press Enter.
+4. Right click on the file, choose **Open with**, then open it with a text editor of your choice, like Notepad or Visual Studio Code.
+4.  Start writing the new csproj file content by typing `<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop"> </Project>`. Microsoft.NET.Sdk.WindowsDesktop is the .NET Core 3 SDK for applications on Windows Desktop. It includes WPF and Windows Forms.
 
     ![Windows Desktop in csproj](../Manual/Images/WindowsDesktopInCSPROJ.png)
 
@@ -49,7 +35,7 @@ Let's open the solution using Visual Studio 2019:
 
     ![PropertyGroup inside Project in csproj](../Manual/Images/PropertyGroup.png)
 
-8.  First, we indicate that the project output is a **executable** and not a dll. This is acheived by adding `<OutputType>WinExe</OutputType>` inside `<PropertyGroup></PropertyGroup>`.
+8.  First, we indicate that the project output is a **executable** and not a dll. This is achieved by adding `<OutputType>WinExe</OutputType>` inside `<PropertyGroup></PropertyGroup>`.
 
 > Note that, if the project output was a dll, this line has to be omitted.
 
@@ -81,6 +67,8 @@ Here is the full content of the new csproj. Please double check that you have ev
 
 By default, with the new project format, all the files in the folder are considered part of the solution. As such, we don't have to specify anymore each single file included in the project, like we had to do the old .csproj file. We need to specify only the ones for which we need to define a custom build action or that we want to exclude. 
 It is now safe to save file by pressing **CTRL+S**.
+
+Now close the text editor and go back to Visual Studio. Right click on the **ContosoExpenses** solution and choose **Add -> Existing Project**. Look in the disk for the **ContosoExpenses.Core.csproj** file you have just created in the `C:\WinAppsModernizationWorkshop\Lab\Exercise1\01-Start\ContosoExpenses` folder and select it. This way the new project file you have just created will be added to the solution.
 
 Last point: To be able to use a preview of .NET Core 3, in Visual Studio 2019, please go to **TOOLS** / **Options...** and type "Core" in the search box. Check the **Use previews of the .NET Core SDK**. If you're using a [Preview version of Visual Studio 2019](https://visualstudio.microsoft.com/vs/preview/), instead, you don't need to enable this option, since .NET Core previews are enabled by default.
 
@@ -207,13 +195,37 @@ ___
 
     ![](../Manual/Images/AddReference.png)
 
+### Excercise 1 Task 5 - Adding the Windows Compatibity Pack
+If you try to compile the **ContosoExpenses.Data** library, even after adding the missing NuGet packages, you will get the following error:
+
+```text
+>Services\RegistryService.cs(9,26,9,34): error CS0103: The name 'Registry' does not exist in the current context
+>Services\RegistryService.cs(12,26,12,34): error CS0103: The name 'Registry' does not exist in the current context
+>Services\RegistryService.cs(12,97,12,123): error CS0103: The name 'RegistryKeyPermissionCheck' does not exist in the current context
+```
+
+The error is happening because we have converted the project from a .NET Framework library (which is specific for Windows) to a .NET Standard one, which is instead can run on multiple platforms, like Linux, Android, iOS, etc.
+Our class library contains a class called **RegistryService** which interacts with the registry, which is a Windows-only concept.
+
+Does this mean that we need to give up with the conversion? No, thanks to the Windows Compatibility Pack! It's a special [NuGet package](https://www.nuget.org/packages/Microsoft.Windows.Compatibility) which adds support for many Windows specific APIs to a .NET Standard library. The library won't be cross-platform anymore, but it will still target .NET Standard. Let's add it to our project!
+
+1. Right click on the **ContosoExpenses.Data** project.
+2. Choose **Manage NuGet Packages**.
+3. Look for the package with the identifier **Microsoft.Windows.Compatibility** and press **Install**:
+
+    ![](../Manual/Images/WindowsCompatibilityPack.png)
+    
+4. Now try again to compile the project, by right clicking on the **ContosoExpenses.Data** project and choosing **Build**.
+
+This time the build process will complete without errors.
+
 ___ 
 
-### Exercise 1 Task 4 - Perform the migration - Fixing AssemblyInfo.cs
+### Exercise 1 Task 6 - Perform the migration - Fixing AssemblyInfo.cs
 
-Let's try to build it in order to 'discover' what we have to do to complete the migration. Use the **Build** menu and **Build solution**.
+Let's try to build the **ContosoExpenses.Core** project in order to find what we have to do to complete the migration. Use the **Build** menu and **Build solution**.
 
-Oupss...
+Ops...
 
 ![](../Manual/Images/NETCORE3BuildNewErrors.png)
 
@@ -259,7 +271,7 @@ If you want to retain your own original information, you can disable this behavi
 ___ 
 
 
-### Exercise 1 Task 5 - Perform the migration - Debug
+### Exercise 1 Task 7 - Perform the migration - Debug
 
 We are ok to finally, launch the app.
 
@@ -275,13 +287,20 @@ Strange because the images files are in the solution and the path seems correct.
 
 > Why do we get this file not found exception?
 
-In fact, it is simple. Again, as we hardly deleted all the content of the csproj file at the beginning of the migration, we removed the information about the **Build action** for the images' files. Let fix it.
+In fact, it is simple. Again, as we hardly deleted all the content of the csproj file at the beginning of the migration, we removed the information about the **Build action** for the images' files. Let's fix it.
 
-2.  In the **Solution Explorer**, select all the images files except the contoso.ico ; In the properties windows choose **Build action** = `Content` and **Copy to Output Directory** = `Copy if Newer`
+2. Right click on the **ContosoExpenses** project and choose **Edit ContosoExpenses.csproj**.
+3. Add, before the end of the file, the following entry:
 
-    ![Build Action Content and Copy if newer](../Manual/Images/ContentCopyIfNewer.png)
+    ```xml
+    <ItemGroup>
+      <Content Include="Images/*">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
+    ```
 
-3.  To assign the Contoso.ico to the app, we have to right click on the project in the **Solution Explorer** / **Properties**. In the opened page, click on the dropdown listbox for Icon and select `Images\contoso.ico`
+4.  To assign the Contoso.ico to the app, we have to right click on the project in the **Solution Explorer** / **Properties**. In the opened page, click on the dropdown listbox for Icon and select `Images\contoso.ico`
 
     ![Contoso ico in the Project's Properties](../Manual/Images/ContosoIco.png)
 
