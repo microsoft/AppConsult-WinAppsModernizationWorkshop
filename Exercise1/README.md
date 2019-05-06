@@ -11,7 +11,7 @@ At the moment of writing .NET Core is still in Preview. Nevertheless, it is enou
 ___ 
 
 ### Exercise 1 Task 2 - Perform the migration - The csproj for the WPF App
-As mentioned, .NET Core is in the Preview state. Visual Studio 2019 has been released. If you need to install it on your own box, here is the link: [https://visualstudio.microsoft.com/downloads/](https://visualstudio.microsoft.com/downloads/).
+As mentioned, .NET Core is still in Preview. If you need to install it on your own box, here is the link: [https://visualstudio.microsoft.com/downloads/](https://visualstudio.microsoft.com/downloads/).
 
 Let's open the solution using Visual Studio 2019:
 1. In Windows Explorer, navigate to `C:\WinAppsModernizationWorkshop\Lab\Exercise1\01-Start\` and double click on the `ContosoExpenses.sln` solution.
@@ -277,17 +277,17 @@ We are ok to finally, launch the app.
 
 1.  Use the **Debug** menu / **Start Debugging F5**
 
-> You had an exception. What is it that? Don't we finished the migration? Can you find the root cause of the issue reading the Exception Debug popup displayed by Visual Studio?
-
-![Exception displayed in Visual Studio](../Manual/Images/ExceptionNETCore3.png)
-
-Strange because the images files are in the solution and the path seems correct.
-
-![Images in the Solution Explorer](../Manual/Images/ImagesInTheSolutionExplorer.png)
-
-> Why do we get this file not found exception?
-
-In fact, it is simple. Again, as we hardly deleted all the content of the csproj file at the beginning of the migration, we removed the information about the **Build action** for the images' files. Let's fix it.
+    > You had an exception. What is it that? Don't we finished the migration? Can you find the root cause of the issue reading the Exception Debug popup displayed by Visual Studio?
+    
+    ![Exception displayed in Visual Studio](../Manual/Images/ExceptionNETCore3.png)
+    
+    Strange because the images files are in the solution and the path seems correct.
+    
+    ![Images in the Solution Explorer](../Manual/Images/ImagesInTheSolutionExplorer.png)
+    
+    > Why do we get this file not found exception?
+    
+    When we hardly deleted all the content of the csproj file at the beginning of the migration, we removed the information about the **Build action** for the images' files. Let's fix it.
 
 2. Right click on the **ContosoExpenses** project and choose **Edit ContosoExpenses.csproj**.
 3. Add, before the end of the file, the following entry:
