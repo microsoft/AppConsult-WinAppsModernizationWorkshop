@@ -66,7 +66,7 @@ ___
 6. Since the new control takes more space than the WPF one, let's also increase the height of the window to 800, by changing the **Height** attribute of the **Window** tag from 450 to 800:
 
     ```xml
-    <Window x:Class="ContosoExpenses.AddNewExpense"
+    <Window x:Class="ContosoExpenses.Views.AddNewExpense"
             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"

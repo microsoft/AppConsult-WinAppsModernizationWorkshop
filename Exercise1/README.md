@@ -68,11 +68,13 @@ Here is the full content of the new csproj. Please double check that you have ev
 By default, with the new project format, all the files in the folder are considered part of the solution. As such, we don't have to specify anymore each single file included in the project, like we had to do the old .csproj file. We need to specify only the ones for which we need to define a custom build action or that we want to exclude. 
 It is now safe to save file by pressing **CTRL+S**.
 
-Now close the text editor and go back to Visual Studio. Right click on the **ContosoExpenses** solution and choose **Add -> Existing Project**. Look in the disk for the **ContosoExpenses.Core.csproj** file you have just created in the `C:\WinAppsModernizationWorkshop\Lab\Exercise1\01-Start\ContosoExpenses` folder and select it. This way the new project file you have just created will be added to the solution.
-
-Last point: To be able to use a preview of .NET Core 3, in Visual Studio 2019, please go to **TOOLS** / **Options...** and type "Core" in the search box. Check the **Use previews of the .NET Core SDK**. If you're using a [Preview version of Visual Studio 2019](https://visualstudio.microsoft.com/vs/preview/), instead, you don't need to enable this option, since .NET Core previews are enabled by default.
+**Important!** To be able to use a preview of .NET Core 3, in Visual Studio 2019, please go to **TOOLS** / **Options...** and type "Core" in the search box. Check the **Use previews of the .NET Core SDK**. If you're using a [Preview version of Visual Studio 2019](https://visualstudio.microsoft.com/vs/preview/), instead, you don't need to enable this option, since .NET Core previews are enabled by default.
 
 ![.NET Core preview allowed](../Manual/Images/NETCorePreviewCheck.png)
+
+Now close the text editor and go back to Visual Studio. Right click on the **ContosoExpenses** solution and choose **Add -> Existing Project**. Look in the disk for the **ContosoExpenses.Core.csproj** file you have just created in the `C:\WinAppsModernizationWorkshop\Lab\Exercise1\01-Start\ContosoExpenses` folder and select it. This way the new project file you have just created will be added to the solution.
+
+
 ___ 
 
 ### Exercise 1 Task 3 - Perform the migration - The csproj for the class library
@@ -88,15 +90,15 @@ Let's see how to migrate the project to .NET Standard:
     
 4. Copy and paste the following content and save the file. It's the same project structure we have used for our .NET Core 3.0 project:
 
-```xml
-<Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-  </PropertyGroup>
-
-</Project>
-```
+    ```xml
+    <Project Sdk="Microsoft.NET.Sdk">
+    
+      <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+      </PropertyGroup>
+    
+    </Project>
+    ```
 
 > **Note:** This time, we use the 2.0 release of .NET Standard, which is highly portable/compatible with cross-platform apps and it includes a broad set of APIs. This way, you can see there that this class library could be shared with others apps on others platforms (MacOS, Linux) and still with existing full .NET apps on Windows.
 
@@ -199,9 +201,9 @@ ___
 If you try to compile the **ContosoExpenses.Data** library, even after adding the missing NuGet packages, you will get the following error:
 
 ```text
->Services\RegistryService.cs(9,26,9,34): error CS0103: The name 'Registry' does not exist in the current context
->Services\RegistryService.cs(12,26,12,34): error CS0103: The name 'Registry' does not exist in the current context
->Services\RegistryService.cs(12,97,12,123): error CS0103: The name 'RegistryKeyPermissionCheck' does not exist in the current context
+Services\RegistryService.cs(9,26,9,34): error CS0103: The name 'Registry' does not exist in the current context
+Services\RegistryService.cs(12,26,12,34): error CS0103: The name 'Registry' does not exist in the current context
+Services\RegistryService.cs(12,97,12,123): error CS0103: The name 'RegistryKeyPermissionCheck' does not exist in the current context
 ```
 
 The error is happening because we have converted the project from a .NET Framework library (which is specific for Windows) to a .NET Standard one, which is instead can run on multiple platforms, like Linux, Android, iOS, etc.
