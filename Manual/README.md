@@ -190,5 +190,5 @@ Here are all exercises illustrating the modernization journey for an application
 * <a href="https://github.com/Microsoft/AppConsult-WinAppsModernizationWorkshop/tree/master/Exercise1" target="_blank">Exercise 1 - Start with a full .NET WPF application and migrate it to .NET Core 3</a>
 * <a href="https://github.com/Microsoft/AppConsult-WinAppsModernizationWorkshop/tree/master/Exercise2" target="_blank">Exercise 2 - Use a 1st party UWP control with XAML Islands</a>
 * <a href="https://github.com/Microsoft/AppConsult-WinAppsModernizationWorkshop/tree/master/Exercise3" target="_blank">Exercise 3 - Integrate a custom UWP XAML component</a>
-* <a href="https://github.com/Microsoft/AppConsult-WinAppsModernizationWorkshop/tree/master/Exercise5" target="_blank">Exercise 4 - Adding Windows 10 features to the application</a> 
-* <a href="https://github.com/Microsoft/AppConsult-WinAppsModernizationWorkshop/tree/master/Exercise6" target="_blank">Exercise 5 - Package and deploy your application with MSIX</a> 
+* <a href="https://github.com/Microsoft/AppConsult-WinAppsModernizationWorkshop/tree/master/Exercise4" target="_blank">Exercise 4 - Adding Windows 10 features to the application</a> 
+* <a href="https://github.com/Microsoft/AppConsult-WinAppsModernizationWorkshop/tree/master/Exercise5" target="_blank">Exercise 5 - Package and deploy your application with MSIX</a> 
