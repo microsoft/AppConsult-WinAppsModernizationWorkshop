@@ -1,5 +1,5 @@
-# Here are all the instricuttions for the exercises
-# ➡ <a href="https://github.com/microsoft/AppConsult-WinAppsModernizationWorkshop/tree/master/Manual" target="_blank">Manual</a> ⬅ 
+Here are all the instricuttions for the exercises
+## ➡ <a href="https://github.com/microsoft/AppConsult-WinAppsModernizationWorkshop/tree/master/Manual" target="_blank">Manual</a> ⬅ 
 
 ---
 
