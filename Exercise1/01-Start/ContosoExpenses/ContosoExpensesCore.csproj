@@ -7,18 +7,23 @@
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <StartupObject>ContosoExpenses.App</StartupObject>
+    <Platforms>AnyCPU;x86;x64</Platforms>
+    <AssetTargetFallback>uap10.0.17763.0</AssetTargetFallback>
   </PropertyGroup>
 
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Toolkit.Wpf.UI.XamlHost" Version="6.0.0-preview5" />
+    <PackageReference Include="Microsoft.Windows.SDK.Contracts" Version="10.0.18362.2002-preview" />
     <PackageReference Include="MvvmLightLibs" Version="5.4.1.1" />
     <PackageReference Include="Unity" Verison="5.10.2" Version="5.10.1" />
+    <PackageReference Include="Bogus" Version="2.1.4" />
+    <PackageReference Include="LiteDB" Version="4.1.4" />
+     
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\CamaronDe\CamaronDe.csproj" />
-    <ProjectReference Include="..\ContosoExpenses.Data\ContosoExpenses.Data.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,17 +31,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="..\CamaronDe\bin\Debug\CamaronDe.xr.xml" Link="CamaronDe\CamaronDe.xr.xml">
+    <Content Include="..\CamaronDe\bin\Debug\CamaronDe\CamaronDe.xr.xml" Link="CamaronDe\CamaronDe.xr.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="CamaronDe\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="..\CamaronDe\bin\Debug\ModernControlsDemo.xbf" Link="CamaronDe\ModernControlsDemo.xbf">
+    <Content Include="..\CamaronDe\bin\Debug\CamaronDe\ModernControlsDemo.xbf" Link="CamaronDe\ModernControlsDemo.xbf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
