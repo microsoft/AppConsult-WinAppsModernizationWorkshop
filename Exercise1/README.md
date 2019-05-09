@@ -4,7 +4,7 @@ Migrating the application to .NET Core 3 is the best and recommended path for mo
 ___ 
 
 ### Exercise 1 Task 1 - Setup for using .NET Core 3
-At the moment of writing .NET Core is still in Preview. Nevertheless, it is enough stable to play with it. You will need to install the **.NET Core 3 SDK**, which is available at [https://dotnet.microsoft.com/download/dotnet-core/3.0](https://dotnet.microsoft.com/download/dotnet-core/3.0). Make sure to download the most recent Preview version.
+At the moment of writing .NET Core is still in Preview. Nevertheless, it is enough stable to play with it. You will need to install the **.NET Core 3 SDK**, which is available at [https://dotnet.microsoft.com/download/dotnet-core/3.0](https://dotnet.microsoft.com/download/dotnet-core/3.0). Make sure to download Preview 4.
 
 ![](../Manual/Images/NetCoreDownload.png)
 
@@ -26,22 +26,22 @@ Let's open the solution using Visual Studio 2019:
 
 2. We're going to create a new .csproj file inside our solution for the .NET Core 3.0 project. This will allow us to keep a single solution with both versions of our app: the .NET Framework and the .NET Core one. Open the folder `C:\WinAppsModernizationWorkshop\Lab\Exercise1\01-Start\ContosoExpenses\`, then right click on an empty area and right click on it. Choose **New -> Text Document**.
 3. Name the file **ContosoExpenses.Core.csproj** and press Enter.
-4. Right click on the file, choose **Open with**, then open it with a text editor of your choice, like Notepad or Visual Studio Code.
-4.  Start writing the new csproj file content by typing `<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop"> </Project>`. Microsoft.NET.Sdk.WindowsDesktop is the .NET Core 3 SDK for applications on Windows Desktop. It includes WPF and Windows Forms.
+4. Right click on the file, choose **Open with**, then open it with a text editor of your choice, like Notepad, Visual Studio Code or Visual Studio itself.
+5.  Start writing the new csproj file content by typing `<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop"> </Project>`. Microsoft.NET.Sdk.WindowsDesktop is the .NET Core 3 SDK for applications on Windows Desktop. It includes WPF and Windows Forms.
 
     ![Windows Desktop in csproj](../Manual/Images/WindowsDesktopInCSPROJ.png)
 
-7.  Let's specify now a few details. To do this, insert a `<PropertyGroup></PropertyGroup>` element in inside the `<Project></Project>` element. 
+6.  Let's specify now a few details. To do this, insert a `<PropertyGroup></PropertyGroup>` element in inside the `<Project></Project>` element. 
 
     ![PropertyGroup inside Project in csproj](../Manual/Images/PropertyGroup.png)
 
-8.  First, we indicate that the project output is a **executable** and not a dll. This is achieved by adding `<OutputType>WinExe</OutputType>` inside `<PropertyGroup></PropertyGroup>`.
+7.  First, we indicate that the project output is a **executable** and not a dll. This is achieved by adding `<OutputType>WinExe</OutputType>` inside `<PropertyGroup></PropertyGroup>`.
 
 > Note that, if the project output was a dll, this line has to be omitted.
 
-9.  Secondly, we specify that the project is using .NET Core 3. Just below the <OutputType> line, add ` <TargetFramework>netcoreapp3.0</TargetFramework>`
+8.  Secondly, we specify that the project is using .NET Core 3. Just below the <OutputType> line, add ` <TargetFramework>netcoreapp3.0</TargetFramework>`
 
-10. Lastly, we point out that this is a WPF application in adding a third line: `<UseWPF>true</UseWPF>`.
+9. Lastly, we point out that this is a WPF application in adding a third line: `<UseWPF>true</UseWPF>`.
 
 > If the application is Windows Forms, we do not need this third line, but we need to replace it with `<UseWinForms>true</UseWinForms>`
 
@@ -102,21 +102,15 @@ Let's see how to migrate the project to .NET Standard:
 
 > **Note:** This time, we use the 2.0 release of .NET Standard, which is highly portable/compatible with cross-platform apps and it includes a broad set of APIs. This way, you can see there that this class library could be shared with others apps on others platforms (MacOS, Linux) and still with existing full .NET apps on Windows.
 
+5. Now right click on the **ContosoExpenses.Data** project and choose **Reload Project** to load it again.
+
 ___
 
 ### Exercise 1 Task 4 - Perform the migration - NuGet packages and references of the projects
-
-1.  The two csproj are saved. Let's reopen the projects: Go to the **Solution Explorer**, right click on each project and choose **Reload project**.
-
-    ![Reload project in the Solution Explorer](../Manual/Images/ReloadProject.png)
     
-2.  Visual Studio just asks for a confirmation. Click **yes**.
+1. The project you have been reloaded at the end of the previous task should load correctly. But remember: the NuGet packages used by the projects were gone by removing all the content of the csproj! 
 
-    ![Confirmation for closing the csproj](../Manual/Images/CloseCSPROJ.png)
-    
-3.  The projects should load correctly. But remember: the NuGet packages used by the projects were gone by removing all the content of the csproj! 
-
-4.  Let's start with the **ContosoExpenses.Data** library. If you expand the **Dependencies** node of the project you will see the **NuGet** section is missing.
+2.  Let's start with the **ContosoExpenses.Data** library. If you expand the **Dependencies** node of the project you will see the **NuGet** section is missing.
 
     ![NuGet packages](../Manual/Images/NuGetPackages.png)
     
@@ -134,17 +128,17 @@ ___
     </packages>
     ```
 
-5. From the **ContosoExpenses.Data** project, delete the file **Packages.config** by right clicking on it and choosing **Delete** in **Solution Explorer**.
+3. From the **ContosoExpenses.Data** project, delete the file **Packages.config** by right clicking on it and choosing **Delete** in **Solution Explorer**.
 
-6. Right click on the **Dependencies** node of the **ContosoExpenses.Data** project in the **Solution Explorer** and choose **Manage NuGet Packages...**
+4. Right click on the **Dependencies** node of the **ContosoExpenses.Data** project in the **Solution Explorer** and choose **Manage NuGet Packages...**
 
   ![Manage NuGet Packages...](../Manual/Images/ManageNugetNETCORE3.png)
 
-7. Click on **Browse** at the top left of the opened window and search for `Bogus`. The package by Brian Chavez should be listed. Install it.
+5. Click on **Browse** at the top left of the opened window and search for `Bogus`. The package by Brian Chavez should be listed. Install it.
 
     ![Bogus NuGet package](../Manual/Images/Bogus.png)
 
-8. Do the same for `LiteDB`. This package is provided by Mauricio David.
+6. Do the same for `LiteDB`. This package is provided by Mauricio David.
 
     ![LiteDB NuGet package](../Manual/Images/LiteDB.png)
 
@@ -165,7 +159,7 @@ ___
     </ItemGroup>
     ```
 
-9. Now let's explore the **packages.config** file inside the **ContosoExpenses** project, which is our main application:
+7. Now let's explore the **packages.config** file inside the **ContosoExpenses** project, which is our main application:
 
     ```xml
     <?xml version="1.0" encoding="utf-8"?>
@@ -179,25 +173,83 @@ ___
 
     We need to install some NuGet packages here as well: `MvvmLightLibs` by Laurent Bugnion and `Unity` by Unity Container Project (the other two are dependencies automatically downloaded by NuGet when you install these two libraries). 
     
-10. Right click on the **ContosoExpenses** project and choose **Manage NuGet Packages**.
-11. Click on **Browse** at the top left of the opened window and search for `Unity`. Install it.
+8. Right click on the **ContosoExpenses.Core** project and choose **Manage NuGet Packages**.
+9. Click on **Browse** at the top left of the opened window and search for `Unity`. Install it.
 
     ![](../Manual/Images/UnityPackage.png)
     
-12. At the time of writing, Laurent Bugnion (the author of MVVM Light) has used a different approach to handle multi-target. The .NET Standard version, in fact, is shipping as a different NuGet package. As such, search in NuGet for the package with name [MvvmLightLibsStd10](https://www.nuget.org/packages/MvvmLightLibsStd10/) and install it.
+10. At the time of writing, Laurent Bugnion (the author of MVVM Light) has used a different approach to handle multi-target. The .NET Standard version, in fact, is shipping as a different NuGet package. As such, search in NuGet for the package with name [MvvmLightLibsStd10](https://www.nuget.org/packages/MvvmLightLibsStd10/) and install it.
 
     ![](../Manual/Images/MvvmLightsLibsPackage.png)
 
-    
-    Once you've installed them, feel free to delete the **packages.config** file.
 
-13. The last reference which is missing is the **ContosoExpenses.Data** in the **ContosoExpenses project**: Right click on the **Dependencies** node of the **ContosoExpenses** project in the **Solution Explorer** and **Add Reference...**.
+11. The last reference which is missing is the **ContosoExpenses.Data** in the **ContosoExpenses.Core** project.  Right click on the **Dependencies** node of the **ContosoExpenses.Core** project in the **Solution Explorer** and **Add Reference...**.
 
-14. Select **ContosoExpenses.Data** from the **Projects \ Solution** category.
+12. Select **ContosoExpenses.Data** from the **Projects \ Solution** category.
 
     ![](../Manual/Images/AddReference.png)
+    
+### Exercise 1 Task 5 - Perform the migration - Fixing AssemblyInfo.cs
 
-### Excercise 1 Task 5 - Adding the Windows Compatibity Pack
+Let's try to build the **ContosoExpenses.Core** project in order to find what we have to do to complete the migration. Use the **Build** menu and **Build solution**.
+
+Ops...
+
+![](../Manual/Images/NETCORE3BuildNewErrors.png)
+
+This problem is happening because, with the new .csproj format introduced with .NET Core 3.0, the assembly info are now stored in the project file itself and not anymore in a separate class (the **AssemblyInfo.cs** file stored in the **Properties** folder).
+If you want to retain your own original information, you can disable this behavior and let the project continue to use the **AssemblyInfo.cs** file:
+
+1. Right click on the **ContosoExpenses.Core** project and choose **Edit ContosoExpenses.Core.csproj**.
+2. Add the following entry in the **PropertyGroup** section:
+
+    ```xml
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    ```
+    
+    This is how the section should look like:
+    
+    ```xml
+    <Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+    
+      <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>netcoreapp3.0</TargetFramework>
+        <UseWPF>true</UseWPF>
+        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+      </PropertyGroup>
+    
+    </Project>
+    ```
+    
+3. Do the same for the **ContosoExpenses.Data** project. Right click on it and choose **Edit ContosoExpenses.Data.csproj**.
+
+4. Add the same entry in the **PropertyGroup** section:
+
+    ```xml
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    ```
+    
+    This is how the library definition should look like:
+    
+    ```xml
+    <Project Sdk="Microsoft.NET.Sdk">
+    
+      <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+      </PropertyGroup>
+    
+    </Project>
+    ```
+
+
+5. Save and rebuild the solution. You will get a different error this time. Let's fix it in the next task!
+
+___ 
+
+
+### Exercise 1 Task 6 - Adding the Windows Compatibility Pack
 If you try to compile the **ContosoExpenses.Data** library, even after adding the missing NuGet packages, you will get the following error:
 
 ```text
@@ -223,61 +275,11 @@ This time the build process will complete without errors.
 
 ___ 
 
-### Exercise 1 Task 6 - Perform the migration - Fixing AssemblyInfo.cs
-
-Let's try to build the **ContosoExpenses.Core** project in order to find what we have to do to complete the migration. Use the **Build** menu and **Build solution**.
-
-Ops...
-
-![](../Manual/Images/NETCORE3BuildNewErrors.png)
-
-This problem is happening because, with the new .csproj format introduce with .NET Core 3.0, the assembly info are now stored in the project file itself and not anymore in a separate class (the **AssemblyInfo.cs** file stored in the **Properties** folder).
-If you want to retain your own original information, you can disable this behavior and let the project continue to use the **AssemblyInfo.cs** file:
-
-1. Right click on the **ContosoExpenses** project and choose **Edit ContosoExpenses.csproj**.
-2. Add the following entry in the **PropertyGroup** section:
-
-    ```xml
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    ```
-    
-    This is how the section should look like:
-    
-    ```xml
-    <Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
-    
-      <PropertyGroup>
-        <OutputType>WinExe</OutputType>
-        <TargetFramework>netcoreapp3.0</TargetFramework>
-        <UseWPF>true</UseWPF>
-        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-      </PropertyGroup>
-    
-    </Project>
-    ```
-    
-3. Do the same for the **ContosoExpenses.Data** project.
-
-4. Just rebuild the solution (for example using CTRL+SHIFT+B). Yeah!
-
-    ```dos
-    1>------ Build started: Project: ContosoExpenses.Data, Configuration: Debug Any CPU ------
-    1>C:\Program Files\dotnet\sdk\3.0.100-preview4-011033\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.RuntimeIdentifierInference.targets(151,5): message NETSDK1057: You are using a preview version of .NET Core. See: https://aka.ms/dotnet-core-preview
-    1>ContosoExpenses.Data -> C:\WinAppsModernizationWorkshop\Lab\Exercise1\01-Start\ContosoExpenses.Data\bin\Debug\netstandard2.0\ContosoExpenses.Data.dll
-    2>------ Build started: Project: ContosoExpenses, Configuration: Debug Any CPU ------
-    2>ContosoExpenses -> C:\WinAppsModernizationWorkshop\Lab\Exercise1\01-Start\ContosoExpenses\bin\Debug\netcoreapp3.0\ContosoExpenses.dll
-    2>Done building project "ContosoExpenses.csproj".
-    ========== Build: 2 succeeded, 0 failed, 0 up-to-date, 0 skipped ==========
-    ``` 
-
-___ 
-
-
 ### Exercise 1 Task 7 - Perform the migration - Debug
 
-We are ok to finally, launch the app.
+We are ok to finally, launch the app. First make sure that the **ContosoExpenses.Core** project is the starting project, by right clicking on it and choosing **Set as Startup Project**.
 
-1.  Use the **Debug** menu / **Start Debugging F5**
+1.  Press F5 to launch the debugger.
 
     > You had an exception. What is it that? Don't we finished the migration? Can you find the root cause of the issue reading the Exception Debug popup displayed by Visual Studio?
     
@@ -289,9 +291,9 @@ We are ok to finally, launch the app.
     
     > Why do we get this file not found exception?
     
-    When we hardly deleted all the content of the csproj file at the beginning of the migration, we removed the information about the **Build action** for the images' files. Let's fix it.
+    When we hardly deleted all the content of the .csproj file at the beginning of the migration, we removed the information about the **Build action** for the images' files. Let's fix it.
 
-2. Right click on the **ContosoExpenses** project and choose **Edit ContosoExpenses.csproj**.
+2. Right click on the **ContosoExpenses.Core** project and choose **Edit ContosoExpenses.Core.csproj**.
 3. Add, before the end of the file, the following entry:
 
     ```xml
