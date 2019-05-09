@@ -171,7 +171,7 @@ ___
 ### Exercise 0 - Task 1 - Setup the Contoso Expenses solution
 Let's first be sure we can run and debug the Contoso Expenses solution locally.
 
-1.  The source code of the Contoso Expenses solution is in the **Releases** tab of <a href="https://github.com/Microsoft/AppConsult-WinAppsModernizationWorkshop" target="_blank">AppConsult WinAppsModernization workshop repository</a>. A direct link for the download is `https://aka.ms/WinAppsModernizationSourceCode`. Please use this url to donwload the zip file containing the lab content. 
+1.  The source code of the Contoso Expenses solution is in the **Releases** tab of <a href="https://github.com/Microsoft/AppConsult-WinAppsModernizationWorkshop" target="_blank">AppConsult WinAppsModernization workshop repository</a>. A direct link for the download is `https://aka.ms/wamwc`. Please use this url to donwload the zip file containing the lab content. 
 
 2.  When ready, click on the downloaded file in your browser to open it.
 
