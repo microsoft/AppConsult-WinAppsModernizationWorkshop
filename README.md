@@ -1,3 +1,7 @@
+Here are all the instructions for the exercises
+## ➡ <a href="https://github.com/microsoft/AppConsult-WinAppsModernizationWorkshop/tree/master/Manual" target="_blank">Manual</a> ⬅ 
+
+---
 
 # Contributing
 
