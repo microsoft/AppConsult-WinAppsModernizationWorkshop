@@ -1,5 +1,8 @@
 ﻿# Modernize your .NET Framework application with .NET Core, XAML Islands, UWP and MSIX
 
+> **Note:** All the technologies are introduced in the <a href="https://github.com/Microsoft/AppConsult-WinAppsModernizationWorkshop/tree/master/Manual/EnhanceYourWindowsDesktopApplications.pptx" target="_blank">EnhanceYourWindowsDesktopApplications.pptx</a>.
+
+
 ## Introduction
 Windows has introduced many great features to build modern applications: the Universal Windows Platform, which allows to leverage all the latest and greatest features like Windows Hello, Timeline, notifications, etc.; Fluent Design, which allows to create rich and beautiful user interfaces, with a special focus on accessibility and new interaction paradigms, like touch, inking or gaze; app packaging, which greatly simplifies the deployment of applications, allowing developers to focus on writing great code and leaving Windows to take care of all the rest: installation, update, uninstallation, etc.
 
