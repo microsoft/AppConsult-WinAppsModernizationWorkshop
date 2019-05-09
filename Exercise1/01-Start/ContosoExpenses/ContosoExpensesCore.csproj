@@ -6,6 +6,7 @@
     <UseWPF>true</UseWPF>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <ApplicationManifest>app.manifest</ApplicationManifest>
+    <StartupObject>ContosoExpenses.App</StartupObject>
   </PropertyGroup>
 
 
