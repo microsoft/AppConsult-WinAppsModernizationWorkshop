@@ -19,14 +19,16 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ContosoExpenses"
+        xmlns:xamlhost="clr-namespace:Microsoft.Toolkit.Wpf.UI.XamlHost;assembly=Microsoft.Toolkit.Wpf.UI.XamlHost"
         mc:Ignorable="d"
-        Title="Contoso Expenses" Height="450" Width="800"
+        Title="Contoso Expenses" Height="650" Width="800"
         DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=MainWindowViewModel}"
         Background="{StaticResource MainBackground}">
 
     <Grid Margin="12">
         <Grid.RowDefinitions>
             <RowDefinition Height="25" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
@@ -55,5 +57,6 @@
                 <DataGridTextColumn Header="E-mail"         Binding="{Binding Path=Email}" />
             </DataGrid.Columns>
         </DataGrid>
+        <xamlhost:WindowsXamlHost Grid.Row="2" InitialTypeName="CamaronDe.ModernControlsDemo" />
     </Grid>
 </Window>

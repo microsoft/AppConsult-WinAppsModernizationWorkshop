@@ -5,20 +5,39 @@
     <TargetFramework>netcoreapp3.0</TargetFramework>
     <UseWPF>true</UseWPF>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
 
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Toolkit.Wpf.UI.XamlHost" Version="6.0.0-preview5" />
     <PackageReference Include="MvvmLightLibs" Version="5.4.1.1" />
     <PackageReference Include="Unity" Verison="5.10.2" Version="5.10.1" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CamaronDe\CamaronDe.csproj" />
     <ProjectReference Include="..\ContosoExpenses.Data\ContosoExpenses.Data.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Resource Include="Images\*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="..\CamaronDe\bin\Debug\CamaronDe.xr.xml" Link="CamaronDe\CamaronDe.xr.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="CamaronDe\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="..\CamaronDe\bin\Debug\ModernControlsDemo.xbf" Link="CamaronDe\ModernControlsDemo.xbf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   
   
