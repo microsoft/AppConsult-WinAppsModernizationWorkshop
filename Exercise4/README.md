@@ -12,7 +12,7 @@ Let's start!
 
 ### Exercise 4 Task 1 - Add an Adaptive Card
 Adaptive Cards are a new way for developers to exchange card content in a common and consistent way. An Adaptive Card is described by a JSON payload, which defines its content: text, images, actions, etc.
-An adaptive card defines just the content and not the visual styles. It will be up to the platform where the adaptive card will be received it to render it, using the most appropriate styling. The way Adaptive Cards are designed is through [a renderer](https://docs.microsoft.com/en-us/adaptive-cards/rendering-cards/getting-started), which is able to take the JSON payload and to convert it into native UI: it could be XAML for a WPF or UWP application, AXML for an Android application, HTML for a website or a bot chat, etc.
+An adaptive card defines just the content and not the visual styles. It's up to the platform where the adaptive card is received, to render it using the most appropriate styling. The way Adaptive Cards are designed is through [a renderer](https://docs.microsoft.com/en-us/adaptive-cards/rendering-cards/getting-started), which is able to take the JSON payload and to convert it into native UI: it could be XAML for a WPF or UWP application, AXML for an Android application, HTML for a website or a bot chat, etc.
 
 This is an example of a simple adaptive card's payload:
 
@@ -118,7 +118,7 @@ So let's create it! We're going to build an Adaptive Card which looks like this:
 
 ![](../Manual/Images/TimelineContosoExpenses.png)
 
-A great way to brainstorm the design of an Adaptive Card is using [the online designer](https://adaptivecards.io/designer/). You will have the chance to design the card with building blocks (images, texts, columns, etc) and to get the corresponding JSON. Once you have an idea of the final design, you can use a library called [Adaptive Cards](https://www.nuget.org/packages/AdaptiveCards/) to make easier to build your Adaptive Card using C# classes instead of plain JSON, which might be hard to debug and build.
+A great way to brainstorm the design of an Adaptive Card is using [the online designer](https://adaptivecards.io/designer/). You will have the chance to design the card with building blocks (images, texts, columns, etc) and to get the corresponding JSON. Once you have an idea of the final design, you can use a library called [Adaptive Cards](https://www.nuget.org/packages/AdaptiveCards/) to easier build your Adaptive Card using C# classes instead of plain JSON, which might be hard to debug and build.
 
 1. Right click on the **ContosoExpenses** project in Solution Explorer and choose **Manage NuGet packages**.
 2. First let's install **Json.NET**, the popular JSON manipulation library. It's required by the AdaptiveCards to work properly since, as we have seen, they are defined with JSON. Search for the package **Newtonsoft.Json** and install the most recent version:

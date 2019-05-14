@@ -114,7 +114,7 @@ That's it! Now our application is ready to host XAML controls from the Universal
 ___ 
 
 ### Exercise 2 Task 2 - Use the InkCanvas control in the application
-One of the features that the development team is looking to integrate inside the application is support to digital signature. Managers wants to be able to easily sign the expenses reports, without having to print them and digitalize them back.
+One of the features that the development team is looking to integrate inside the application is support to digital signature. Managers want to be able to easily sign the expenses reports, without having to print them and digitalize them back.
 XAML Islands is the perfect candidate for this scenario, since the Universal Windows Platform includes a control called **InkCanvas**, which offers advanced support to digital ink. Additionally, it includes many AI powered features, like the capability to recognize text, shapes, etc.
 
 Adding it to a WPF application is easy, since it's one of the 1st party controls included in the Windows Community Toolkit we have just installed. Let's do it!
