@@ -32,12 +32,13 @@ The lab consists of five exercises:
 2. In the second exercise you're going to start modernizing the application by adding a UWP control which enables to digitally sign a document.
 3. In the third exercise you're going to learn how you can add any native UWP control and interact with it.
 4. In the fourth exercise you're going to leverage some APIs from the Universal Windows Platform in your application.
-5. In the last exercise you're going to package your application with MSIX and to setup a CI/CD pipeline on Azure DevOps so that you can automatically deliver new versions of your app to your testers and users as soon as they comes out.
+5. In the fifth exercise you're going to package your application with MSIX, so that you can leverage all the UWP features and adopt a better deployment model.
+6. In the last exercise you will setup a CI/CD pipeline on Azure DevOps so that you can automatically deliver new versions of your app to your testers and users as soon as they comes out.
 
 ### Technical requirements
 - Windows 10 1903 (build 18362)
-- [Visual Studio 2019](https://www.visualstudio.com)
-- [.NET Core 3 Preview SDK](https://dotnet.microsoft.com/download/dotnet-core/3.0)) 
+- [Visual Studio 2019, 16.3 as minimum](https://www.visualstudio.com)
+- [.NET Core 3 SDK](https://dotnet.microsoft.com/download/dotnet-core/3.0)) 
 
 Be aware that the following Visual Studio workloads have to be installed: 
 
@@ -138,7 +139,7 @@ At BUILD 2018 we have announced the next major release of .NET Core, 3.0, which 
 
 As you can see from the image, for the first time .NET Core will support not just web and back-end applications, but also desktop ones which, until today, have always been part only of the full traditional .NET Framework.
 
-> **Disclaimer:** This doesn't mean that WPF and Windows Forms will become cross-platform and you'll be able to run a Windows desktop application, as it is, also on Linux and MacOS. The UI piece of the two frameworks still has a dependency on the Windows rendering system and, as such, it can't run on platforms which use instead a different visual rendering system.
+> **Disclaimer:** This doesn't mean that WPF and Windows Forms are now cross-platform and you'll be able to run a Windows desktop application, as it is, also on Linux and MacOS. The UI piece of the two frameworks still has a dependency on the Windows rendering system and, as such, it can't run on platforms which use instead a different visual rendering system.
 > 
 
 Let's take a look at the most important benefits of running a desktop application on top of .NET Core.
@@ -190,8 +191,9 @@ ___
 
 Here are all exercises illustrating the modernization journey for an application:
 
-* <a href="https://github.com/Microsoft/AppConsult-WinAppsModernizationWorkshop/tree/master/Exercise1" target="_blank">Exercise 1 - Start with a full .NET WPF application and migrate it to .NET Core 3</a>
-* <a href="https://github.com/Microsoft/AppConsult-WinAppsModernizationWorkshop/tree/master/Exercise2" target="_blank">Exercise 2 - Use a 1st party UWP control with XAML Islands</a>
-* <a href="https://github.com/Microsoft/AppConsult-WinAppsModernizationWorkshop/tree/master/Exercise3" target="_blank">Exercise 3 - Integrate a custom UWP XAML component</a>
-* <a href="https://github.com/Microsoft/AppConsult-WinAppsModernizationWorkshop/tree/master/Exercise4" target="_blank">Exercise 4 - Adding Windows 10 features to the application</a> 
-* <a href="https://github.com/Microsoft/AppConsult-WinAppsModernizationWorkshop/tree/master/Exercise5" target="_blank">Exercise 5 - Package and deploy your application with MSIX</a> 
+* [Exercise 1 - Start with a full .NET WPF application and migrate it to .NET Core 3](https://github.com/Microsoft/AppConsult-WinAppsModernizationWorkshop/tree/master/Exercise1)
+* [Exercise 2 - Use a 1st party UWP control with XAML Islands](https://github.com/Microsoft/AppConsult-WinAppsModernizationWorkshop/tree/master/Exercise2)
+* [Exercise 3 - Integrate a custom UWP XAML component](https://github.com/Microsoft/AppConsult-WinAppsModernizationWorkshop/tree/master/Exercise3)
+* [Exercise 4 - Adding Windows 10 features to the application](https://github.com/Microsoft/AppConsult-WinAppsModernizationWorkshop/tree/master/Exercise4)
+* [Exercise 5 - Package and deploy your application with MSIX](https://github.com/Microsoft/AppConsult-WinAppsModernizationWorkshop/tree/master/Exercise5)
+* [Exercise 6 - Create a CI/CD pipeline with Azure DevOps](https://github.com/Microsoft/AppConsult-WinAppsModernizationWorkshop/tree/master/Exercise6)

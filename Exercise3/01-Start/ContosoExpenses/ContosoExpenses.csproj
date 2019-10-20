@@ -6,7 +6,6 @@
     <UseWPF>true</UseWPF>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <ApplicationIcon>Images\contoso.ico</ApplicationIcon>
-    <StartupObject>ContosoExpenses.Program</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
