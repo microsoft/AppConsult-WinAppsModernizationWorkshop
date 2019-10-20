@@ -1,5 +1,5 @@
 ## Exercise 4 - Adding Windows 10 features to the application
-In Exercise 3 we have added the Universal Windows Platform to our WPF application, so that we could use the CalendarView control. By doing this, however, we didn't just add the opportunity to use any control from the Universal Windows Platform, but also new features offered by Windows 10.
+In Exercise 3 we have added Universal Windows Platform support to our WPF application, so that we could use the CalendarView control. By doing this, however, we didn't just add the opportunity to use any control from the Universal Windows Platform, but also new features offered by Windows 10.
 The development team of Contoso Expenses has decided to take this opportunity to include two new features in the application: Activities and Notifications. 
 
 Let's start with Activities! In Windows 10 applications can track activities performed by the user within an application, like opening a file or displaying a specific page. These activities are then made available through Timeline, a feature introduced in Windows 10 1803, which allows the user to quickly go back to the past and resume an activity he did.
@@ -118,7 +118,7 @@ So let's create it! We're going to build an Adaptive Card which looks like this:
 
 ![](../Manual/Images/TimelineContosoExpenses.png)
 
-A great way to brainstorm the design of an Adaptive Card is using [the online designer](https://adaptivecards.io/designer/). You will have the chance to design the card with building blocks (images, texts, columns, etc) and to get the corresponding JSON. Once you have an idea of the final design, you can use a library called [Adaptive Cards](https://www.nuget.org/packages/AdaptiveCards/) to easier build your Adaptive Card using C# classes instead of plain JSON, which might be hard to debug and build.
+A great way to brainstorm the design of an Adaptive Card is using [the online designer](https://adaptivecards.io/designer/). You will have the chance to design the card with building blocks (images, texts, columns, etc) and to get the corresponding JSON. Once you have an idea of the final design, you can use a library called [Adaptive Cards](https://www.nuget.org/packages/AdaptiveCards/) to easily build your Adaptive Card using C# classes instead of plain JSON, which might be hard to debug and build.
 
 1. Right click on the **ContosoExpenses** project in Solution Explorer and choose **Manage NuGet packages**.
 2. First let's install **Json.NET**, the popular JSON manipulation library. It's required by the AdaptiveCards to work properly since, as we have seen, they are defined with JSON. Search for the package **Newtonsoft.Json** and install the most recent version:
@@ -255,7 +255,7 @@ Now that our Adaptive Card is ready, we need a method to create a user activity 
     
     The behavior to implement now depends by the kind of application you're building:
     
-    - If you want to always update the same activity so that Timeline will only show the most recent one, you can use a fixed identifier (like **Expenses**).
+    - If you want to update always the same activity so that Timeline will only show the most recent one, you can use a fixed identifier (like **Expenses**).
     - If you want to track every activity as a different one, so that Timeline will display all of them, you can use a dynamc identifier.
     
     In our scenario we want to track as a different user activy each expense which gets opened, so we use as identifier the keyword **Expense-** followed by its unique identifier.
@@ -297,6 +297,8 @@ The best place to use the **AddToTimeline()** method exposed by the **TimelineSe
     ```
     
     Whenever the window is loaded, we call the **AddToTimeline()** method of the **TimelineService** class passing, as parameter, the current expense. This way, the **TimelineService** class can create a user activity using the expense information.
+    
+    > Calling an asynchronous method like `AddToTimeline()` without adding the `await` prefix isn't a good practice, because it could break the threads' chain and lead to unpredictable results. However, for simplicity, in this case we are invoking the `AddToTimeline()` method directly in ViewModel's constructor, which can't be marked with the `async` keyword. In a real application, it's better to leverage other approaches, like invoking the asynchronous method in the event handler connected to the navigation (the window has been loaded, the page has been opened, etc.)
     
 Let's test if the implementation works!
 
