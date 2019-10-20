@@ -160,7 +160,7 @@ Additionally, you will be able to leverage many of the benefits of the .NET Core
 ##### Why .NET Core 3 for XAML Islands
 You may be wonder which role .NET Core plays here. All the long-term investments in .NET will be delivered to .NET Core, while the full .NET Framework will focus mainly on security updates and in supporting the latest networking protocols, security standards, and Windows features. You can learn more about the roadmap [here](https://blogs.msdn.microsoft.com/dotnet/2018/10/04/update-on-net-core-3-0-and-net-framework-4-8/).
 
-As such, XAML Island is supported also on the .NET Framework, but all the long-terms investement in this technology will be focused on .NET Core.
+As such, XAML Island is supported also on the .NET Framework, but all the long-termsinvestmentt in this technology will be focused on .NET Core.
 
 
 Let's start to work!
