@@ -68,7 +68,7 @@ Visual Studio offers an easy way to package an existing application thanks to a 
 12. Press F5 to launch the debugging. Out of the box, you won't notice any meaningful difference. We have simply packaged our WPF application, so it's behaving like the traditional one. However, we can notice some small changthat can help us to understand the application is running as packaged:
 
     - The icon in the taskbar or in the Start screen isn't anymore the icon of our application, but it's the default asset which is included in every UWP project.
-    - If we right click on the **ContosoExpense.Package** application listed in the Start menu, we will notice that we many options which are typically reserved to applications downloaded from the Microsoft Store, like **App settings**, **Rate and review** or **Share**.
+    - If we right click on the **ContosoExpense.Package** application listed in the Start menu, under **More** tab we'll see options that are typically reserved for applications downloaded from the Microsoft Store, like **App settings**, **Rate and review** or **Share**.
     
         ![](../Manual/Images/StartMenu.png)
 

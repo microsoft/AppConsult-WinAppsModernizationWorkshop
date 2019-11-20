@@ -253,12 +253,12 @@ Now that our Adaptive Card is ready, we need a method to create a user activity 
     
     First we get a reference to the **UserActivityChannel** which is required to store user activities, by invoking the **GetDefault()** method. Then we create a new user activity using the **GetOrCreateUserActivityAsync()** method, which requires a unique identifier. This way, if an activity already exists, we'll be able to update it; otherwise we'll create a new one.
     
-    The behavior to implement now depends by the kind of application you're building:
+    The behavior to implement now depends on the kind of application you're building:
     
-    - If you want to update always the same activity so that Timeline will only show the most recent one, you can use a fixed identifier (like **Expenses**).
-    - If you want to track every activity as a different one, so that Timeline will display all of them, you can use a dynamc identifier.
+    - If you want to update the activity to the latest one so that Timeline will only show the most recent activity, you can use a fixed identifier (like **Expenses**).
+    - If you want to track every activity as a different one, so that Timeline will display all of them, you can use a dynamic identifier.
     
-    In our scenario we want to track as a different user activy each expense which gets opened, so we use as identifier the keyword **Expense-** followed by its unique identifier.
+    In our scenario each expense that gets opened we want to track as a separate user activity, that's why we will set the identifier to the keyword **Expense-** followed by its unique ExpenseId.
     
     Once we have the **UserActivity** object, we can start to populate it with:
     
@@ -424,7 +424,7 @@ We're ready to test the work we have done!
 
     ![](../Manual/Images/ToastNotificationError.png)
 
-> Can you imagine why this problem is happening?
+> Can you guess why this problem is happening?
 
 Some APIs of the Universal Windows Platform can't be used as they are inside a Win32 application, but they require an identity, which is obtained when the application is packaged using the Windows 10 packaging format: MSIX (formerly known as AppX).
 When you build a Universal Windows Platform application you don't face this problem, because MSIX is the only way to distribute these kind of applications.

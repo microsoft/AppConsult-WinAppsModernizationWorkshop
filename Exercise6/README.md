@@ -50,7 +50,7 @@ Note that so far the **Contoso Expenses** repository is empty:
 
 ![](../Manual/Images/AzureDevOpsRepositoryEmpty.png)
 
-Now we need to turn the folder which stores our solution into a local repository, so that we can we push it to Azure Repos. 
+Now we need to turn the folder which stores our solution into a local repository, so that we can push it to Azure Repos. 
 
 1. In Solution Explorer in Visual Studio right click on the solution and choose **Add Solution to Source Control**:
 
@@ -190,7 +190,7 @@ The default parameters used by MSBuild are good enough to produce a valid MSIX p
     ```
     
 ### Exercise 6 Task 8 - Upload the artifact
-You can think to the hosted agent as a sort of virtual machine. Every time a new build is triggered, a new instance is created, which takes care of executing all the tasks one after the other and then it's disposed at the end. This is why we need to repeat all these tasks (like installing the .NET Core 3.0 SDK) every time. Every build will be executed on a fresh instance of a hosted agent.
+You can think of the hosted agent as a sort of virtual machine. Every time a new build is triggered, a new instance is created, which takes care of executing all the tasks one after the other and then it's disposed at the end. This is why we need to repeat all these tasks (like installing the .NET Core 3.0 SDK) every time. Every build will be executed on a fresh instance of a hosted agent.
 
 The consequence is also that, if we don't store somewhere the output of the build, it will be lost as soon as the hosted agent is disposed.
 Azure DevOps offers its own cloud storage where to store the artifacts. Other than being available to the developer for manual download, artifacts are important to build a release pipeline. In a CD pipeline, in fact, the deployment is typically kicked off when a new artifact is available as a consequence of a CI pipeline that completed successfully.
@@ -497,7 +497,7 @@ There are multiple ways to deploy a MSIX package so that other users can get and
 2. You can use the Microsoft Store. It's a great option for consumer apps, since the Store is already integrated in every Windows 10 PC and it takes care of all the deployment infrastructure (automatic updates, package signing, etc.)
 3. You can use Visual Studio App Center, which is a platform provided by Microsoft to automate the life cycle of applications, including the deployment phase.
     
-If you have an Azure subscription or you're willing [to open a trial](https://azure.microsoft.com/en-us/free/), continue to Task 14, which will show you the best deployment experience for MSIX packages through web deployment and App Installer.
+If you have an Azure subscription or you're willing [to open a trial](https://azure.microsoft.com/en-us/free/), continue to Task 13, which will show you the best deployment experience for MSIX packages through web deployment and App Installer.
 
 However, in case you don't have one, you can skip to Task 15, which will guide you to deploy the MSIX package to Visual Studio App Center, which doesn't require an Azure subscription.
     

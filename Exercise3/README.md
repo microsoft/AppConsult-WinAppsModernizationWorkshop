@@ -98,8 +98,8 @@ Let's go back to the **AddNewExpense.xaml** page and handle them.
 
 > Can you guess what is a challenge here?
 
-The `WindowsXamlHost` control is a generic host control for any kind of UWP control. As such, it doesn't expose any property called `SelectedDates` or any event called `SelectedDatesChanged`, since they are specific of the `CalendarView` control.
-In order to implement our scenario, we need to move to the code behind and cast the `WindowsXamlHost` to the type we expect, in our case the `CalendarView` one. The best place to do is when the `ChildChanged` event is raised, which is triggered when the guest control has been rendered.
+The `WindowsXamlHost` control is a generic host control for any kind of UWP control. As such, it doesn't expose any property called `SelectedDates` or any event called `SelectedDatesChanged`, since they are specific to the `CalendarView` control.
+In order to implement our scenario, we need to move to the code behind and cast the `WindowsXamlHost` to the type we expect, in our case the `CalendarView` one. The best place to do it is when the `ChildChanged` event is raised, which is triggered when the guest control has been rendered.
 
 1. Double click on the **AddNewExpense.xaml** file under the **Views** folder in Solution Explorer in Visual Studio
 2. Identify the `WindowsXamlHost` control you have previously added and subscribe to the `ChildChanged` event:

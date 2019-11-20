@@ -1,6 +1,6 @@
 ﻿## Exercise 1 - Migrate to .NET Core 3
-Migrating the application to .NET Core 3 is the best and recommended path for modernizing a .NET application (WPF or Windows Forms). The best advantage is that the app will be able to use all the upcoming new features both from .NET Core and UWP! 
-### Exercise 1 Task 1 - Perform the migration - The Try / Convert tool
+Migrating the application to .NET Core 3 is the best and recommended path for modernizing a .NET application (WPF or Windows Forms). The best advantage is that the app will be able to use all the upcoming new features both from .NET Core and UWP!
+### Exercise 1 Task 1 - Perform the migration - The try-convert tool
 
 Let's open the solution using Visual Studio 2019:
 
@@ -15,7 +15,7 @@ Let's open the solution using Visual Studio 2019:
 2. Right click on the ContosoExpenses project and choose **Unload Project**.
 3. Right click again on it and choose **Edit ContosoExpenses.csproj**. Notice how the XML that defines the project is very verbose. You're looking at the old .csproj style, which has been replaced by the new .NET SDK project style, which is much more concise and easier to manipulate. The first step to move your application to .NET Core 3.0 is to leverage the new SDK style. Close Visual Studio.
 4. The solution contains a data library called **ContosoExpenses.Data** which has the same configuration of the main application. It's based on the .NET Framework 4.7.2 and it's using the old .csproj format style.
-5. To help with the conversion we're going to use a tool provided by the .NET team called [Try / Convert](https://github.com/dotnet/try-convert). The tool will migrate your existing projects to the new SDK style. It's called "try / convert" because there are lot of factors involved in a .NET project which are hard to detect with an automatic tool and, as such, it's likely that you will still need to do some manual steps, as we're going to see.
+5. To help with the conversion we're going to use a tool provided by the .NET team called [try-convert](https://github.com/dotnet/try-convert). The tool will migrate your existing projects to the new SDK style. It's called "try-convert" because there are lot of factors involved in a .NET project which are hard to detect with an automatic tool and, as such, it's likely that you will still need to do some manual steps, as we're going to see.
 6. Let's install the tool. First, go to the [GitHub repository](https://github.com/dotnet/try-convert/releases) and download the file with **.nupkg** extension that is included in the most recent release. Download it in the `C:\WinAppsModernizationWorkshop\` folder.
 7. Open a command prompt and run the following command:
 
@@ -82,9 +82,9 @@ That's it. Now we can verify our job.
     </Project>
     ```
     
-    Notice that, other than migrating the format of the file, the `TargetFramework` property has also been set to `netcore3.0`. The reason is that WPF applications based on the .NET Framework don't support the new SDK style and, as such, the tool has also migrated the framework to .NET Core 3.0.
+    Notice that, other than migrating the format of the file, the `TargetFramework` property has also been set to `netcore3.0`. The tool has fully migrated **ContosoExpenses** project to .NET Core.
 
-4. Double click on the **ContosoExpenses.Data** project to notice that also this one has been migrated to the new SDK style:
+4. Double click on the **ContosoExpenses.Data** project. You can see that it also has been migrated to the new SDK style:
     
     ```xml
     <Project Sdk="Microsoft.NET.Sdk">
@@ -106,7 +106,7 @@ That's it. Now we can verify our job.
     </Project>
     ```
     
-    In this case, however, the `TargetFramework` property is still `net472`, since .NET Framework class libraries support instead the new SDK style format. As such, the tool has just migrated the project's style, but not the target framework. 
+    In this case, however, the `TargetFramework` property is still `net472`. Microsoft leaves it up to you to decide what you want to target in your libraries: .NET Core or .NET Standard. So the tool has just migrated the project's style, but not the target framework.
 
 ___ 
 
@@ -142,7 +142,7 @@ Services\RegistryService.cs(12,26,12,34): error CS0103: The name 'Registry' does
 Services\RegistryService.cs(12,97,12,123): error CS0103: The name 'RegistryKeyPermissionCheck' does not exist in the current context
 ```
 
-The error is happening because we have converted the project from a .NET Framework library (which is specific for Windows) to a .NET Standard one, which is instead can run on multiple platforms, like Linux, Android, iOS, etc.
+The error is happening because we have converted the project from a .NET Framework library (which is specific for Windows) to a .NET Standard one, which instead can run on multiple platforms, like Linux, Android, iOS, etc.
 Our class library contains a class called **RegistryService** which interacts with the registry, which is a Windows-only concept.
 
 Does this mean that we need to give up with the conversion? No, thanks to the Windows Compatibility Pack! It's a special [NuGet package](https://www.nuget.org/packages/Microsoft.Windows.Compatibility) which adds support for many Windows specific APIs to a .NET Standard library. The library won't be cross-platform anymore, but it will still target .NET Standard. Let's add it to our project!
@@ -165,7 +165,7 @@ For most of the NuGet packages that are installed in our projects, we didn't hav
 
 ![Dot Net standard](../Manual/Images/DotNetStandard.png)
 
-As such, when we have built the migrated project, NuGet took care of automatically downloading the .NET Standard version of these libraries instead of the .NET Framework one.
+When we have built the migrated project, NuGet took care of automatically downloading the .NET Standard version of these libraries instead of the .NET Framework one.
 
 However, at the time of writing, Laurent Bugnion (the author of MVVM Light) has used a different approach to handle multi-target. The .NET Standard version, in fact, is shipping as a different NuGet package. In order to fix that, we need to remove the old one and replace it.
 
@@ -180,5 +180,5 @@ However, at the time of writing, Laurent Bugnion (the author of MVVM Light) has 
     ![](../Manual/Images/MvvmLightsLibsPackage.png)
 
 
-We are done! Test the app in debug with F5 and it should work... Everything running using .NET Core 3!
+We are done! Press F5 and run the applications. It should work the same way it was working on .NET Framework. But now everything is running using .NET Core 3 and can use all the benefits of this platform!
 We are now ready to go further and use all the power of the full UWP ecosystem controls, packages, DLLs.
