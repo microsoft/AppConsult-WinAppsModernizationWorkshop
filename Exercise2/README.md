@@ -12,17 +12,17 @@ Let's start!
 
     ![Manage NuGet Packages menu in Visual Studio](../Manual/Images//ManageNuGetPackages.png)
 
-3. Search for **Microsoft.Toolkit.Wpf.UI.Controls**. The NuGet package from Microsoft.Toolkit will be displayed. Make sure to check the **Include prerelease** option. The current stable release (5.x), in fact, supports only the full .NET Framework, while the upcoming 6.x release (now in preview) includes support for .NET Core 3.0 as well.
+3. Search for **Microsoft.Toolkit.Wpf.UI.Controls**. The NuGet package from Microsoft.Toolkit will be displayed.
 
     ![Microsoft.Toolkit.Wpf.UI.Controls NuGet package](../Manual/Images//Microsoft.Toolkit.Wpf.UI.Controls.png)
     
-4.  Click on the **Install** button on the right. We need this WPF package because it takes care for us about all the necessary infrastructure for XAML Islands. It provides wrapper classes for 1st party controls, such as the InkCanvas, InkToolbar, MapControl, and MediaPlayerElement, all for WPF.
+4.  Click on the **Install** button on the right. We need this WPF package because it takes care of all the necessary infrastructure for XAML Islands. It provides wrapper classes for 1st party controls, such as the InkCanvas, InkToolbar, MapControl, and MediaPlayerElement, all for WPF.
     
     > Please note that the same package exists for Windows Forms. Its name is <a href="https://www.nuget.org/packages/Microsoft.Toolkit.Forms.UI.Controls/" target="_blank">Microsoft.Toolkit.Forms.UI.Controls</a>.
 
 5. Now right click on the project in Solution Explorer and choose **Add -> New item**.
 6. Look for the template called **Application Manifest File**. Name it **app.manifest** and press **Add**.
-7. The file will be automatically opened inside Visual Studio. Look for the `compatibility` section and identify the commented entry prefixed by `Windows 10`:
+7. The file will be automatically opened inside Visual Studio. Look for the `compatibility` section and find the commented entry prefixed by `Windows 10`:
 
     ```xml
     <!-- Windows 10 -->
@@ -54,7 +54,7 @@ That's it! Now our application is ready to host XAML controls from the Universal
 ___ 
 
 ### Exercise 2 Task 2 - Use the InkCanvas control in the application
-One of the features that the development team is looking to integrate inside the application is support to digital signature. Managers want to be able to easily sign the expenses reports, without having to print them and digitalize them back.
+One of the features that the development team is looking to integrate inside the application is support for digital signature. Managers want to be able to easily sign the expenses reports, without having to print them and digitalize them back.
 XAML Islands is the perfect candidate for this scenario, since the Universal Windows Platform includes a control called `InkCanvas`, which offers advanced support to digital ink. Additionally, it includes many AI powered features, like the capability to recognize text, shapes, etc.
 
 Adding it to a WPF application is easy, since it's one of the 1st party controls included in the Windows Community Toolkit we have just installed. Let's do it!
@@ -82,7 +82,7 @@ Adding it to a WPF application is easy, since it's one of the 1st party controls
             Title="Expense Detail" Height="500" Width="800"
             Background="{StaticResource HorizontalBackground}">
     ```
-4. Now we can add the `InkCanvas` control to the page. Scroll down the XAML file and, as last elements inside the `Grid` control before the `</Grid>` and `<-- Chart -->` lines, add the following code:
+4. Now we can add the `InkCanvas` control to the page. Scroll down and insert the following lines as the last element in the `Grid` control (before the `</Grid>` and `<-- Chart -->` lines):
 
     ```xml
     <TextBlock Text="Signature:" FontSize="16" FontWeight="Bold" Grid.Row="5" />
