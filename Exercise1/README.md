@@ -20,7 +20,7 @@ Let's open the solution using Visual Studio 2019:
 7. Open a command prompt and run the following command:
 
     ```powershell
-    dotnet tool install -g try-convert --version 0.2.50801 --add-source "C:\WinAppsModernizationWorkshop\"
+    dotnet tool install -g try-convert
     ```
 
     Now the tool is installed. It's a global tool, so you will be able to launch it from any folder on your machine.
@@ -41,7 +41,7 @@ That's it. Now we can verify our job.
     ```xml
     <Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
       <PropertyGroup>
-        <TargetFramework>netcoreapp3.0</TargetFramework>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
         <OutputType>WinExe</OutputType>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
         <UseWPF>true</UseWPF>
@@ -82,7 +82,7 @@ That's it. Now we can verify our job.
     </Project>
     ```
     
-    Notice that, other than migrating the format of the file, the `TargetFramework` property has also been set to `netcore3.0`. The tool has fully migrated **ContosoExpenses** project to .NET Core.
+    Notice that, other than migrating the format of the file, the `TargetFramework` property has also been set to `netcoreapp3.1`. The tool has fully migrated **ContosoExpenses** project to .NET Core.
 
 4. Double click on the **ContosoExpenses.Data** project. You can see that it also has been migrated to the new SDK style:
     
