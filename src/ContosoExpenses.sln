@@ -5,9 +5,11 @@ VisualStudioVersion = 17.1.32104.313
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ContosoExpenses.Data", "ContosoExpenses.Data\ContosoExpenses.Data.csproj", "{D94B53E1-60E1-4547-A1E4-98D37493741F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Contoso.Expenses.Core", "ContosoExpenses\Contoso.Expenses.Core.csproj", "{237A5E66-7FD2-4AE1-8DEE-73A4FA5D23DA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Contoso.Expenses.Wpf", "ContosoExpenses\Contoso.Expenses.Wpf.csproj", "{237A5E66-7FD2-4AE1-8DEE-73A4FA5D23DA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContosoExpenses.ViewModels", "ContosoExpenses.ViewModels\ContosoExpenses.ViewModels.csproj", "{6588A2F5-F860-466F-87DD-F12887EC1174}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ContosoExpenses.ViewModels", "ContosoExpenses.ViewModels\ContosoExpenses.ViewModels.csproj", "{6588A2F5-F860-466F-87DD-F12887EC1174}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{0CFD6350-9CF8-4C0E-B048-EE56BDED8110}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -86,6 +88,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D94B53E1-60E1-4547-A1E4-98D37493741F} = {0CFD6350-9CF8-4C0E-B048-EE56BDED8110}
+		{6588A2F5-F860-466F-87DD-F12887EC1174} = {0CFD6350-9CF8-4C0E-B048-EE56BDED8110}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3BADFBD9-C57F-40A7-B058-D6B067196030}
