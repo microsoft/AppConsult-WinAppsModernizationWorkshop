@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>netcoreapp3.1</TargetFramework>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="MvvmLightLibsStd10" Version="5.4.1.1" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\ContosoExpenses.Data\ContosoExpenses.Data.csproj" />
+	</ItemGroup>
+
+</Project>

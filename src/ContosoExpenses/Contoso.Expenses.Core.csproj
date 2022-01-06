@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ContosoExpenses.Data\ContosoExpenses.Data.csproj" />
+    <ProjectReference Include="..\ContosoExpenses.ViewModels\ContosoExpenses.ViewModels.csproj" />
   </ItemGroup>
 
 </Project>
