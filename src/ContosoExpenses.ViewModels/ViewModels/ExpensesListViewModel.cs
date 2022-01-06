@@ -11,8 +11,8 @@ namespace ContosoExpenses.ViewModels
 {
     public class ExpensesListViewModel : ObservableObject
     {
-        private readonly IDatabaseService databaseService;
-        private readonly IStorageService storageService;
+        private readonly IDatabaseService _databaseService;
+        private readonly IStorageService _storageService;
 
         private Employee _selectedEmployee;
 
@@ -45,7 +45,7 @@ namespace ContosoExpenses.ViewModels
             {
                 if (value != null)
                 {
-                    storageService.SelectedExpense = value.ExpenseId;
+                    _storageService.SelectedExpense = value.ExpenseId;
                     WeakReferenceMessenger.Default.Send(new SelectedExpenseMessage());
                     SetProperty(ref _selectedExpense, value);
                 }
@@ -78,12 +78,12 @@ namespace ContosoExpenses.ViewModels
 
             FullName = $"{SelectedEmployee.FirstName} {SelectedEmployee.LastName}";
 
-            this.databaseService = databaseService;
-            this.storageService = storageService;
+            this._databaseService = databaseService;
+            this._storageService = storageService;
 
             WeakReferenceMessenger.Default.Register<UpdateExpensesListMessage>(this, (_, message) =>
             {
-                Expenses = this.databaseService.GetExpenses(this.storageService.SelectedEmployeeId);
+                Expenses = this._databaseService.GetExpenses(this._storageService.SelectedEmployeeId);
             });
         }
     }

@@ -10,74 +10,62 @@ namespace ContosoExpenses.Data.Services
 {
     public class DatabaseService : IDatabaseService
     {
-        private readonly int numberOfEmployees = 10;
-        private readonly int numberOfExpenses = 5;
+        private readonly int _numberOfEmployees = 10;
+        private readonly int _numberOfExpenses = 5;
 
-        private string filePath = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\ContosoExpenses\\data.db";
-        private string directoryPath = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\ContosoExpenses\\";
+        private readonly string _filePath = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\ContosoExpenses\\data.db";
+        private readonly string _directoryPath = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\ContosoExpenses\\";
 
         public Employee GetEmployee(int employeeId)
         {
-            using (var connection = new LiteDatabase(filePath))
-            {
-                var employees = connection.GetCollection<Employee>();
-                return employees.FindById(employeeId);
-            }
+            using var connection = new LiteDatabase(_filePath);
+            var employees = connection.GetCollection<Employee>();
+            return employees.FindById(employeeId);
         }
 
         public List<Employee> GetEmployees()
         {
-            using (var connection = new LiteDatabase(filePath))
-            {
-                var employees = connection.GetCollection<Employee>();
-                return employees.FindAll().ToList();
-            }
+            using var connection = new LiteDatabase(_filePath);
+            var employees = connection.GetCollection<Employee>();
+            return employees.FindAll().ToList();
         }
 
         public List<Expense> GetExpenses(int employeedId)
         {
-            using (var connection = new LiteDatabase(filePath))
-            {
-                var expenses = connection.GetCollection<Expense>();
-                return expenses.Find(x => x.EmployeeId == employeedId).ToList();
-            }
+            using var connection = new LiteDatabase(_filePath);
+            var expenses = connection.GetCollection<Expense>();
+            return expenses.Find(x => x.EmployeeId == employeedId).ToList();
         }
 
         public Expense GetExpense(int expenseId)
         {
-            using (var connection = new LiteDatabase(filePath))
-            {
-                var expense = connection.GetCollection<Expense>();
-                return expense.FindById(expenseId);
-            }
+            using var connection = new LiteDatabase(_filePath);
+            var expense = connection.GetCollection<Expense>();
+            return expense.FindById(expenseId);
         }
 
         public void SaveExpense(Expense expense)
         {
-            using (var connection = new LiteDatabase(filePath))
-            {
-                var expenses = connection.GetCollection<Expense>();
-                expenses.Insert(expense);
-            }
+            using var connection = new LiteDatabase(_filePath);
+            var expenses = connection.GetCollection<Expense>();
+            expenses.Insert(expense);
         }
 
         public void InitializeDatabase()
         {
-            if (!File.Exists(filePath))
+            if (!File.Exists(_filePath))
             {
-                Directory.CreateDirectory(directoryPath);
+                Directory.CreateDirectory(_directoryPath);
             }
 
-            using (var connection = new LiteDatabase(filePath))
-            {
-                var employees = connection.GetCollection<Employee>();
-                var expenses = connection.GetCollection<Expense>();
+            using var connection = new LiteDatabase(_filePath);
+            var employees = connection.GetCollection<Employee>();
+            var expenses = connection.GetCollection<Expense>();
 
-                int result = employees.Count();
-                if (result == 0)
-                {
-                    GenerateFakeData(connection, numberOfEmployees, numberOfExpenses);
-                }
+            int result = employees.Count();
+            if (result == 0)
+            {
+                GenerateFakeData(connection, _numberOfEmployees, _numberOfExpenses);
             }
         }
 

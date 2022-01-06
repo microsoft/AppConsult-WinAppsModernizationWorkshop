@@ -28,14 +28,14 @@ namespace ContosoExpenses.Views
             InitializeComponent();
             WeakReferenceMessenger.Default.Register<SelectedEmployeeMessage>(this, (_, message) =>
             {
-                ExpensesList list = new ExpensesList();
+                ExpensesList list = new();
                 list.Show();
             });
         }
 
         private void OnOpenAbout(object sender, RoutedEventArgs e)
         {
-            AboutView about = new AboutView();
+            AboutView about = new();
             about.ShowDialog();
         }
     }

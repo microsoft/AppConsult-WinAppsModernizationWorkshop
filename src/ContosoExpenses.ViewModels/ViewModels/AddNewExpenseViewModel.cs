@@ -10,8 +10,8 @@ namespace ContosoExpenses.ViewModels
 {
     public class AddNewExpenseViewModel : ObservableObject
     {
-        private readonly IDatabaseService databaseService;
-        private readonly IStorageService storageService;
+        private readonly IDatabaseService _databaseService;
+        private readonly IStorageService _storageService;
 
         private string _address;
         public string Address
@@ -78,8 +78,8 @@ namespace ContosoExpenses.ViewModels
 
         public AddNewExpenseViewModel(IDatabaseService databaseService, IStorageService storageService)
         {
-            this.databaseService = databaseService;
-            this.storageService = storageService;
+            this._databaseService = databaseService;
+            this._storageService = storageService;
 
             Date = DateTime.Today;
         }
@@ -101,18 +101,18 @@ namespace ContosoExpenses.ViewModels
                 {
                     _saveExpenseCommand = new RelayCommand(() =>
                     {
-                        Expense expense = new Expense
+                        Expense expense = new()
                         {
                             Address = Address,
                             City = City,
                             Cost = Cost,
                             Date = Date.DateTime,
                             Description = Description,
-                            EmployeeId = storageService.SelectedEmployeeId,
+                            EmployeeId = _storageService.SelectedEmployeeId,
                             Type = ExpenseType
                         };
 
-                        databaseService.SaveExpense(expense);
+                        _databaseService.SaveExpense(expense);
                         WeakReferenceMessenger.Default.Send(new UpdateExpensesListMessage());
                         WeakReferenceMessenger.Default.Send(new CloseWindowMessage());
                     }, () => IsFormFilled

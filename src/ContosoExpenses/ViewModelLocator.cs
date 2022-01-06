@@ -7,7 +7,7 @@ namespace ContosoExpenses
 {
     public class ViewModelLocator
     {
-        private IServiceProvider _container;
+        private readonly IServiceProvider _container;
 
         public ViewModelLocator()
         {

@@ -28,13 +28,13 @@ namespace ContosoExpenses.Views
             InitializeComponent();
             WeakReferenceMessenger.Default.Register<AddNewExpenseMessage>(this, (_, message) =>
             {
-                AddNewExpense addNewExpense = new AddNewExpense();
+                AddNewExpense addNewExpense = new();
                 addNewExpense.Show();
             });
 
             WeakReferenceMessenger.Default.Register<SelectedExpenseMessage>(this, (_, message) =>
             {
-                ExpenseDetail detail = new ExpenseDetail();
+                ExpenseDetail detail = new();
                 detail.Show();
             });
         }
