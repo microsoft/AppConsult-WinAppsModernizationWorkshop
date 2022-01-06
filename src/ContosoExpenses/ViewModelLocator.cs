@@ -1,32 +1,34 @@
 ﻿using ContosoExpenses.Data.Services;
 using ContosoExpenses.ViewModels;
-using Unity;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace ContosoExpenses
 {
     public class ViewModelLocator
     {
-        private UnityContainer _container;
+        private IServiceProvider _container;
 
         public ViewModelLocator()
         {
-            _container = new UnityContainer();
+            var services = new ServiceCollection();
 
-            _container.RegisterType<MainWindowViewModel>();
-            _container.RegisterType<ExpensesListViewModel>();
-            _container.RegisterType<ExpensesDetailViewModel>();
-            _container.RegisterType<AddNewExpenseViewModel>();
-            _container.RegisterType<IDatabaseService, DatabaseService>();
+            services.AddTransient<MainWindowViewModel>();
+            services.AddTransient<ExpensesListViewModel>();
+            services.AddTransient<ExpensesDetailViewModel>();
+            services.AddTransient<AddNewExpenseViewModel>();
+            services.AddTransient<IDatabaseService, DatabaseService>();
 
-            _container.RegisterSingleton<IStorageService, StorageService>();
+            services.AddSingleton<IStorageService, StorageService>();
+            _container = services.BuildServiceProvider();
         }
 
-        public MainWindowViewModel MainWindowViewModel => _container.Resolve<MainWindowViewModel>();
+        public MainWindowViewModel MainWindowViewModel => _container.GetRequiredService<MainWindowViewModel>();
 
-        public ExpensesListViewModel ExpensesListViewModel => _container.Resolve<ExpensesListViewModel>();
+        public ExpensesListViewModel ExpensesListViewModel => _container.GetRequiredService<ExpensesListViewModel>();
 
-        public ExpensesDetailViewModel ExpensesDetailViewModel => _container.Resolve<ExpensesDetailViewModel>();
+        public ExpensesDetailViewModel ExpensesDetailViewModel => _container.GetRequiredService<ExpensesDetailViewModel>();
 
-        public AddNewExpenseViewModel AddNewExpenseViewModel => _container.Resolve<AddNewExpenseViewModel>();
+        public AddNewExpenseViewModel AddNewExpenseViewModel => _container.GetRequiredService<AddNewExpenseViewModel>();
     }
 }

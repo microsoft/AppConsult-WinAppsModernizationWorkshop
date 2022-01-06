@@ -1,11 +1,7 @@
-﻿using GalaSoft.MvvmLight.Messaging;
-
+﻿
 namespace ContosoExpenses.Messages
 {
-    public class SelectedEmployeeMessage: MessageBase
+    public class SelectedEmployeeMessage
     {
-        public SelectedEmployeeMessage()
-        {
-        }
     }
 }

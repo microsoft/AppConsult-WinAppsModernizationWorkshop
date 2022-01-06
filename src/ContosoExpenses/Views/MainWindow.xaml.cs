@@ -13,8 +13,8 @@
 // ******************************************************************
 
 using System.Windows;
-using GalaSoft.MvvmLight.Messaging;
 using ContosoExpenses.Messages;
+using Microsoft.Toolkit.Mvvm.Messaging;
 
 namespace ContosoExpenses.Views
 {
@@ -26,7 +26,7 @@ namespace ContosoExpenses.Views
         public MainWindow()
         {
             InitializeComponent();
-            Messenger.Default.Register<SelectedEmployeeMessage>(this, (message) =>
+            WeakReferenceMessenger.Default.Register<SelectedEmployeeMessage>(this, (_, message) =>
             {
                 ExpensesList list = new ExpensesList();
                 list.Show();

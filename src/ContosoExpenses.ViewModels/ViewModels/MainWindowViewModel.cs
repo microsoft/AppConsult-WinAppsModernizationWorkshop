@@ -1,23 +1,24 @@
 ﻿using ContosoExpenses.Data.Models;
 using ContosoExpenses.Data.Services;
 using ContosoExpenses.Messages;
-using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Messaging;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Messaging;
+using System;
 using System.Collections.Generic;
 
 namespace ContosoExpenses.ViewModels
 {
-    public class MainWindowViewModel : ViewModelBase
+    public class MainWindowViewModel : ObservableObject
     {
         private List<Employee> _employees;
         public List<Employee> Employees
         {
             get { return _employees; }
-            set { Set(ref _employees, value); }
+            set { SetProperty(ref _employees, value); }
         }
 
         private Employee _selectedEmployee;
-        private readonly IStorageService storageService;
+        private readonly IStorageService _storageService;
 
         public Employee SelectedEmployee
         {
@@ -26,9 +27,9 @@ namespace ContosoExpenses.ViewModels
             {
                 if (value != null)
                 {
-                    storageService.SelectedEmployeeId = value.EmployeeId;
-                    Messenger.Default.Send<SelectedEmployeeMessage>(new SelectedEmployeeMessage());
-                    Set(ref _selectedEmployee, value);
+                    _storageService.SelectedEmployeeId = value.EmployeeId;
+                    WeakReferenceMessenger.Default.Send(new SelectedEmployeeMessage());
+                    SetProperty(ref _selectedEmployee, value);
                 }
             }
         }
@@ -37,7 +38,7 @@ namespace ContosoExpenses.ViewModels
         {
             databaseService.InitializeDatabase();
             Employees = databaseService.GetEmployees();
-            this.storageService = storageService;
+            this._storageService = storageService;
         }
     }
 }

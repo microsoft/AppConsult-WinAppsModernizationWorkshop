@@ -1,14 +1,14 @@
 ﻿using ContosoExpenses.Data.Models;
 using ContosoExpenses.Data.Services;
 using ContosoExpenses.Messages;
-using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Messaging;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
+using Microsoft.Toolkit.Mvvm.Messaging;
 using System;
 
 namespace ContosoExpenses.ViewModels
 {
-    public class AddNewExpenseViewModel : ViewModelBase
+    public class AddNewExpenseViewModel : ObservableObject
     {
         private readonly IDatabaseService databaseService;
         private readonly IStorageService storageService;
@@ -19,8 +19,8 @@ namespace ContosoExpenses.ViewModels
             get { return _address; }
             set
             {
-                Set(ref _address, value);
-                SaveExpenseCommand.RaiseCanExecuteChanged();
+                SetProperty(ref _address, value);
+                SaveExpenseCommand.NotifyCanExecuteChanged();
             }
         }
 
@@ -30,8 +30,8 @@ namespace ContosoExpenses.ViewModels
             get { return _city; }
             set
             {
-                Set(ref _city, value);
-                SaveExpenseCommand.RaiseCanExecuteChanged();
+                SetProperty(ref _city, value);
+                SaveExpenseCommand.NotifyCanExecuteChanged();
             }
         }
 
@@ -41,8 +41,8 @@ namespace ContosoExpenses.ViewModels
             get { return _cost; }
             set
             {
-                Set(ref _cost, value);
-                SaveExpenseCommand.RaiseCanExecuteChanged();
+                SetProperty(ref _cost, value);
+                SaveExpenseCommand.NotifyCanExecuteChanged();
             }
         }
 
@@ -52,8 +52,8 @@ namespace ContosoExpenses.ViewModels
             get { return _description; }
             set
             {
-                Set(ref _description, value);
-                SaveExpenseCommand.RaiseCanExecuteChanged();
+                SetProperty(ref _description, value);
+                SaveExpenseCommand.NotifyCanExecuteChanged();
             }
         }
 
@@ -63,8 +63,8 @@ namespace ContosoExpenses.ViewModels
             get { return _expenseType; }
             set
             {
-                Set(ref _expenseType, value);
-                SaveExpenseCommand.RaiseCanExecuteChanged();
+                SetProperty(ref _expenseType, value);
+                SaveExpenseCommand.NotifyCanExecuteChanged();
             }
         }
 
@@ -72,7 +72,7 @@ namespace ContosoExpenses.ViewModels
         public DateTimeOffset Date
         {
             get { return _date; }
-            set { Set(ref _date, value); }
+            set { SetProperty(ref _date, value); }
         }
 
 
@@ -92,8 +92,8 @@ namespace ContosoExpenses.ViewModels
             }
         }
 
-        private RelayCommand _saveExpenseCommand;
-        public RelayCommand SaveExpenseCommand
+        private IRelayCommand _saveExpenseCommand;
+        public IRelayCommand SaveExpenseCommand
         {
             get
             {
@@ -113,8 +113,8 @@ namespace ContosoExpenses.ViewModels
                         };
 
                         databaseService.SaveExpense(expense);
-                        Messenger.Default.Send<UpdateExpensesListMessage>(new UpdateExpensesListMessage());
-                        Messenger.Default.Send<CloseWindowMessage>(new CloseWindowMessage());
+                        WeakReferenceMessenger.Default.Send(new UpdateExpensesListMessage());
+                        WeakReferenceMessenger.Default.Send(new CloseWindowMessage());
                     }, () => IsFormFilled
                     );
                 }

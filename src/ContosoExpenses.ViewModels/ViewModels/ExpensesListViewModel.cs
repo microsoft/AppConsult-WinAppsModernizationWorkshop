@@ -1,15 +1,15 @@
 ﻿using ContosoExpenses.Data.Models;
 using ContosoExpenses.Data.Services;
 using ContosoExpenses.Messages;
-using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Messaging;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
+using Microsoft.Toolkit.Mvvm.Messaging;
 using System.Collections.Generic;
 using System.Windows.Input;
 
 namespace ContosoExpenses.ViewModels
 {
-    public class ExpensesListViewModel : ViewModelBase
+    public class ExpensesListViewModel : ObservableObject
     {
         private readonly IDatabaseService databaseService;
         private readonly IStorageService storageService;
@@ -19,21 +19,21 @@ namespace ContosoExpenses.ViewModels
         public Employee SelectedEmployee
         {
             get { return _selectedEmployee; }
-            set { Set(ref _selectedEmployee, value); }
+            set { SetProperty(ref _selectedEmployee, value); }
         }
 
         private string _fullName;
         public string FullName
         {
             get { return _fullName; }
-            set { Set(ref _fullName, value); }
+            set { SetProperty(ref _fullName, value); }
         }
 
         private List<Expense> _expenses;
         public List<Expense> Expenses
         {
             get { return _expenses; }
-            set { Set(ref _expenses, value); }
+            set { SetProperty(ref _expenses, value); }
         }
 
         private Expense _selectedExpense;
@@ -46,8 +46,8 @@ namespace ContosoExpenses.ViewModels
                 if (value != null)
                 {
                     storageService.SelectedExpense = value.ExpenseId;
-                    Messenger.Default.Send<SelectedExpenseMessage>(new SelectedExpenseMessage());
-                    Set(ref _selectedExpense, value);
+                    WeakReferenceMessenger.Default.Send(new SelectedExpenseMessage());
+                    SetProperty(ref _selectedExpense, value);
                 }
             }
         }
@@ -63,7 +63,7 @@ namespace ContosoExpenses.ViewModels
                 {
                     _addNewExpenseCommand = new RelayCommand(() =>
                     {
-                        Messenger.Default.Send<AddNewExpenseMessage>(new AddNewExpenseMessage());
+                        WeakReferenceMessenger.Default.Send(new AddNewExpenseMessage());
                     });
                 }
 
@@ -81,7 +81,7 @@ namespace ContosoExpenses.ViewModels
             this.databaseService = databaseService;
             this.storageService = storageService;
 
-            Messenger.Default.Register<UpdateExpensesListMessage>(this, message =>
+            WeakReferenceMessenger.Default.Register<UpdateExpensesListMessage>(this, (_, message) =>
             {
                 Expenses = this.databaseService.GetExpenses(this.storageService.SelectedEmployeeId);
             });

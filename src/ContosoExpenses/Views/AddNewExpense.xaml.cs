@@ -13,8 +13,8 @@
 // ******************************************************************
 
 using System.Windows;
-using GalaSoft.MvvmLight.Messaging;
 using ContosoExpenses.Messages;
+using Microsoft.Toolkit.Mvvm.Messaging;
 
 namespace ContosoExpenses.Views
 {
@@ -26,7 +26,7 @@ namespace ContosoExpenses.Views
         public AddNewExpense()
         {
             InitializeComponent();
-            Messenger.Default.Register<CloseWindowMessage>(this, message =>
+            WeakReferenceMessenger.Default.Register<CloseWindowMessage>(this, (_, message) =>
             {
                 this.Close();
             });

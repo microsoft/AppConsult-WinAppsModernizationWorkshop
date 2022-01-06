@@ -1,36 +1,36 @@
 ﻿using ContosoExpenses.Data.Services;
-using GalaSoft.MvvmLight;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 
 namespace ContosoExpenses.ViewModels
 {
-    public class ExpensesDetailViewModel: ViewModelBase
+    public class ExpensesDetailViewModel: ObservableObject
     {
         private string _expenseType;
         public string ExpenseType
         {
             get { return _expenseType; }
-            set { Set(ref _expenseType, value); }
+            set { SetProperty(ref _expenseType, value); }
         }
 
         private string _description;
         public string Description
         {
             get { return _description; }
-            set { Set(ref _description, value); }
+            set { SetProperty(ref _description, value); }
         }
 
         private string _location;
         public string Location
         {
             get { return _location; }
-            set { Set(ref _location, value); }
+            set { SetProperty(ref _location, value); }
         }
 
         private double _amount;
         public double Amount
         {
             get { return _amount; }
-            set { Set(ref _amount, value); }
+            set { SetProperty(ref _amount, value); }
         }
 
         public ExpensesDetailViewModel(IDatabaseService databaseService, IStorageService storageService)
