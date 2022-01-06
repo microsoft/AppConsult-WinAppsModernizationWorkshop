@@ -8,7 +8,7 @@ using ContosoExpenses.Data.Models;
 
 namespace ContosoExpenses.Data.Services
 {
-    public class DatabaseService: IDatabaseService
+    public class DatabaseService : IDatabaseService
     {
         private readonly int numberOfEmployees = 10;
         private readonly int numberOfExpenses = 5;
@@ -76,48 +76,42 @@ namespace ContosoExpenses.Data.Services
                 int result = employees.Count();
                 if (result == 0)
                 {
-                    GenerateFakeData(numberOfEmployees, numberOfExpenses);
+                    GenerateFakeData(connection, numberOfEmployees, numberOfExpenses);
                 }
             }
         }
 
-        private void GenerateFakeData(int numberOfEmployees, int numberOfExpenses)
+        private void GenerateFakeData(LiteDatabase connection, int numberOfEmployees, int numberOfExpenses)
         {
-            using (var connection = new LiteDatabase(filePath))
+            var employees = connection.GetCollection<Employee>();
+            var expenses = connection.GetCollection<Expense>();
+
+            for (int cont = 0; cont < numberOfEmployees; cont++)
             {
-                var employees = connection.GetCollection<Employee>();
-                var expenses = connection.GetCollection<Expense>();
+                var employee = new Faker<Employee>()
+                    .RuleFor(x => x.FirstName, (f, u) => f.Name.FirstName())
+                    .RuleFor(x => x.LastName, (f, u) => f.Name.LastName())
+                    .RuleFor(x => x.Email, (f, u) => f.Internet.Email(u.FirstName, u.LastName, "contoso.com"))
+                    .Generate();
 
-                for (int cont = 0; cont < numberOfEmployees; cont++)
+                int employeeId = employees.Insert(employee).AsInt32;
+
+                for (int contExpenses = 0; contExpenses < numberOfExpenses; contExpenses++)
                 {
-                    var employee = new Faker<Employee>()
-                        .RuleFor(x => x.FirstName, (f, u) => f.Name.FirstName())
-                        .RuleFor(x => x.LastName, (f, u) => f.Name.LastName())
-                        .RuleFor(x => x.Email, (f, u) => f.Internet.Email(u.FirstName, u.LastName, "contoso.com"))
-                        .Generate();
+                    var expense = new Faker<Expense>()
+                   .RuleFor(x => x.Description, (f, u) => f.Commerce.ProductName())
+                   .RuleFor(x => x.Type, (f, u) => f.Finance.TransactionType())
+                   .RuleFor(x => x.Cost, (f, u) => (double)f.Finance.Amount())
+                   .RuleFor(x => x.Address, (f, u) => f.Address.FullAddress())
+                   .RuleFor(x => x.City, (f, u) => f.Address.City())
+                   .RuleFor(x => x.Date, (f, u) => f.Date.Past())
+                   .Generate();
 
-                    int employeeId = employees.Insert(employee).AsInt32;
+                    expense.EmployeeId = employeeId;
 
-                    for (int contExpenses = 0; contExpenses < numberOfExpenses; contExpenses++)
-                    {
-                        var expense = new Faker<Expense>()
-                       .RuleFor(x => x.Description, (f, u) => f.Commerce.ProductName())
-                       .RuleFor(x => x.Type, (f, u) => f.Finance.TransactionType())
-                       .RuleFor(x => x.Cost, (f, u) => (double)f.Finance.Amount())
-                       .RuleFor(x => x.Address, (f, u) => f.Address.FullAddress())
-                       .RuleFor(x => x.City, (f, u) => f.Address.City())
-                       .RuleFor(x => x.Date, (f, u) => f.Date.Past())
-                       .Generate();
-
-                        expense.EmployeeId = employeeId;
-
-                        expenses.Insert(expense);
-                    }
+                    expenses.Insert(expense);
                 }
             }
-
         }
-
-
     }
 }
